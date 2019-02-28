@@ -52,7 +52,12 @@ public class IntBoardTests {
 	
 	@Test
 	public void leftEdge() {
-		
+		BoardCell testCell = board.getCell(0, 1);
+		Set<BoardCell> testList = board.getAdjList(testCell);
+		assertTrue(testList.contains(board.getCell(0, 0)));
+		assertTrue(testList.contains(board.getCell(0, 2)));
+		assertTrue(testList.contains(board.getCell(1, 1)));
+		assertEquals(testList.size(), 3);
 	}
 	
 	@Test
