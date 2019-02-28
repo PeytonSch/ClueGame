@@ -32,8 +32,11 @@ public class IntBoardTests {
 	
 	@Test
 	public void bottomRightCorner() {
-		BoardCell testCell = board.getCell(0, 0);
+		BoardCell testCell = board.getCell(3, 3);
 		Set<BoardCell> testList = board.getAdjList(testCell);
+		assertTrue(testList.contains(board.getCell(3, 2)));
+		assertTrue(testList.contains(board.getCell(2, 3)));
+		assertEquals(testList.size(), 2);
 	}
 	
 	@Test
