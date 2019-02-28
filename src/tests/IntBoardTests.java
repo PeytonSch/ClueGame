@@ -62,7 +62,13 @@ public class IntBoardTests {
 	
 	@Test
 	public void secondColMiddle() {
-		
+		BoardCell testCell = board.getCell(1, 1);
+		Set<BoardCell> testList = board.getAdjList(testCell);
+		assertTrue(testList.contains(board.getCell(0, 1)));
+		assertTrue(testList.contains(board.getCell(1, 0)));
+		assertTrue(testList.contains(board.getCell(1, 2)));
+		assertTrue(testList.contains(board.getCell(2, 1)));
+		assertEquals(testList.size(), 4);
 	}
 	
 	@Test
