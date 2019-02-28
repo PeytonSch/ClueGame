@@ -41,6 +41,12 @@ public class IntBoardTests {
 	
 	@Test
 	public void rightEdge() {
+		BoardCell testCell = board.getCell(3, 1);
+		Set<BoardCell> testList = board.getAdjList(testCell);
+		assertTrue(testList.contains(board.getCell(3, 0)));
+		assertTrue(testList.contains(board.getCell(3, 2)));
+		assertTrue(testList.contains(board.getCell(2, 1)));
+		assertEquals(testList.size(), 3);
 		
 	}
 	
