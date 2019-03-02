@@ -116,6 +116,32 @@ public class IntBoardTests {
 		assertEquals(testList.size(), 3);
 	}
 	
+	@Test
+	public void targetTest2_2_1() {
+		BoardCell testCell = board.getCell(2, 2);
+		board.calcTargets(testCell, 1);
+		Set<BoardCell> testList = board.getTargets();
+		
+		assertTrue(testList.contains(board.getCell(1, 2)));
+		assertTrue(testList.contains(board.getCell(2, 1)));
+		assertTrue(testList.contains(board.getCell(2, 3)));
+		assertTrue(testList.contains(board.getCell(3, 2)));
+		assertEquals(testList.size(), 4);
+	}
+	
+	@Test
+	public void targetTest0_2_2() {
+		BoardCell testCell = board.getCell(0, 2);
+		board.calcTargets(testCell, 2);
+		Set<BoardCell> testList = board.getTargets();
+		
+		assertTrue(testList.contains(board.getCell(0, 0)));
+		assertTrue(testList.contains(board.getCell(1, 1)));
+		assertTrue(testList.contains(board.getCell(2, 2)));
+		assertTrue(testList.contains(board.getCell(3, 1)));
+		assertEquals(testList.size(), 4);
+	}
+	
 	
 
 }
