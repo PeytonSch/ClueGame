@@ -9,6 +9,8 @@ public class IntBoard {
 	
 	private Map<BoardCell, Set<BoardCell>> adjMtx;
 	
+	private Set<BoardCell> targets;
+	
 	
 
 	public IntBoard() {
@@ -33,7 +35,7 @@ public class IntBoard {
 	
 	public Set<BoardCell> getTargets() {
 		
-		return null;
+		return targets;
 	}
 	
 	public BoardCell getCell(int x, int y) {

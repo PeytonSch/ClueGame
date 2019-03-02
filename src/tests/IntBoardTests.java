@@ -20,7 +20,9 @@ public class IntBoardTests {
 	}
 	
 	
-	//test adj list of top left corner
+	/*
+	 * The tests below test the creation of adjacency lists
+	 */
 	@Test
 	public void topLeftCorner() {
 		BoardCell testCell = board.getCell(0, 0);
@@ -81,6 +83,39 @@ public class IntBoardTests {
 		assertTrue(testList.contains(board.getCell(2, 2)));
 		assertEquals(testList.size(), 4);
 	}
+	
+	
+	
+	/*
+	 * The Tests below test target creation
+	 */
+	
+	@Test
+	public void targetTest0_0_3() {
+		BoardCell testCell = board.getCell(0, 0);
+		board.calcTargets(testCell, 3);
+		Set<BoardCell> testList = board.getTargets();
+		
+		assertTrue(testList.contains(board.getCell(1, 0)));
+		assertTrue(testList.contains(board.getCell(3, 0)));
+		assertTrue(testList.contains(board.getCell(0, 3)));
+		assertTrue(testList.contains(board.getCell(1, 2)));
+		assertTrue(testList.contains(board.getCell(2, 1)));
+		assertEquals(testList.size(), 5);
+	}
+	
+	@Test
+	public void targetTest3_3_2() {
+		BoardCell testCell = board.getCell(3, 3);
+		board.calcTargets(testCell, 2);
+		Set<BoardCell> testList = board.getTargets();
+		
+		assertTrue(testList.contains(board.getCell(1, 3)));
+		assertTrue(testList.contains(board.getCell(2, 2)));
+		assertTrue(testList.contains(board.getCell(3, 1)));
+		assertEquals(testList.size(), 3);
+	}
+	
 	
 
 }
