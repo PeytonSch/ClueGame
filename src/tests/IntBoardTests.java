@@ -73,7 +73,13 @@ public class IntBoardTests {
 	
 	@Test
 	public void secondFromLastColMiddle() {
-		
+		BoardCell testCell = board.getCell(1, 2);
+		Set<BoardCell> testList = board.getAdjList(testCell);
+		assertTrue(testList.contains(board.getCell(0, 2)));
+		assertTrue(testList.contains(board.getCell(1, 1)));
+		assertTrue(testList.contains(board.getCell(1, 3)));
+		assertTrue(testList.contains(board.getCell(2, 2)));
+		assertEquals(testList.size(), 4);
 	}
 	
 
