@@ -1,3 +1,9 @@
+/*
+ * Authors:
+ * Peyton Scherschel
+ * James Hawn
+ */
+
 package experiment;
 
 public class BoardCell {

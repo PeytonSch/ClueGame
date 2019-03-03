@@ -1,3 +1,9 @@
+/*
+ * Authors:
+ * Peyton Scherschel
+ * James Hawn
+ */
+
 package tests;
 
 import static org.junit.Assert.*;
@@ -141,6 +147,41 @@ public class IntBoardTests {
 		assertTrue(testList.contains(board.getCell(3, 1)));
 		assertEquals(testList.size(), 4);
 	}
+	
+	@Test
+	public void targetTest1_2_3() {
+		BoardCell testCell = board.getCell(1, 2);
+		board.calcTargets(testCell, 3);
+		Set<BoardCell> testList = board.getTargets();
+		
+		assertTrue(testList.contains(board.getCell(0, 0)));
+		assertTrue(testList.contains(board.getCell(0, 2)));
+		assertTrue(testList.contains(board.getCell(1, 1)));
+		assertTrue(testList.contains(board.getCell(1, 3)));
+		assertTrue(testList.contains(board.getCell(2, 0)));
+		assertTrue(testList.contains(board.getCell(2, 2)));
+		assertTrue(testList.contains(board.getCell(3, 1)));
+		assertTrue(testList.contains(board.getCell(3, 3)));
+		assertEquals(testList.size(), 8);
+	}
+	
+	@Test
+	public void targetTest3_1_4() {
+		BoardCell testCell = board.getCell(3, 1);
+		board.calcTargets(testCell, 4);
+		Set<BoardCell> testList = board.getTargets();
+		
+		assertTrue(testList.contains(board.getCell(0, 0)));
+		assertTrue(testList.contains(board.getCell(0, 2)));
+		assertTrue(testList.contains(board.getCell(1, 1)));
+		assertTrue(testList.contains(board.getCell(1, 3)));
+		assertTrue(testList.contains(board.getCell(2, 0)));
+		assertTrue(testList.contains(board.getCell(2, 2)));
+		assertTrue(testList.contains(board.getCell(3, 3)));
+		assertEquals(testList.size(), 7);
+	}
+	
+	
 	
 	
 
