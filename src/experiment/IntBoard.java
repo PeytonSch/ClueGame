@@ -6,6 +6,8 @@
 
 package experiment;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,6 +24,13 @@ public class IntBoard {
 	
 
 	public IntBoard() {
+		// initialize board
+		grid = new BoardCell[4][4];
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				grid[i][j] = new BoardCell(i,j);
+			}
+		}
 		calcAdjacencies();
 	}
 
@@ -30,8 +39,37 @@ public class IntBoard {
 	 * Calculates the list of cells that are adjacent to each cell.
 	 */
 	private void calcAdjacencies() {
-		// TODO Auto-generated method stub
-		return;
+		// add cells to map as keys and add adjacent values if within bounds
+		adjMtx = new HashMap<BoardCell, Set<BoardCell>>();
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				// fill cells with 0 value
+				// create indices for adjacent cells
+				int above = i-1;
+				int below = i+1;
+				int left = j-1;
+				int right = j+1;
+				
+				// create set of adjancent cell and fill with valid cells
+				HashSet<BoardCell> adj = new HashSet<BoardCell>();
+				if (above >= 0) {
+					adj.add(grid[above][j]);
+				}
+				if (below < grid.length) {
+					adj.add(grid[below][j]);
+				}
+				if (left >= 0) {
+					adj.add(grid[i][left]);
+				}
+				if (right < grid[i].length) {
+					adj.add(grid[i][right]);
+				}
+				
+				// add set to map with current cell as key
+				adjMtx.put(grid[i][j], adj);
+			}
+		}
+		
 	}
 	
 	/**
@@ -40,9 +78,7 @@ public class IntBoard {
 	 * @param cell is the cell passed in that we will return the list of adjacent cells too
 	 */
 	public Set<BoardCell> getAdjList(BoardCell cell) {
-		
-		
-		return null;
+		return adjMtx.get(cell);
 	}
 	
 	
@@ -73,7 +109,7 @@ public class IntBoard {
 	 */
 	public BoardCell getCell(int x, int y) {
 		
-		return null;
+		return grid[x][y];
 	}
 	
 
