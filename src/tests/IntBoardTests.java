@@ -103,11 +103,12 @@ public class IntBoardTests {
 		Set<BoardCell> testList = board.getTargets();
 		
 		assertTrue(testList.contains(board.getCell(1, 0)));
+		assertTrue(testList.contains(board.getCell(0, 1)));
 		assertTrue(testList.contains(board.getCell(3, 0)));
 		assertTrue(testList.contains(board.getCell(0, 3)));
 		assertTrue(testList.contains(board.getCell(1, 2)));
 		assertTrue(testList.contains(board.getCell(2, 1)));
-		assertEquals(testList.size(), 5);
+		assertEquals(testList.size(), 6);
 	}
 	
 	@Test

@@ -89,8 +89,9 @@ public class IntBoard {
 	 * @param pathLength die roll, how many places we can move
 	 */
 	public void calcTargets(BoardCell startCell, int pathLength) {
-		
-		return;
+		for (int i = pathLength; i > 0; i--) {
+			
+		}
 	}
 	
 	/**
