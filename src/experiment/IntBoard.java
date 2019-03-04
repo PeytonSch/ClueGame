@@ -21,16 +21,26 @@ public class IntBoard {
 	
 	private Set<BoardCell> targets;
 	
+	private Set<BoardCell> visited;
+	
+	
 	
 
 	public IntBoard() {
 		// initialize board
 		grid = new BoardCell[4][4];
+		
+		//initialize adjMtx and targets
+		adjMtx = new HashMap<BoardCell, Set<BoardCell>>();
+		targets = new HashSet<BoardCell>();
+		visited = new HashSet<BoardCell>();
+
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				grid[i][j] = new BoardCell(i,j);
 			}
 		}
+
 		calcAdjacencies();
 	}
 
@@ -40,7 +50,6 @@ public class IntBoard {
 	 */
 	private void calcAdjacencies() {
 		// add cells to map as keys and add adjacent values if within bounds
-		adjMtx = new HashMap<BoardCell, Set<BoardCell>>();
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				// fill cells with 0 value
@@ -89,17 +98,50 @@ public class IntBoard {
 	 * @param pathLength die roll, how many places we can move
 	 */
 	public void calcTargets(BoardCell startCell, int pathLength) {
-		for (int i = pathLength; i > 0; i--) {
-			
+		//clear visited and targets to make sure they apply to this start cell and path length
+		visited.clear();
+		targets.clear();
+		
+		//add start location to visited so we don't cycle through this cell
+		visited.add(startCell);
+		
+		//call recursive function to find all targets
+		findTargets(startCell, pathLength);
+	}
+
+	public void findTargets(BoardCell startCell, int movesLeft) {
+		//for each adjCell in adjacentCells
+
+		for(BoardCell cell : getAdjList(startCell)) {
+
+			//if already in visited list, skip rest of this
+			if(!visited.contains(cell)) {
+				
+				//add adjCell to visited list
+				visited.add(cell);
+
+				//if numSteps == 1, add adjCell to Targets
+				if(movesLeft == 1) {
+					targets.add(cell);
+				}
+				//else call findAllTargets with adjCell, numSteps-1
+				else {
+					findTargets(cell, movesLeft-1);
+				}
+
+				//remove adjCell from visited list
+				visited.remove(cell);
+			}
 		}
 	}
+	
 	
 	/**
 	 * returns the set of target cells formed from calcTargets that we can move to
 	 */
 	public Set<BoardCell> getTargets() {
 		
-		return null;
+		return targets;
 	}
 	
 	/**
@@ -108,9 +150,9 @@ public class IntBoard {
 	 * @param x = row
 	 * @param y = column
 	 */
-	public BoardCell getCell(int x, int y) {
+	public BoardCell getCell(int row, int col) {
 		
-		return grid[x][y];
+		return grid[row][col];
 	}
 	
 
