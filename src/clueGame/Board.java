@@ -3,13 +3,14 @@ package clueGame;
 import java.util.Map;
 import java.util.Set;
 
-import experiment.BoardCell;
+import clueGame.BoardCell;
 
 public class Board {
 	
 	private int numRows;
 	private int numColumns;
 	public static final int MAX_BOARD_SIZE = 23;
+	private static Board BOARD;
 	
 	private BoardCell[][] board;
 	private Map<Character, String> legend;
@@ -20,10 +21,14 @@ public class Board {
 	
 	public Board() {
 		board = new BoardCell[23][23];
+		
 	}
 	
-	public Board getInstance() {
-		return this;
+	public static Board getInstance() {
+		if (BOARD ==  null) {
+			BOARD = new Board();
+		}
+		return BOARD;
 	}
 	
 	public void initialize() {
@@ -97,7 +102,11 @@ public class Board {
 	public String getBoardConfigFile() {
 		return boardConfigFile;
 	}
-
+	
+	public void setConfigFiles(String string, String string2) {
+		setBoardConfigFile(string);
+		setRoomConfigFile(string2);
+	}
 	public void setBoardConfigFile(String boardConfigFile) {
 		this.boardConfigFile = boardConfigFile;
 	}
@@ -113,6 +122,12 @@ public class Board {
 	public static int getMaxBoardSize() {
 		return MAX_BOARD_SIZE;
 	}
+
+	public BoardCell getCellAt(int i, int j) {
+		return board[i][j];
+	}
+
+	
 	
 
 }
