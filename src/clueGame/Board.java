@@ -46,4 +46,73 @@ public class Board {
 		
 	}
 
+	public int getNumRows() {
+		return numRows;
+	}
+
+	public void setNumRows(int numRows) {
+		this.numRows = numRows;
+	}
+
+	public int getNumColumns() {
+		return numColumns;
+	}
+
+	public void setNumColumns(int numColumns) {
+		this.numColumns = numColumns;
+	}
+
+	public BoardCell[][] getBoard() {
+		return board;
+	}
+
+	public void setBoard(BoardCell[][] board) {
+		this.board = board;
+	}
+
+	public Map<Character, String> getLegend() {
+		return legend;
+	}
+
+	public void setLegend(Map<Character, String> legend) {
+		this.legend = legend;
+	}
+
+	public Map<BoardCell, Set<BoardCell>> getAdjMtx() {
+		return adjMtx;
+	}
+
+	public void setAdjMtx(Map<BoardCell, Set<BoardCell>> adjMtx) {
+		this.adjMtx = adjMtx;
+	}
+
+	public Set<BoardCell> getTargets() {
+		return targets;
+	}
+
+	public void setTargets(Set<BoardCell> targets) {
+		this.targets = targets;
+	}
+
+	public String getBoardConfigFile() {
+		return boardConfigFile;
+	}
+
+	public void setBoardConfigFile(String boardConfigFile) {
+		this.boardConfigFile = boardConfigFile;
+	}
+
+	public String getRoomConfigFile() {
+		return roomConfigFile;
+	}
+
+	public void setRoomConfigFile(String roomConfigFile) {
+		this.roomConfigFile = roomConfigFile;
+	}
+
+	public static int getMaxBoardSize() {
+		return MAX_BOARD_SIZE;
+	}
+	
+
 }
