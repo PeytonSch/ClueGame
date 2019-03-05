@@ -1,0 +1,11 @@
+A, Art Room, Card
+B, Bathroom, Card
+G, Garage, Card
+H, Hall, Card
+K, Kitchen, Card
+L, Library, Card
+N, Wine Cellar, Card
+O, Observatory, Card
+S, Sauna, Card
+W, Walkway, Other
+X, Closet, Other
