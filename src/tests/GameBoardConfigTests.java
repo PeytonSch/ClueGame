@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import clueGame.Board;
 import clueGame.BoardCell;
+import clueGame.DoorDirection;
 
 public class GameBoardConfigTests {
 
@@ -61,9 +62,33 @@ public class GameBoardConfigTests {
 	// two cells that are not a doorway.
 	@Test
 	public void FourDoorDirections() {
+		//DOWN doorway
 		BoardCell room = board.getCellAt(4, 0);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.DOWN, room.getDoorDirection());
+
+		//UP doorway
+		room = board.getCellAt(6, 4);
+		assertTrue(room.isDoorway());
+		assertEquals(DoorDirection.UP, room.getDoorDirection());
+
+		//RIGHT doorway
+		room = board.getCellAt(3, 3);
+		assertTrue(room.isDoorway());
+		assertEquals(DoorDirection.RIGHT, room.getDoorDirection());
+
+		//LEFT doorway
+		room = board.getCellAt(22, 6);
+		assertTrue(room.isDoorway());
+		assertEquals(DoorDirection.LEFT, room.getDoorDirection());
+
+		// Test that room pieces that aren't doors know it
+		room = board.getCellAt(20, 8);
+		assertFalse(room.isDoorway());	
+		
+		// Test that walkways are not doors
+		room = board.getCellAt(13, 5);
+		assertFalse(room.isDoorway());	
 
 	}
 

@@ -123,8 +123,8 @@ public class Board {
 		return MAX_BOARD_SIZE;
 	}
 
-	public BoardCell getCellAt(int i, int j) {
-		return board[i][j];
+	public BoardCell getCellAt(int row, int col) {
+		return board[row][col];
 	}
 
 	
