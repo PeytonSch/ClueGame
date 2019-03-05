@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import clueGame.Board;
+import clueGame.BoardCell;
 
 public class GameBoardConfigTests {
 
@@ -42,7 +43,7 @@ public class GameBoardConfigTests {
 		Map<Character, String> legend = board.getLegend();
 		// Ensure we read the correct number of rooms
 		assertEquals(LEGEND_SIZE, legend.size());
-		
+
 		//test rooms loaded correctly
 		assertEquals("Art Room", legend.get('A'));
 		assertEquals("Bathroom", legend.get('B'));
@@ -53,9 +54,21 @@ public class GameBoardConfigTests {
 		assertEquals("Wine Cellar", legend.get('N'));
 		assertEquals("Walkway", legend.get('W'));
 		assertEquals("Closet", legend.get('X'));
-		
+
+	}
+
+	// Test a doorway in each direction (RIGHT/LEFT/UP/DOWN), plus 
+	// two cells that are not a doorway.
+	@Test
+	public void FourDoorDirections() {
+		BoardCell room = board.getCellAt(4, 0);
+		assertTrue(room.isDoorway());
+		assertEquals(DoorDirection.DOWN, room.getDoorDirection());
+
 	}
 
 
 
-	}
+
+
+}
