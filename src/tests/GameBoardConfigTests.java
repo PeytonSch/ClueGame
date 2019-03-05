@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.Map;
 
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -91,6 +92,20 @@ public class GameBoardConfigTests {
 		assertFalse(room.isDoorway());	
 
 	}
+	
+	// Test that we have the correct number of doors
+		@Test
+		public void testNumberOfDoorways() 
+		{
+			int numDoors = 0;
+			for (int row=0; row<board.getNumRows(); row++)
+				for (int col=0; col<board.getNumColumns(); col++) {
+					BoardCell cell = board.getCellAt(row, col);
+					if (cell.isDoorway())
+						numDoors++;
+				}
+			Assert.assertEquals(26, numDoors);
+		}
 
 
 
