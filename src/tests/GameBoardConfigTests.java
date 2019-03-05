@@ -106,6 +106,24 @@ public class GameBoardConfigTests {
 				}
 			Assert.assertEquals(26, numDoors);
 		}
+		
+		// Test a few room cells to ensure the room initial is correct.
+		@Test
+		public void testRoomInitials() {
+			// Test first cell in room
+			assertEquals('N', board.getCellAt(10, 0).getInitial());
+			assertEquals('0', board.getCellAt(4, 13).getInitial());
+			/*
+			assertEquals('B', board.getCellAt(9, 0).getInitial());
+			// Test last cell in room
+			assertEquals('O', board.getCellAt(21, 22).getInitial());
+			assertEquals('K', board.getCellAt(21, 0).getInitial());
+			// Test a walkway
+			assertEquals('W', board.getCellAt(0, 5).getInitial());
+			// Test the closet
+			assertEquals('X', board.getCellAt(9,13).getInitial());
+			*/
+		}
 
 
 
