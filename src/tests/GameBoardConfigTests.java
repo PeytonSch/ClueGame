@@ -2,6 +2,8 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.Map;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -34,6 +36,26 @@ public class GameBoardConfigTests {
 	}
 
 
+	@Test
+	public void testRooms() {
+		// Get the map of initial => room 
+		Map<Character, String> legend = board.getLegend();
+		// Ensure we read the correct number of rooms
+		assertEquals(LEGEND_SIZE, legend.size());
+		
+		//test rooms loaded correctly
+		assertEquals("Art Room", legend.get('A'));
+		assertEquals("Bathroom", legend.get('B'));
+		assertEquals("Garage", legend.get('G'));
+		assertEquals("Hall", legend.get('H'));
+		assertEquals("Kitchen", legend.get('K'));
+		assertEquals("Library", legend.get('L'));
+		assertEquals("Wine Cellar", legend.get('N'));
+		assertEquals("Walkway", legend.get('W'));
+		assertEquals("Closet", legend.get('X'));
+		
+	}
 
 
-}
+
+	}
