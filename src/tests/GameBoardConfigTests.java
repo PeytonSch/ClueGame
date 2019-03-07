@@ -62,7 +62,7 @@ public class GameBoardConfigTests {
 	// Test a doorway in each direction (RIGHT/LEFT/UP/DOWN), plus 
 	// two cells that are not a doorway.
 	@Test
-	public void FourDoorDirections() {
+	public void fourDoorDirections() {
 		//DOWN doorway
 		BoardCell room = board.getCellAt(4, 0);
 		assertTrue(room.isDoorway());

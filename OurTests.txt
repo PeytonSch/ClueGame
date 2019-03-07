@@ -1,0 +1,9 @@
+How we selected our test cells:
+
+For FourDoorDirectionsTest we selected the cells at (4,0), (6,4), (3,3), and
+(22,6), . These cells represent doorways with directions
+down, up, right, and left respectively. We then chose cells 
+(20,8), and (13,5) which are both not doorways to ensure that we were
+reading in doorways correctly.Furthermore, we chose these cells in so that
+they belong to different rooms to make sure our tests covered different areas
+of our board.
