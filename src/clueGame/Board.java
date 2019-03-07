@@ -34,14 +34,26 @@ public class Board {
 	}
 	
 	public void initialize() {
+		try {
+			loadRoomConfig();
+		} catch (BadConfigFormatException e) {
+			e.getMessage();
+		}
+		try {
+			loadBoardConfig();
+		} catch (BadConfigFormatException e) {
+			e.getMessage();
+		}
+				
+		//Calculates room adj
+		calcAdjacencies();
+	}
+	
+	public void loadRoomConfig() throws BadConfigFormatException{
 		
 	}
 	
-	public void loadRoomConfig() {
-		
-	}
-	
-	public void loadBoardConfig() {
+	public void loadBoardConfig() throws BadConfigFormatException{
 		
 	}
 	
