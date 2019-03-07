@@ -21,7 +21,7 @@ public class GameBoardConfigTests {
 
 	//constants to test correct file loading
 	public static final int LEGEND_SIZE = 11;
-	public static final int NUM_ROWS = 22;
+	public static final int NUM_ROWS = 23;
 	public static final int NUM_COLUMNS = 23;
 
 	private static Board board;
