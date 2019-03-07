@@ -9,8 +9,8 @@ public class Board {
 	
 	private int numRows;
 	private int numColumns;
-	public static final int MAX_BOARD_SIZE = 23;
-	private static Board BOARD;
+	public static final int MAX_BOARD_SIZE = 50;
+	private static Board instance = new Board();
 	
 	private BoardCell[][] board;
 	private Map<Character, String> legend;
@@ -19,16 +19,13 @@ public class Board {
 	private String boardConfigFile;
 	private String roomConfigFile;
 	
-	public Board() {
-		board = new BoardCell[23][23];
+	private Board() {
+		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
 		
 	}
 	
 	public static Board getInstance() {
-		if (BOARD ==  null) {
-			BOARD = new Board();
-		}
-		return BOARD;
+		return instance;
 	}
 	
 	public void initialize() {
