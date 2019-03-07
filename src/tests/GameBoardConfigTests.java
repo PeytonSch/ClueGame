@@ -118,14 +118,14 @@ public class GameBoardConfigTests {
 			// Test first cell in room
 			assertEquals('N', board.getCellAt(10, 0).getInitial());
 			assertEquals('W', board.getCellAt(4, 13).getInitial());
-			assertEquals('O', board.getCellAt(10, 3).getInitial());
+			assertEquals('O', board.getCellAt(3, 10).getInitial());
 			
 			// Test last cell in room
 			assertEquals('L', board.getCellAt(0, 4).getInitial());
 			assertEquals('A', board.getCellAt(22, 0).getInitial());
 			assertEquals('S', board.getCellAt(22, 22).getInitial());
 			// Test a walkway
-			assertEquals('W', board.getCellAt(7, 7).getInitial());
+			assertEquals('W', board.getCellAt(6, 7).getInitial());
 			// Test the kitchen
 			assertEquals('K', board.getCellAt(20,7).getInitial());
 			

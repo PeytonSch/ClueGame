@@ -44,9 +44,9 @@ public class BoardCell {
 		return dir;
 	}
 
-	public String getInitial() {
+	public char getInitial() {
 		// TODO Auto-generated method stub
-		return null;
+		return roomLetter;
 	}
 
 }
