@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import clueGame.BoardCell;
 
@@ -21,7 +23,7 @@ public class Board {
 
 	private int numRows;
 	private int numColumns;
-	public static final int MAX_BOARD_SIZE = 50;
+	public static final int MAX_BOARD_SIZE = 23;
 	private static Board instance = new Board();
 
 	private BoardCell[][] board;
@@ -35,10 +37,10 @@ public class Board {
 	private Board() {
 		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
 		//initialize data structures 
-		adjMtx = new HashMap<BoardCell, Set<BoardCell>>();
-		targets = new HashSet<BoardCell>();
-		visited = new HashSet<BoardCell>();
-		legend = new HashMap<Character, String>();
+		adjMtx = new TreeMap<BoardCell, Set<BoardCell>>();
+		targets = new TreeSet<BoardCell>();
+		visited = new TreeSet<BoardCell>();
+		legend = new TreeMap<Character, String>();
 	}
 
 	public static Board getInstance() {
@@ -188,6 +190,12 @@ public class Board {
 		// add cells to map as keys and add adjacent values if within bounds
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
+				
+				// if cell is in a room and not a door, break
+				if (board[i][j].getInitial() != 'W' && !board[i][j].isDoorway()) {
+					break;
+				}
+				
 				// fill cells with 0 value
 				// create indices for adjacent cells
 				int above = i-1;
@@ -196,18 +204,46 @@ public class Board {
 				int right = j+1;
 
 				// create set of adjancent cell and fill with valid cells
-				HashSet<BoardCell> adj = new HashSet<BoardCell>();
+				TreeSet<BoardCell> adj = new TreeSet<BoardCell>();
 				if (above >= 0) {
-					adj.add(board[above][j]);
+					if (board[above][j].isDoorway() || board[above][j].getInitial() != 'W') {
+						if (board[above][j].getDoorDirection() == DoorDirection.DOWN) {
+							adj.add(board[above][j]);
+						}
+					}
+					else {
+						adj.add(board[above][j]);
+					}
 				}
 				if (below < board.length) {
-					adj.add(board[below][j]);
+					if (board[below][j].isDoorway() || board[below][j].getInitial() != 'W') {
+						if (board[below][j].getDoorDirection() == DoorDirection.UP) {
+							adj.add(board[below][j]);
+						}
+					}
+					else {
+						adj.add(board[below][j]);
+					}
 				}
 				if (left >= 0) {
-					adj.add(board[i][left]);
+					if (board[i][left].isDoorway() || board[i][left].getInitial() != 'W') {
+						if (board[i][left].getDoorDirection() == DoorDirection.RIGHT) {
+							adj.add(board[i][left]);
+						}
+					}
+					else {
+						adj.add(board[i][left]);
+					}
 				}
 				if (right < board[i].length) {
-					adj.add(board[i][right]);
+					if (board[i][right].isDoorway() || board[i][right].getInitial() != 'W') {
+						if (board[i][right].getDoorDirection() == DoorDirection.LEFT) {
+							adj.add(board[i][right]);
+						}
+					}
+					else {
+						adj.add(board[i][right]);
+					}
 				}
 
 				// add set to map with current cell as key
