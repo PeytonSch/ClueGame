@@ -306,6 +306,11 @@ public class Board {
 
 				//add adjCell to visited list
 				visited.add(cell);
+				
+				//if doorway with moves remaining
+				if (cell.isDoorway()) {
+					targets.add(cell);
+				}
 
 				//if numSteps == 1, add adjCell to Targets
 				if(movesLeft == 1) {
