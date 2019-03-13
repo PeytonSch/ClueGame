@@ -37,10 +37,10 @@ public class Board {
 	private Board() {
 		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
 		//initialize data structures 
-		adjMtx = new TreeMap<BoardCell, Set<BoardCell>>();
-		targets = new TreeSet<BoardCell>();
-		visited = new TreeSet<BoardCell>();
-		legend = new TreeMap<Character, String>();
+		adjMtx = new HashMap<BoardCell, Set<BoardCell>>();
+		targets = new HashSet<BoardCell>();
+		visited = new HashSet<BoardCell>();
+		legend = new HashMap<Character, String>();
 	}
 
 	public static Board getInstance() {
@@ -202,9 +202,32 @@ public class Board {
 				int below = i+1;
 				int left = j-1;
 				int right = j+1;
-
+				
 				// create set of adjancent cell and fill with valid cells
-				TreeSet<BoardCell> adj = new TreeSet<BoardCell>();
+				HashSet<BoardCell> adj = new HashSet<BoardCell>();
+
+				// if doorway, add cell in direction and break
+				if (board[i][j].isDoorway()) {
+					switch (board[i][j].getDoorDirection()) {
+					case RIGHT:
+						adj.add(board[i][right]);
+						break;
+					case LEFT:
+						adj.add(board[i][left]);
+						break;
+					case DOWN:
+						adj.add(board[below][j]);
+						break;
+					case UP:
+						adj.add(board[above][j]);
+						break;
+					default:
+						break;
+					}
+					adjMtx.put(board[i][j], adj);
+					break;
+				}
+
 				if (above >= 0) {
 					if (board[above][j].isDoorway() || board[above][j].getInitial() != 'W') {
 						if (board[above][j].getDoorDirection() == DoorDirection.DOWN) {
