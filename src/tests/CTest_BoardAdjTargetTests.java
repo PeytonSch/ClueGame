@@ -1,5 +1,7 @@
 package tests;
 
+import java.util.HashSet;
+
 /*
  * This program tests that adjacencies and targets are calculated correctly.
  */
@@ -16,6 +18,12 @@ import clueGame.Board;
 import clueGame.BoardCell;
 
 public class CTest_BoardAdjTargetTests {
+
+	//constants to test correct file loading
+	public static final int LEGEND_SIZE = 11;
+	public static final int NUM_ROWS = 23;
+	public static final int NUM_COLUMNS = 23;
+
 	// We make the Board static because we can load it one time and 
 	// then do all the tests. 
 	private static Board board;
@@ -90,11 +98,11 @@ public class CTest_BoardAdjTargetTests {
 	public void testAdjacencyDoorways()
 	{
 		// Test beside a door direction RIGHT
-		Set<BoardCell> testList = board.getAdjList(board.getCellAt(9, 4));
-		assertTrue(testList.contains(board.getCellAt(10, 4)));
-		assertTrue(testList.contains(board.getCellAt(9, 5)));
-		assertTrue(testList.contains(board.getCellAt(8, 4)));
-		assertTrue(testList.contains(board.getCellAt(9, 3)));
+		Set<BoardCell> testList = board.getAdjList(board.getCellAt(9, 5));
+		assertTrue(testList.contains(board.getCellAt(9, 4)));
+		assertTrue(testList.contains(board.getCellAt(9, 6)));
+		assertTrue(testList.contains(board.getCellAt(8, 5)));
+		assertTrue(testList.contains(board.getCellAt(10, 5)));
 		assertEquals(4, testList.size());
 		// Test beside a door direction DOWN
 		testList = board.getAdjList(board.getCellAt(5, 10));
@@ -155,9 +163,9 @@ public class CTest_BoardAdjTargetTests {
 		assertEquals(1, testList.size());
 		
 		// Test on right edge of board, next to 1 room piece
-		testList = board.getAdjList(board.getCellAt(0, 0));
-		assertTrue(testList.contains(board.getCellAt(14, 21)));
-		assertTrue(testList.contains(board.getCellAt(13, 22)));
+		testList = board.getAdjList(board.getCellAt(8, 22));
+		assertTrue(testList.contains(board.getCellAt(8, 21)));
+		assertTrue(testList.contains(board.getCellAt(9, 22)));
 		assertEquals(2, testList.size());
 
 		// Test on walkway next to  door that is not in the needed

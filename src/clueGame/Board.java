@@ -191,86 +191,88 @@ public class Board {
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
 				
-				// if cell is in a room and not a door, break
-				if (board[i][j].getInitial() != 'W' && !board[i][j].isDoorway()) {
-					break;
-				}
-				
-				// fill cells with 0 value
-				// create indices for adjacent cells
-				int above = i-1;
-				int below = i+1;
-				int left = j-1;
-				int right = j+1;
-				
-				// create set of adjancent cell and fill with valid cells
-				HashSet<BoardCell> adj = new HashSet<BoardCell>();
+				// if cell is in a room and not a door, do nothing otherwise enter if statement
+				if (!(board[i][j].getInitial() != 'W' && !board[i][j].isDoorway())) {
+					// fill cells with 0 value
+					// create indices for adjacent cells
+					int above = i-1;
+					int below = i+1;
+					int left = j-1;
+					int right = j+1;
+					
+					// create set of adjancent cell and fill with valid cells
+					HashSet<BoardCell> adj = new HashSet<BoardCell>();
 
-				// if doorway, add cell in direction and break
-				if (board[i][j].isDoorway()) {
-					switch (board[i][j].getDoorDirection()) {
-					case RIGHT:
-						adj.add(board[i][right]);
-						break;
-					case LEFT:
-						adj.add(board[i][left]);
-						break;
-					case DOWN:
-						adj.add(board[below][j]);
-						break;
-					case UP:
-						adj.add(board[above][j]);
-						break;
-					default:
-						break;
-					}
-					adjMtx.put(board[i][j], adj);
-					break;
-				}
-
-				if (above >= 0) {
-					if (board[above][j].isDoorway() || board[above][j].getInitial() != 'W') {
-						if (board[above][j].getDoorDirection() == DoorDirection.DOWN) {
-							adj.add(board[above][j]);
-						}
-					}
-					else {
-						adj.add(board[above][j]);
-					}
-				}
-				if (below < board.length) {
-					if (board[below][j].isDoorway() || board[below][j].getInitial() != 'W') {
-						if (board[below][j].getDoorDirection() == DoorDirection.UP) {
-							adj.add(board[below][j]);
-						}
-					}
-					else {
-						adj.add(board[below][j]);
-					}
-				}
-				if (left >= 0) {
-					if (board[i][left].isDoorway() || board[i][left].getInitial() != 'W') {
-						if (board[i][left].getDoorDirection() == DoorDirection.RIGHT) {
-							adj.add(board[i][left]);
-						}
-					}
-					else {
-						adj.add(board[i][left]);
-					}
-				}
-				if (right < board[i].length) {
-					if (board[i][right].isDoorway() || board[i][right].getInitial() != 'W') {
-						if (board[i][right].getDoorDirection() == DoorDirection.LEFT) {
+					// if doorway, add cell in direction and break
+					if (board[i][j].isDoorway()) {
+						switch (board[i][j].getDoorDirection()) {
+						case RIGHT:
 							adj.add(board[i][right]);
+							break;
+						case LEFT:
+							adj.add(board[i][left]);
+							break;
+						case DOWN:
+							adj.add(board[below][j]);
+							break;
+						case UP:
+							adj.add(board[above][j]);
+							break;
+						default:
+							break;
 						}
 					}
 					else {
-						adj.add(board[i][right]);
-					}
-				}
+						if (above >= 0) {
+							if (board[above][j].isDoorway() || board[above][j].getInitial() != 'W') {
+								if (board[above][j].getDoorDirection() == DoorDirection.DOWN) {
+									adj.add(board[above][j]);
+								}
+							}
+							else {
+								adj.add(board[above][j]);
+							}
+						}
+						if (below < board.length) {
+							if (board[below][j].isDoorway() || board[below][j].getInitial() != 'W') {
+								if (board[below][j].getDoorDirection() == DoorDirection.UP) {
+									adj.add(board[below][j]);
+								}
+							}
+							else {
+								adj.add(board[below][j]);
+							}
+						}
+						if (left >= 0) {
+							if (board[i][left].isDoorway() || board[i][left].getInitial() != 'W') {
+								if (board[i][left].getDoorDirection() == DoorDirection.RIGHT) {
+									adj.add(board[i][left]);
+								}
+							}
+							else {
+								adj.add(board[i][left]);
+							}
+						}
+						if (right < board[i].length) {
+							if (board[i][right].isDoorway() || board[i][right].getInitial() != 'W') {
+								if (board[i][right].getDoorDirection() == DoorDirection.LEFT) {
+									adj.add(board[i][right]);
+								}
+							}
+							else {
+								adj.add(board[i][right]);
+							}
+						}
 
-				// add set to map with current cell as key
-				adjMtx.put(board[i][j], adj);
+					}
+					// add set to map with current cell as key
+					adjMtx.put(board[i][j], adj);
+				}
+				// if inside a room, add empty adj Set for adjMtx
+				else {
+					HashSet<BoardCell> adj = new HashSet<BoardCell>();
+					adjMtx.put(board[i][j], adj);
+				}
 			}
 		}
 
