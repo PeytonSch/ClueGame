@@ -96,11 +96,12 @@ public class Board {
 				legend.put(key, name);
 
 			}
-
+			in.close();
 		}
 		catch (FileNotFoundException e) {
 			e.getMessage();
 		}
+		
 	}
 
 	/**
@@ -177,6 +178,7 @@ public class Board {
 			}
 			//set numRows
 			numRows = rowCount;
+			in.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("Load Board Config File Not Found");
 			e.getMessage();
