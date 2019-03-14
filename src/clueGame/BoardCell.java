@@ -13,9 +13,6 @@ public class BoardCell {
 	private DoorDirection dir;
 	private char roomLetter;
 	
-	public DoorDirection getDir() {
-		return dir;
-	}
 
 	public void setDir(DoorDirection dir) {
 		this.dir = dir;
@@ -38,6 +35,14 @@ public class BoardCell {
 
 	public boolean isDoorway() {
 		return !(dir.equals(DoorDirection.NONE));
+	}
+	
+	public boolean isWalkway() {
+		return (roomLetter == 'W');
+	}
+	
+	public boolean isRoom() {
+		return (roomLetter != 'W');
 	}
 
 	public DoorDirection getDoorDirection() {
