@@ -23,7 +23,7 @@ public class Board {
 
 	private int numRows;
 	private int numColumns;
-	public static final int MAX_BOARD_SIZE = 23;
+	public static final int MAX_BOARD_SIZE = 50;
 	private static Board instance = new Board();
 
 	private BoardCell[][] board;
@@ -190,8 +190,8 @@ public class Board {
 	 */
 	private void calcAdjacencies() {
 		// add cells to map as keys and add adjacent values if within bounds
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board[i].length; j++) {
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numColumns; j++) {
 				
 				// if cell is in a room and not a door, do nothing otherwise enter if statement
 				if (!(board[i][j].getInitial() != 'W' && !board[i][j].isDoorway())) {
@@ -235,7 +235,7 @@ public class Board {
 								adj.add(board[above][j]);
 							}
 						}
-						if (below < board.length) {
+						if (below < numRows) {
 							if (board[below][j].isDoorway() || board[below][j].getInitial() != 'W') {
 								if (board[below][j].getDoorDirection() == DoorDirection.UP) {
 									adj.add(board[below][j]);
@@ -255,7 +255,7 @@ public class Board {
 								adj.add(board[i][left]);
 							}
 						}
-						if (right < board[i].length) {
+						if (right < numColumns) {
 							if (board[i][right].isDoorway() || board[i][right].getInitial() != 'W') {
 								if (board[i][right].getDoorDirection() == DoorDirection.LEFT) {
 									adj.add(board[i][right]);
