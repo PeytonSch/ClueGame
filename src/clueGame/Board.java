@@ -279,6 +279,11 @@ public class Board {
 		}
 
 	}
+	public void calcTargets(int row, int col, int pathLength){
+		calcTargets(getCellAt(row, col), pathLength);
+		return;
+	}
+	
 
 	/**
 	 * calculates all available target cells to move to given a number of moves
@@ -336,6 +341,10 @@ public class Board {
 	 */
 	public Set<BoardCell> getAdjList(BoardCell cell) {
 		return adjMtx.get(cell);
+	}
+	
+	public Set<BoardCell> getAdjList(int row, int col) {
+		return adjMtx.get(getCellAt(row, col));
 	}
 
 	/**
