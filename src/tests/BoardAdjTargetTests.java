@@ -93,7 +93,7 @@ public class BoardAdjTargetTests {
 	}
 	
 	// Test adjacency at entrance to rooms
-	// These tests are GREEN in planning spreadsheet
+	// These tests are PALE GREEN in planning spreadsheet
 	@Test
 	public void testAdjacencyDoorways()
 	{
@@ -200,7 +200,7 @@ public class BoardAdjTargetTests {
 	}
 	
 	// Tests of just walkways, 2 steps
-	// These are LIGHT BLUE on the planning spreadsheet
+	// These are NEON PINK on the planning spreadsheet
 	@Test
 	public void testTargetsTwoSteps() {
 		board.calcTargets(board.getCellAt(22, 12), 2);
@@ -209,7 +209,7 @@ public class BoardAdjTargetTests {
 		assertTrue(targets.contains(board.getCellAt(20, 12)));
 		assertTrue(targets.contains(board.getCellAt(21, 11)));
 		
-		board.calcTargets(board.getCellAt(22, 5), 2);
+		board.calcTargets(board.getCellAt(22, 5), 2); //used above, light blue on planning sheet
 		targets= board.getTargets();
 		assertEquals(3, targets.size());
 		assertTrue(targets.contains(board.getCellAt(20, 5)));
@@ -238,7 +238,7 @@ public class BoardAdjTargetTests {
 	}	
 	
 	// Tests of just walkways plus one door, 6 steps
-	// These are LIGHT BLUE on the planning spreadsheet
+	// These are BRIGHT GREEN on the planning spreadsheet
 
 	@Test
 	public void testTargetsSixSteps() {
@@ -256,7 +256,7 @@ public class BoardAdjTargetTests {
 	}	
 	
 	// Test getting into a room
-	// These are LIGHT BLUE on the planning spreadsheet
+	// These are SEA BLUE on the planning spreadsheet
 
 	@Test 
 	public void testTargetsIntoRoom()
@@ -283,7 +283,7 @@ public class BoardAdjTargetTests {
 	}
 	
 	// Test getting into room, doesn't require all steps
-	// These are LIGHT BLUE on the planning spreadsheet
+	// These are SEA BLUE on the planning spreadsheet
 	@Test
 	public void testTargetsIntoRoomShortcut() 
 	{
@@ -313,7 +313,7 @@ public class BoardAdjTargetTests {
 	}
 
 	// Test getting out of a room
-	// These are LIGHT BLUE on the planning spreadsheet
+	// These are MAROON on the planning spreadsheet
 	@Test
 	public void testRoomExit()
 	{
