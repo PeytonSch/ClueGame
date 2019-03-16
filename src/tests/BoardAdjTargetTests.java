@@ -1,3 +1,8 @@
+/*
+ * Authors:
+ * Peyton Scherschel
+ * James Hawn
+ */
 package tests;
 
 import java.util.HashSet;
