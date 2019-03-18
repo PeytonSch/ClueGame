@@ -191,96 +191,147 @@ public class Board {
 		// add cells to map as keys and add adjacent values if within bounds
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
-				
-				// fill cells with 0 value
-				// create indices for adjacent cells
-				int above = i-1;
-				int below = i+1;
-				int left = j-1;
-				int right = j+1;
 
-				// create set of adjancent cell and fill with valid cells
-				HashSet<BoardCell> adj = new HashSet<BoardCell>();
-				// if cell is in a room and not a door, do nothing otherwise enter if statement
+				// if cell is in a room and not a door, add empty adjacent matrix, showing no moves
 				if (board[i][j].isRoom()) {
+					
+					// create empty set
+					HashSet<BoardCell> adj = new HashSet<BoardCell>();
+					//add to adjMtx map <BoardCell, Set<BoardCell>>
 					adjMtx.put(board[i][j], adj);
 				}
 
 				// if doorway, add cell in direction and break
 				else if (board[i][j].isDoorway()) {
-					switch (board[i][j].getDoorDirection()) {
-					case RIGHT:
-						adj.add(board[i][right]);
-						break;
-					case LEFT:
-						adj.add(board[i][left]);
-						break;
-					case DOWN:
-						adj.add(board[below][j]);
-						break;
-					case UP:
-						adj.add(board[above][j]);
-						break;
-					default:
-						break;
-					}
+					
+					//add to adjMtx map <BoardCell, Set<BoardCell>>
+					adjMtx.put(board[i][j], doorAdjacents(i,j));
 				}
 				
-				// if walkway, test surrounding cells
+				// if walkway, test surrounding cells thru walkwayAdjacents
 				else if (board[i][j].isWalkway()) {
-					if (above >= 0) {
-						if (board[above][j].isDoorway() || board[above][j].getInitial() != 'W') {
-							if (board[above][j].getDoorDirection() == DoorDirection.DOWN) {
-								adj.add(board[above][j]);
-							}
-						}
-						else {
-							adj.add(board[above][j]);
-						}
-					}
-					if (below < board.length) {
-						if (board[below][j].isDoorway() || board[below][j].getInitial() != 'W') {
-							if (board[below][j].getDoorDirection() == DoorDirection.UP) {
-								adj.add(board[below][j]);
-							}
-						}
-						else {
-							adj.add(board[below][j]);
-						}
-					}
-					if (left >= 0) {
-						if (board[i][left].isDoorway() || board[i][left].getInitial() != 'W') {
-							if (board[i][left].getDoorDirection() == DoorDirection.RIGHT) {
-								adj.add(board[i][left]);
-							}
-						}
-						else {
-							adj.add(board[i][left]);
-						}
-					}
-					if (right < board[i].length) {
-						if (board[i][right].isDoorway() || board[i][right].getInitial() != 'W') {
-							if (board[i][right].getDoorDirection() == DoorDirection.LEFT) {
-								adj.add(board[i][right]);
-							}
-						}
-						else {
-							adj.add(board[i][right]);
-						}
-					}
-
+					
+					//add to adjMtx map <BoardCell, Set<BoardCell>>
+					adjMtx.put(board[i][j], walkwayAdjacents(i,j));
 				}
+				
+				// if not a walkway, door, or room, the cell is not correctly formatted
 				else {
 					String msg = "Config Error: Cell (" + i + "," + j + ") not a Room, Door, or Walkway.";
 					throw new BadConfigFormatException(msg);
 					
 				}
-				// add set to map with current cell as key
-				adjMtx.put(board[i][j], adj);
 
 
 			}
 		}
+
+	}
+	
+	public Set<BoardCell> doorAdjacents(int i, int j){
+		
+		// create surrounding indices for easy switches
+		// also helps read code and get meaning
+		int above = i-1;
+		int below = i+1;
+		int left = j-1;
+		int right = j+1;
+		
+		// initialize HashSet for adjacent BoardCells
+		HashSet<BoardCell> adj = new HashSet<BoardCell>();
+		
+		// use a switch with DoorDirection enum to know which way we can exit
+		switch (board[i][j].getDoorDirection()) {
+		case RIGHT:
+			adj.add(board[i][right]);
+			break;
+		case LEFT:
+			adj.add(board[i][left]);
+			break;
+		case DOWN:
+			adj.add(board[below][j]);
+			break;
+		case UP:
+			adj.add(board[above][j]);
+			break;
+		default:
+			break;
+		}
+		
+		// return cell as a set for adjMap purposes
+		return adj;
+	}
+	
+	public Set<BoardCell> walkwayAdjacents(int i, int j){
+		
+		// create surrounding indices for easy switches
+		// also helps read code and get meaning
+		int above = i-1;
+		int below = i+1;
+		int left = j-1;
+		int right = j+1;
+		
+		// initialize HashSet for adjacent BoardCells
+		HashSet<BoardCell> adj = new HashSet<BoardCell>();
+		
+		// confirm cell is on the board (greater or equal to index 0)
+		if (above >= 0) {
+			
+			// check if it's a door or a room, and, if door, faces the right direction
+			if (board[above][j].isDoorway() || board[above][j].isRoom()) {
+				if (board[above][j].getDoorDirection() == DoorDirection.DOWN) {
+					adj.add(board[above][j]);
+				}
+			}
+			// else, is a walkway and a valid adjacent cell
+			else {
+				adj.add(board[above][j]);
+			}
+		}
+		// confirm cell is on the board (less than length index board.length)
+		if (below < board.length) {
+			
+			// check if it's a door or a room, and, if door, faces the right direction
+			if (board[below][j].isDoorway() || board[below][j].isRoom()) {
+				if (board[below][j].getDoorDirection() == DoorDirection.UP) {
+					adj.add(board[below][j]);
+				}
+			}
+			// else, is a walkway and a valid adjacent cell
+			else {
+				adj.add(board[below][j]);
+			}
+		}
+		// confirm cell is on the board (greater or equal to index 0)
+		if (left >= 0) {
+			
+			// check if it's a door or a room, and, if door, faces the right direction
+			if (board[i][left].isDoorway() || board[i][left].isRoom()) {
+				if (board[i][left].getDoorDirection() == DoorDirection.RIGHT) {
+					adj.add(board[i][left]);
+				}
+			}
+			// else, is a walkway and a valid adjacent cell
+			else {
+				adj.add(board[i][left]);
+			}
+		}
+		// confirm cell is on the board (less than length index board.length)
+		if (right < board[i].length) {
+			
+			// check if it's a door or a room, and, if door, faces the right direction
+			if (board[i][right].isDoorway() || board[i][right].isRoom()) {
+				if (board[i][right].getDoorDirection() == DoorDirection.LEFT) {
+					adj.add(board[i][right]);
+				}
+			}
+			// else, is a walkway and a valid adjacent cell
+			else {
+				adj.add(board[i][right]);
+			}
+		}
+		
+		return adj;
 
 	}
 
