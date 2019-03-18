@@ -13,6 +13,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import clueGame.BadConfigFormatException;
 import clueGame.Board;
 import clueGame.BoardCell;
 import clueGame.DoorDirection;
@@ -27,7 +28,7 @@ public class GameBoardConfigTests {
 	private static Board board;
 
 	@BeforeClass
-	public static void setUp() {
+	public static void setUp() throws BadConfigFormatException {
 		board = Board.getInstance();
 
 		//using our teams files

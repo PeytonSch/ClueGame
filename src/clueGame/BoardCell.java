@@ -42,7 +42,7 @@ public class BoardCell {
 	}
 	
 	public boolean isRoom() {
-		return (roomLetter != 'W');
+		return (roomLetter != 'W' && dir ==  DoorDirection.NONE);
 	}
 
 	public DoorDirection getDoorDirection() {
