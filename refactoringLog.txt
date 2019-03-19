@@ -1,3 +1,21 @@
+commit 03af25dc1824da8f8bd55f82ab402349fdcd2715
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Mon Mar 18 21:45:49 2019 -0600
+
+    Refactoring: Moved member functions of Board to be grouped with getters and setters together to make more readable.
+
+commit 9bc67ab075a0abd149184e94670d1933a3be0f3c
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Mon Mar 18 21:44:42 2019 -0600
+
+    Refactoring: cleaned up spacing
+
+commit e0cbe85e4f5e5d921a48b1845b63f3a9dd1efc88
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Mon Mar 18 21:43:24 2019 -0600
+
+    Refactoring: More comments added in board.java where needed
+
 commit 6b815c8ee7ae400726751412e74d2cf9c992e9af
 Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
 Date:   Mon Mar 18 21:33:47 2019 -0600
