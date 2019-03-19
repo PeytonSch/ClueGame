@@ -95,7 +95,7 @@ public class Board {
 				legend.put(key, name);
 
 			}
-			
+
 		}
 		catch (FileNotFoundException e) {
 			e.getMessage();
@@ -103,7 +103,7 @@ public class Board {
 		finally {
 			in.close();
 		}
-		
+
 	}
 
 	/**
@@ -200,7 +200,7 @@ public class Board {
 
 				// if cell is in a room and not a door, add empty adjacent matrix, showing no moves
 				if (board[i][j].isRoom()) {
-					
+
 					// create empty set
 					HashSet<BoardCell> adj = new HashSet<BoardCell>();
 					//add to adjMtx map <BoardCell, Set<BoardCell>>
@@ -209,23 +209,23 @@ public class Board {
 
 				// if doorway, add cell in direction and break
 				else if (board[i][j].isDoorway()) {
-					
+
 					//add to adjMtx map <BoardCell, Set<BoardCell>>
 					adjMtx.put(board[i][j], doorAdjacents(i,j));
 				}
-				
+
 				// if walkway, test surrounding cells thru walkwayAdjacents
 				else if (board[i][j].isWalkway()) {
-					
+
 					//add to adjMtx map <BoardCell, Set<BoardCell>>
 					adjMtx.put(board[i][j], walkwayAdjacents(i,j));
 				}
-				
+
 				// if not a walkway, door, or room, the cell is not correctly formatted
 				else {
 					String msg = "Config Error: Cell (" + i + "," + j + ") not a Room, Door, or Walkway.";
 					throw new BadConfigFormatException(msg);
-					
+
 				}
 
 
@@ -233,19 +233,19 @@ public class Board {
 		}
 
 	}
-	
+
 	public Set<BoardCell> doorAdjacents(int i, int j){
-		
+
 		// create surrounding indices for easy switches
 		// also helps read code and get meaning
 		int above = i-1;
 		int below = i+1;
 		int left = j-1;
 		int right = j+1;
-		
+
 		// initialize HashSet for adjacent BoardCells
 		HashSet<BoardCell> adj = new HashSet<BoardCell>();
-		
+
 		// use a switch with DoorDirection enum to know which way we can exit
 		switch (board[i][j].getDoorDirection()) {
 		case RIGHT:
@@ -262,27 +262,26 @@ public class Board {
 			break;
 		default:
 			break;
-		}
-		
+		}		
 		// return cell as a set for adjMap purposes
 		return adj;
 	}
-	
+
 	public Set<BoardCell> walkwayAdjacents(int i, int j){
-		
+
 		// create surrounding indices for easy switches
 		// also helps read code and get meaning
 		int above = i-1;
 		int below = i+1;
 		int left = j-1;
 		int right = j+1;
-		
+
 		// initialize HashSet for adjacent BoardCells
 		HashSet<BoardCell> adj = new HashSet<BoardCell>();
-		
+
 		// confirm cell is on the board (greater or equal to index 0)
 		if (above >= 0) {
-			
+
 			// check if it's a door or a room, and, if door, faces the right direction
 			if (board[above][j].isDoorway() || board[above][j].isRoom()) {
 				if (board[above][j].getDoorDirection() == DoorDirection.DOWN) {
@@ -296,7 +295,7 @@ public class Board {
 		}
 		// confirm cell is on the board (less than length index board.length)
 		if (below < numRows) {
-			
+
 			// check if it's a door or a room, and, if door, faces the right direction
 			if (board[below][j].isDoorway() || board[below][j].isRoom()) {
 				if (board[below][j].getDoorDirection() == DoorDirection.UP) {
@@ -310,7 +309,7 @@ public class Board {
 		}
 		// confirm cell is on the board (greater or equal to index 0)
 		if (left >= 0) {
-			
+
 			// check if it's a door or a room, and, if door, faces the right direction
 			if (board[i][left].isDoorway() || board[i][left].isRoom()) {
 				if (board[i][left].getDoorDirection() == DoorDirection.RIGHT) {
@@ -324,7 +323,7 @@ public class Board {
 		}
 		// confirm cell is on the board (less than length index board.length)
 		if (right < numColumns) {
-			
+
 			// check if it's a door or a room, and, if door, faces the right direction
 			if (board[i][right].isDoorway() || board[i][right].isRoom()) {
 				if (board[i][right].getDoorDirection() == DoorDirection.LEFT) {
@@ -336,7 +335,7 @@ public class Board {
 				adj.add(board[i][right]);
 			}
 		}
-		
+
 		return adj;
 
 	}
@@ -358,7 +357,7 @@ public class Board {
 		//call recursive function to find all targets
 		findTargets(startCell, pathLength);
 	}
-	
+
 	public void calcTargets(int i, int j, int pathLength) {
 		BoardCell cell = board[i][j];
 		calcTargets(cell, pathLength);
@@ -374,7 +373,7 @@ public class Board {
 
 				//add adjCell to visited list
 				visited.add(cell);
-				
+
 				//if doorway with moves remaining
 				if (cell.isDoorway()) {
 					targets.add(cell);
