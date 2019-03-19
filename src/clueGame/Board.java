@@ -20,7 +20,7 @@ public class Board {
 
 	private int numRows;
 	private int numColumns;
-	public static final int MAX_BOARD_SIZE = 23;
+	public static final int MAX_BOARD_SIZE = 50;
 	private static Board instance = new Board();
 
 	private BoardCell[][] board;
@@ -190,7 +190,7 @@ public class Board {
 	private void calcAdjacencies() throws BadConfigFormatException {
 		// add cells to map as keys and add adjacent values if within bounds
 		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < board[i].length; j++) {
+			for (int j = 0; j < numColumns; j++) {
 
 				// if cell is in a room and not a door, add empty adjacent matrix, showing no moves
 				if (board[i][j].isRoom()) {
@@ -317,7 +317,7 @@ public class Board {
 			}
 		}
 		// confirm cell is on the board (less than length index board.length)
-		if (right < board[i].length) {
+		if (right < numColumns) {
 			
 			// check if it's a door or a room, and, if door, faces the right direction
 			if (board[i][right].isDoorway() || board[i][right].isRoom()) {
