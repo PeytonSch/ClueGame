@@ -176,6 +176,7 @@ public class Board {
 			}
 			//set numRows
 			numRows = rowCount;
+			
 			in.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("Load Board Config File Not Found");
