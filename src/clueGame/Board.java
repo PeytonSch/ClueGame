@@ -392,6 +392,10 @@ public class Board {
 	public Set<BoardCell> getAdjList(BoardCell cell) {
 		return adjMtx.get(cell);
 	}
+	public Set<BoardCell> getAdjList(int i, int j) {
+		BoardCell cell = board[i][j];
+		return adjMtx.get(cell);
+	}
 
 	/**
 	 * returns the set of target cells formed from calcTargets that we can move to
