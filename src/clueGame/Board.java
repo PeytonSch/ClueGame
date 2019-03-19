@@ -40,10 +40,6 @@ public class Board {
 		legend = new HashMap<Character, String>();
 	}
 
-	public static Board getInstance() {
-		return instance;
-	}
-
 	/**
 	 * Sets up configurations and catches errors doing so
 	 * calculates room adj
@@ -392,6 +388,10 @@ public class Board {
 				visited.remove(cell);
 			}
 		}
+	}
+
+	public static Board getInstance() {
+		return instance;
 	}
 
 	/**
