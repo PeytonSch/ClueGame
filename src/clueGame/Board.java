@@ -352,6 +352,11 @@ public class Board {
 		//call recursive function to find all targets
 		findTargets(startCell, pathLength);
 	}
+	
+	public void calcTargets(int i, int j, int pathLength) {
+		BoardCell cell = board[i][j];
+		calcTargets(cell, pathLength);
+	}
 
 	public void findTargets(BoardCell startCell, int movesLeft) {
 		//for each adjCell in adjacentCells
