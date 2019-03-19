@@ -72,9 +72,10 @@ public class Board {
 	 */
 	public void loadRoomConfig() throws BadConfigFormatException{
 		//take legend.txt and put into legend
+		Scanner in = null;
 		try {
 			FileReader legendFile = new FileReader(roomConfigFile);
-			Scanner in = new Scanner(legendFile);
+			in = new Scanner(legendFile);
 
 			//read in file
 			while(in.hasNext()) {
@@ -94,10 +95,13 @@ public class Board {
 				legend.put(key, name);
 
 			}
-			in.close();
+			
 		}
 		catch (FileNotFoundException e) {
 			e.getMessage();
+		}
+		finally {
+			in.close();
 		}
 		
 	}
@@ -108,12 +112,12 @@ public class Board {
 	 * @throws BadConfigFormatException
 	 */
 	public void loadBoardConfig() throws BadConfigFormatException {
-
+		Scanner in = null;
 		//Read in csv file one letter at a time,
 		try {
 			FileReader boardConfigInputFile = new FileReader(boardConfigFile);
 
-			Scanner in = new Scanner(boardConfigInputFile);
+			in = new Scanner(boardConfigInputFile);
 			int rowCount = 0;
 			int rowSize = 0;
 
@@ -176,11 +180,12 @@ public class Board {
 			}
 			//set numRows
 			numRows = rowCount;
-			
-			in.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("Load Board Config File Not Found");
 			e.getMessage();
+		}
+		finally {
+			in.close();
 		}
 	}
 
