@@ -1,0 +1,395 @@
+commit 6b815c8ee7ae400726751412e74d2cf9c992e9af
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Mon Mar 18 21:33:47 2019 -0600
+
+    added finally clauses to file scanner closing to ensure they are closed
+
+commit a6571bd1284b1fad60b3d1d87a7a71f3e8364327
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Mon Mar 18 21:23:18 2019 -0600
+
+    Closed file scanners
+
+commit 0b6daee9791ad83b9053add7f788864d593571f1
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Mon Mar 18 21:18:23 2019 -0600
+
+    Changed conditions to be in terms of numCols so that it always works no matter the board size
+
+commit 70a81525c6a8596c619eb0eb9e0bc388855973c3
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Mon Mar 18 21:16:12 2019 -0600
+
+    Changed things to be in terms of numRows rather than board.length which doesnt work as it is based off the amount of memory we allocate not the actual board size.
+
+commit e1a4f607a929808238070285c0d02e153d114815
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Mon Mar 18 18:10:21 2019 -0600
+
+    Added calcTargets(int,int,int) in addition to calcTargets(BoardCell,int) to support both calls
+
+commit 4ddca17697581ed9969d63d7cf33d225dad023ec
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Mon Mar 18 18:07:39 2019 -0600
+
+    Added getAdjList(int,int)in addition to getAdjList(BoardCell) to support both calls
+
+commit 787c9ca2b81ae732d9e2f2dcb28154807e24a2d4
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Mon Mar 18 17:59:18 2019 -0600
+
+    Added individual method for doorway and walkway adjacencies to clean up code, comments explaining code
+
+commit 0a4e766b2dfdeb18cbddba72f5d65082eef39a1c
+Merge: 6c70c25 fcfd982
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Mon Mar 18 16:56:59 2019 -0600
+
+    Fixed merge conflict on calcAdjacencies()
+
+commit 6c70c25453c17057ac4f0f14f6fe571912c791a6
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Mon Mar 18 16:51:38 2019 -0600
+
+    Cleaned up calcAdjacencies()
+
+commit fcfd9829aadf9955d0db230bc278290c38b4c878
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Fri Mar 15 20:46:09 2019 -0600
+
+    Added Authors
+
+commit ca38207f235c22fea9221d6644f81d44968eaf49
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Fri Mar 15 20:31:28 2019 -0600
+
+    Changed Colors and added Clue GameLayoutTestLocations
+
+commit f127d115c81c78a7170635cb80a1ccf72f42a183
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Fri Mar 15 20:16:35 2019 -0600
+
+    All tests pass
+
+commit 825e3cbd9766d9554cd6ada3339f05564169a350
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Fri Mar 15 19:22:50 2019 -0600
+
+    Refactored, put things in terms of rows and cols so that it works for all board sizes and is not dependant on MAX_BOARD_SIZE
+
+commit 55d7f85946d56fe04a6474d4808329aba9a2421a
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Fri Mar 15 18:50:07 2019 -0600
+
+    Update files
+
+commit 3311b4b2949498ab04fd7fb0406a21d5483a6ce3
+Merge: b96de39 33e8d6b
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Thu Mar 14 11:53:33 2019 -0600
+
+    Merge branch 'master' of https://github.com/PeytonSch/ClueGame
+
+commit b96de3904c8e86a188c4aa2f3352574e3c330555
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Thu Mar 14 11:53:17 2019 -0600
+
+    Added isWalkway() and isRoom()
+
+commit 33e8d6bc941dc09c3833c4508b0558fa91ddbcfe
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Thu Mar 14 09:28:33 2019 -0600
+
+    Closed file scanners
+
+commit bda8f6cc28664ec77103d942b698e504a781e24d
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Wed Mar 13 16:56:07 2019 -0600
+
+    All tests passing but TargetsIntoRoom and TargetsIntoRoomShortcut cause I dont know what these are asking
+
+commit d06800c739a9f78173362b8bc8686db6c37b7680
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Wed Mar 13 13:50:20 2019 -0600
+
+    Completed all adjacency tests for our board
+
+commit f041cdaefec4a40b3ccdb6ae09f1252ddc29491a
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Wed Mar 13 13:17:42 2019 -0600
+
+    debugging calcAdjancencies
+
+commit e6f44bc38cb83af9db21da493f39f6fdd1289e35
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Wed Mar 13 12:47:05 2019 -0600
+
+    Updating adjancencies to exlude rooms and wrong direction doorways
+
+commit bda1ce7092748f554d2d2ca802938fe67e69891d
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Wed Mar 13 10:52:55 2019 -0600
+
+    Added CTest_BoardAdjTargetTests.java for C14A-III
+
+commit 116f73a1e1a9d754eb7521aac140383d3357f8f5
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Wed Mar 6 21:42:56 2019 -0700
+
+    Update Board.java
+
+commit c6f32c5a7f9296f3aac4dbca97495e457508d2bc
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Wed Mar 6 21:41:39 2019 -0700
+
+    added printToLog functionality to BadConfigFormatException
+
+commit 4cb8858cdd95d15543217fe92f48895967cde9af
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Wed Mar 6 21:36:57 2019 -0700
+
+    All tests pass
+
+commit 1e00ca362635e59049fac5db17e45f54ce7809f4
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Wed Mar 6 21:30:51 2019 -0700
+
+    Passes Dimension tests
+
+commit 78bcc223f2c13c4e3c6c4960344e78d5207e95dc
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Wed Mar 6 20:09:00 2019 -0700
+
+    testNumDoorways now working
+
+commit 2cba8a01a579914b46e1b1d7841da84c1b0015ed
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Wed Mar 6 19:47:26 2019 -0700
+
+    Board Class: Setup room and board config, now passes CTest_ExceptionTests
+
+commit 21eac07c37b260e1a86e8de5ad08d5fda189f592
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Wed Mar 6 18:44:37 2019 -0700
+
+    booard.initialize() to catch errors
+
+commit e3b454e371ce3cc470c05a6aa26e3dc833b7f4cd
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Wed Mar 6 18:38:25 2019 -0700
+
+    Create CTest_ExceptionTests.java
+
+commit e12d25faaa2bee53e4f330486a95d8ae04a85429
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Wed Mar 6 18:13:43 2019 -0700
+
+    added names to files
+
+commit 9a4dcb95b7c0c1387b3b465e267a7ce27c8554f0
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Wed Mar 6 18:08:11 2019 -0700
+
+    wrote OurTests.txt
+
+commit c54c75e05d568ead63b5712392e8535927b3d4a3
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Wed Mar 6 18:01:43 2019 -0700
+
+    Create OurTests.txt
+
+commit d681229de80638c793b521de14617ef750c60bc5
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Wed Mar 6 17:57:52 2019 -0700
+
+    Finished GameBoardConfigTests, refactoring on Board class, addded color coded game board excel file for reference, created BadConfigFormatException class.
+
+commit 3275c9376ba66fb2209104089d8576985665462a
+Merge: b305089 ea534f8
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Wed Mar 6 17:15:40 2019 -0700
+
+    Merge branch 'master' of https://github.com/PeytonSch/ClueGame
+
+commit b305089e9f47bcc7b8ccccaece7b10dec9aeda67
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Wed Mar 6 17:15:37 2019 -0700
+
+    Update .gitignore
+
+commit ea534f80c401942b574a9adf34701a987b04c8f3
+Author: Peyton Scherschel <peytonscherschel@mines.edu>
+Date:   Tue Mar 5 12:15:14 2019 -0700
+
+    added testRoomInitials
+
+commit 09d1816bf5e5179c171ccd7f923bf23388e680de
+Author: Peyton Scherschel <peytonscherschel@mines.edu>
+Date:   Tue Mar 5 12:09:52 2019 -0700
+
+    added testNumberOfDoorways tests
+
+commit fb55c51324455627a7fcbea60f7b3fd268d88fb5
+Author: Peyton Scherschel <peytonscherschel@mines.edu>
+Date:   Tue Mar 5 12:08:34 2019 -0700
+
+    finished FourDoorDirections tests
+
+commit 9abe7f4bd3e2715f5854dabcdf31e4ff35eefd99
+Merge: c0e38b4 94c7e16
+Author: Peyton Scherschel <peytonscherschel@mines.edu>
+Date:   Tue Mar 5 12:00:37 2019 -0700
+
+    Merge branch 'master' of https://github.com/PeytonSch/ClueGame
+
+commit 94c7e167ae66525acfbbd289ec5ea045a69515a1
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Tue Mar 5 12:00:02 2019 -0700
+
+    Added DoorDirection enum
+
+commit c0e38b4ce86abdb2d63f26c71bee6be783d1b143
+Author: Peyton Scherschel <peytonscherschel@mines.edu>
+Date:   Tue Mar 5 11:59:44 2019 -0700
+
+    Started FourDoorDirections tests
+
+commit f816f90e7e148d139e8fb8a70746cf7effbe1800
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Tue Mar 5 11:58:46 2019 -0700
+
+    All getters and setters added. Board and BoardCell error free
+
+commit 8e9ae8028d75483bc19a864e292d07eb5a96ce16
+Author: Peyton Scherschel <peytonscherschel@mines.edu>
+Date:   Tue Mar 5 11:47:07 2019 -0700
+
+    Added testRooms tests
+
+commit 673eccb4820debf411ee5077475cb3076effcf85
+Author: Peyton Scherschel <peytonscherschel@mines.edu>
+Date:   Tue Mar 5 11:39:50 2019 -0700
+
+    finished @BeforeClass for GameBoardConfigTests and added testBoardDimensions
+
+commit 0fb665f97e763f4f780e6b30b04b2e0304c88368
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Tue Mar 5 11:37:50 2019 -0700
+
+    Board added getters and setters
+
+commit b72d315077b71dec2b65d07a1b1bf3dceef32ba5
+Merge: 92a9877 880b9e3
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Tue Mar 5 11:35:17 2019 -0700
+
+    Merge branch 'master' of https://github.com/PeytonSch/ClueGame
+
+commit 92a9877c274450bf696984afcfc1604a7234ec41
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Tue Mar 5 11:35:09 2019 -0700
+
+    Board.java skeleton class complete
+
+commit 880b9e3161c5ffe7fa956151e5cf8f2ebb67da59
+Author: Peyton Scherschel <peytonscherschel@mines.edu>
+Date:   Tue Mar 5 11:32:36 2019 -0700
+
+    tracked files
+
+commit 695c82cceac60cdc1c3a5b216bc1a674e6dd75ab
+Merge: 912d78c 69377a9
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Tue Mar 5 11:29:42 2019 -0700
+
+    Merge branch 'master' of https://github.com/PeytonSch/ClueGame
+
+commit 912d78cb2f8a69040576cec6b15f7ef4104ae1b0
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Tue Mar 5 11:29:25 2019 -0700
+
+    Added Board.java and ClueRooms.txt
+
+commit 69377a9bbd9334a5d12b1fc3e4c13047777ddae0
+Author: Peyton Scherschel <peytonscherschel@mines.edu>
+Date:   Tue Mar 5 11:27:35 2019 -0700
+
+    Started creating GameBoardConfigTests
+
+commit 98c27b575bdc3bbe282da456068c339837cf5a87
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Tue Mar 5 11:15:23 2019 -0700
+
+    added C13 files
+
+commit 248f74389ef2f1e74159360797645b49e64b2fd6
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Mon Mar 4 15:37:02 2019 -0700
+
+    wrote calcTargets and findTargets --now passes all tests
+
+commit e667833a284d0747dcda51cf130152f9851e7df5
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Mon Mar 4 11:03:42 2019 -0700
+
+    Passes all adjacency tests, updated targetTest0_0_3 to include cell(0,1)
+
+commit a5afd201dee3b5f699345b6e640231d7748b1846
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Mon Mar 4 10:52:32 2019 -0700
+
+    Finished calcAdjancies(),getAdjList(), and getCell()
+
+commit 4661f868f1a5f1f9a4f80544fbd2b33ecfbb277e
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Sat Mar 2 17:01:48 2019 -0700
+
+    Part 1 Failing Tests Finished -- Added target tests for 0,2,2 and 1,2,3.
+
+commit b2f287e57ce8ca442f2f7887ae8bc0028b0b8ba5
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Sat Mar 2 16:40:09 2019 -0700
+
+    test targets for 2,2,1 and 0,2,2
+
+commit f8d4616308f7e5c8dc225809e490ee6c3ea35fef
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Sat Mar 2 16:33:41 2019 -0700
+
+    Added testTargets for 0,0,3 and 3,3,2
+
+commit 007857ef01243fa9493fad23542d33d9f47cebe7
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Sat Mar 2 16:17:38 2019 -0700
+
+    Added tests for secondFromLastColMiddle
+
+commit 6059cdf0b55754cd3dfa43668b6492bd17210b22
+Author: James Hawn <jameshawn@mymail.mines.edu>
+Date:   Thu Feb 28 12:15:51 2019 -0700
+
+    added secondColMiddle test
+
+commit 021e2caf89cee9743b535967f648c9f41b92dad1
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Thu Feb 28 12:13:56 2019 -0700
+
+    Added leftEdgeTests
+
+commit 58e66d6241f88d22287636aedb6449ecb530da7b
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Thu Feb 28 12:12:28 2019 -0700
+
+    Added rightEdge Tests
+
+commit 2765c63b265fbbf3aca9ea4f528e3127c5927fdc
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Thu Feb 28 12:09:09 2019 -0700
+
+    Added bottomRightCorner tests
+
+commit 34123dd34c926fd14e02df213c4dd2fdafd03103
+Author: PeytonSch <43527622+PeytonSch@users.noreply.github.com>
+Date:   Thu Feb 28 11:59:50 2019 -0700
+
+    Initial commit
