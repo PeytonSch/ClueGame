@@ -210,12 +210,13 @@ public class Board {
 				String type = playerFromFile.get(2);
 				int startX = Integer.parseInt(playerFromFile.get(3));
 				int startY = Integer.parseInt(playerFromFile.get(4));
-
+				BoardCell cell = board[startX][startY];
+				
 				//throw exception if key name or card type isn't what we expect
 				if(!type.equals("Other") && !type.equals("Card")) {
 					throw new BadConfigFormatException();
 				}
-				Player p = new Player(name, color, type, startX, startY);
+				Player p = new Player(name, color, type, cell);
 				players.add(p);
 
 			}
