@@ -1,2 +1,2 @@
 Name Color Type StartX StartY
-Peyton Green Human 5 5
+Peyton, Green, Human, 5, 5
