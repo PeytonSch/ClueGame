@@ -5,8 +5,10 @@
  */
 package clueGame;
 
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,6 +31,7 @@ public class Board {
 	private Set<BoardCell> targets;
 	private String boardConfigFile;
 	private String roomConfigFile;
+	private String playerConfigFile;
 	private Set<BoardCell> visited;
 	private Set<Player> players;
 
@@ -39,6 +42,7 @@ public class Board {
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
 		legend = new HashMap<Character, String>();
+		players = new HashSet<Player>();
 	}
 
 	/**
@@ -184,6 +188,56 @@ public class Board {
 		finally {
 			in.close();
 		}
+	}
+	
+	public void loadPlayerConfig() throws BadConfigFormatException {
+		//take legend.txt and put into legend
+		Scanner in = null;
+		try {
+			FileReader playerFile = new FileReader(playerConfigFile);
+			in = new Scanner(playerFile);
+
+			//read in file
+			while(in.hasNext()) {
+				String line = in.nextLine();
+
+				List<String> playerFromFile = Arrays.asList(line.split(", "));
+
+				//test key, name, card type
+				String name = playerFromFile.get(0);
+				Color color = convertColor(playerFromFile.get(1));
+				String type = playerFromFile.get(2);
+				int startX = Integer.parseInt(playerFromFile.get(3));
+				int startY = Integer.parseInt(playerFromFile.get(4));
+
+				//throw exception if key name or card type isn't what we expect
+				if(!type.equals("Other") && !type.equals("Card")) {
+					throw new BadConfigFormatException();
+				}
+				Player p = new Player(name, color, type, startX, startY);
+				players.add(p);
+
+			}
+
+		}
+		catch (FileNotFoundException e) {
+			e.getMessage();
+		}
+		finally {
+			in.close();
+		}
+	}
+
+	private Color convertColor(String string) {
+		Color color; 
+		try {
+			// We can use reflection to convert the string to a color
+			Field field = Class.forName("java.awt.Color").getField(string.trim()); 
+			color = (Color)field.get(null);
+		} catch (Exception e) {
+			color = null; // Not defined
+		}
+		return color;
 	}
 
 	/**
@@ -454,6 +508,10 @@ public class Board {
 
 	public void setRoomConfigFile(String roomConfigFile) {
 		this.roomConfigFile = roomConfigFile;
+	}
+	
+	public void setPlayerFile(String playerConfigFile) {
+		this.playerConfigFile = playerConfigFile;
 	}
 
 	public static int getMaxBoardSize() {
