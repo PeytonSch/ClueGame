@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,7 +34,7 @@ public class Board {
 	private String roomConfigFile;
 	private String playerConfigFile;
 	private Set<BoardCell> visited;
-	private Set<Player> players;
+	private ArrayList<Player> players;
 
 	private Board() {
 		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
@@ -42,7 +43,7 @@ public class Board {
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
 		legend = new HashMap<Character, String>();
-		players = new HashSet<Player>();
+		players = new ArrayList<Player>();
 	}
 
 	/**
@@ -522,7 +523,7 @@ public class Board {
 		return board[row][col];
 	}
 	
-	public Set<Player> getPlayers() {
+	public ArrayList<Player> getPlayers() {
 		return players;
 	}
 	
