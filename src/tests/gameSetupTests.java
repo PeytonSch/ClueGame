@@ -2,17 +2,24 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.Set;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class gameSetupTests {
+import clueGame.Board;
 
+public class gameSetupTests {
+private static Board board;
 	
 	//do once before running any tests
 	@BeforeClass
 	public static void setUp() {
-		
+		board = Board.getInstance();
+		private Set<Player> players = board.getPlayers();
+		board.setPlayerFile("PlayersConfig.txt");
+		board.initialize();
 	}
 	//do before each test
 	@Before
