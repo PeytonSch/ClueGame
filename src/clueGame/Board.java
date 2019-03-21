@@ -30,6 +30,7 @@ public class Board {
 	private String boardConfigFile;
 	private String roomConfigFile;
 	private Set<BoardCell> visited;
+	private Set<Player> players;
 
 	private Board() {
 		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
@@ -462,8 +463,9 @@ public class Board {
 	public BoardCell getCellAt(int row, int col) {
 		return board[row][col];
 	}
-
-
-
-
+	
+	public Set<Player> getPlayers() {
+		return players;
+	}
+	
 }
