@@ -131,4 +131,32 @@ public class gameSetupTests {
 		assertTrue(containsNellie);
 		assertTrue(containsWrench);
 	}
+	
+	@Test
+	public void testDealCards() {
+		ArrayList<Card> deck = board.getCards();
+
+		//deck should be empty after it is dealt
+		assertEquals(0, deck.size());
+		
+		
+		ArrayList<Player> players = board.getPlayers();
+		
+		for (Player p : players) {
+			System.out.println(p.getHand().size());
+		}
+		
+		// Test player hands
+//		boolean notEnoughCards = false;
+//		
+//		Set<String> playerKeys = board.getPlayerMap().keySet();
+//		for (String key : playerKeys) {
+//			Player player = board.getPlayerMap().get(key);
+//			if ( ( (TOTAL_CARDS - 3) / NUM_PEOPLE) > player.getHand().size() ) {
+//				notEnoughCards = true;
+//			}
+//		}
+//		
+//		assertFalse(notEnoughCards);
+	}
 }

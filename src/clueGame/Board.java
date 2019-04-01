@@ -40,7 +40,7 @@ public class Board {
 	private Set<Card> playerCards;
 	private Set<Card> weaponCards;
 	private Set<Card> roomCards;
-	
+
 
 	private Board() {
 		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
@@ -54,7 +54,7 @@ public class Board {
 		weaponCards = new HashSet<Card>();
 		roomCards = new HashSet<Card>();
 		cardDeck = new ArrayList<Card>();
-		
+
 		//setting this file to a default for our board because some of the given tests do not specify a file
 		//and therefore do not run. We are not allowed to change the test they give us and if the graders use a 
 		//script with unchanged tests we still need this to run for the old test. Therefore I am just setting
@@ -90,11 +90,77 @@ public class Board {
 		} catch (BadConfigFormatException e) {
 			e.getMessage();
 		}
-		
+
 
 		//Calculates room adj
 		calcAdjacencies();
 		insertCardsIntoCardDeck();
+		dealCards();
+	}
+	
+	//gives cards to all players and assigns solution
+	public void dealCards() {
+
+		String roomCard = null;
+		String personCard = null;
+		String weaponCard = null;
+
+
+		boolean hasRoom = false;
+		boolean hasPerson = false;
+		boolean hasWeapon = false;
+
+		// 3 cards randomly to each player
+
+		//while solution is not complete
+		//pick a random card from the deck
+
+		while ( !hasRoom || !hasPerson || !hasWeapon ) {
+			Card next = cardDeck.get((int)(Math.random() * cardDeck.size()));
+
+			//assign solution based on card type for all
+			if (!hasRoom && next.getCardType() == CardType.ROOM) {
+				roomCard += next.getName();
+				cardDeck.remove(next);
+				hasRoom = true;
+			}
+			else if ( !hasPerson  && next.getCardType() == CardType.PERSON) {
+				personCard += next.getName();
+				cardDeck.remove(next);
+				hasPerson = true;
+			}
+			else if ( !hasWeapon && next.getCardType() == CardType.WEAPON) {
+				weaponCard += next.getName();
+				cardDeck.remove(next);
+				hasWeapon = true;
+			}
+		}
+		
+		//these variables hold the solution we picked
+		Card roomSolution = new Card(roomCard, CardType.ROOM);
+		Card personSolution = new Card(personCard, CardType.PERSON);
+		Card weaponSolution = new Card(weaponCard, CardType.WEAPON);
+
+		//setSolution(new Solution(roomSolution, personSolution, weaponSolution));
+		//move on to dealing deack if person, weapon and room are filled
+
+
+		// While deck is not empty, assign card at random to a player,
+		// move on to next one. Removes card after assignment
+
+//		while ( cardDeck.size() > 0 ) {
+//			// Random card
+//
+//
+//			// Random card to each person in cyclical order
+//			Set<String> playerKeys = players.keySet();
+//			for (String person : playerKeys) {
+//				Card random = deck.get((int)(Math.random() * cardDeck.size()));
+//				players.get(person).getHand().add(random);
+//				cardDeck.remove(random);
+//			}
+//		}
+
 	}
 
 	//add all cards into one deck
@@ -102,29 +168,29 @@ public class Board {
 		cardDeck.addAll(playerCards);
 		cardDeck.addAll(roomCards);
 		cardDeck.addAll(weaponCards);
-		
+
 	}
 
 	private void loadWeaponConfig() throws BadConfigFormatException{
 		Scanner in = null;
 		try {
 			FileReader weaponFile = new FileReader(weaponConfigFile);
-			
+
 			in = new Scanner(weaponFile);
-			
+
 			//Split based on commas with limit equal to 2 commas
 			while(in.hasNextLine()){
 				String weapon = in.nextLine();
 				weaponCards.add(new Card(weapon, CardType.WEAPON));
 			}
-			
+
 		} catch (FileNotFoundException e) {
 			e.getMessage();
 		}
 		finally {
 			in.close();
 		}
-		
+
 	}
 
 	/**
@@ -253,7 +319,7 @@ public class Board {
 			in.close();
 		}
 	}
-	
+
 	public void loadPlayerConfig() throws BadConfigFormatException {
 		//take legend.txt and put into legend
 		Scanner in = null;
@@ -275,7 +341,7 @@ public class Board {
 				int startX = Integer.parseInt(playerFromFile.get(3));
 				int startY = Integer.parseInt(playerFromFile.get(4));
 				BoardCell cell = board[startX][startY];
-				
+
 				//throw exception if key name or card type isn't what we expect
 				if(!type.equals("Human") && !type.equals("CPU")) {
 					throw new BadConfigFormatException();
@@ -573,7 +639,7 @@ public class Board {
 	public void setConfigFiles(String boardConfigString, String roomConfigString) {
 		setBoardConfigFile(boardConfigString);
 		setRoomConfigFile(roomConfigString);
-		
+
 	}
 	public void setBoardConfigFile(String boardConfigFile) {
 		this.boardConfigFile = boardConfigFile;
@@ -583,7 +649,7 @@ public class Board {
 	public void setRoomConfigFile(String roomConfigFile) {
 		this.roomConfigFile = roomConfigFile;
 	}
-	
+
 	public void setPlayerFile(String playerConfigFile) {
 		this.playerConfigFile = playerConfigFile;
 	}
@@ -598,14 +664,14 @@ public class Board {
 	public BoardCell getCellAt(int row, int col) {
 		return board[row][col];
 	}
-	
+
 	public ArrayList<Player> getPlayers() {
 		return players;
 	}
 
 	public ArrayList<Card> getCards() {
-		
+
 		return cardDeck;
 	}
-	
+
 }
