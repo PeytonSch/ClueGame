@@ -35,6 +35,7 @@ public class Board {
 	private String playerConfigFile;
 	private Set<BoardCell> visited;
 	private ArrayList<Player> players;
+	private ArrayList<Card> cardDeck;
 
 	private Board() {
 		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
@@ -545,6 +546,11 @@ public class Board {
 	
 	public ArrayList<Player> getPlayers() {
 		return players;
+	}
+
+	public ArrayList<Card> getCards() {
+		
+		return cardDeck;
 	}
 	
 }

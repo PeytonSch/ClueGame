@@ -12,31 +12,33 @@ import org.junit.Test;
 
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
+import clueGame.Card;
+import clueGame.CardType;
 import clueGame.Player;
 
 public class gameSetupTests {
-private static Board board;
-	
+	private static Board board;
+
 	//do once before running any tests
 	@BeforeClass
 	public static void setUp() throws BadConfigFormatException {
 		board = Board.getInstance();
-		
+
 		board.setAllConfigFiles("ClueGameLayout.csv", "ClueRooms.txt", "PlayerConfig.txt");
 		board.initialize();
 	}
 	//do before each test
 	@Before
 	public void reset() {
-		
+
 	}
-	
-	
+
+
 	//test loading the people 
 	@Test
 	public void testPlayersLoaded() {
 		ArrayList<Player> players = board.getPlayers();
-		
+
 		Player humanPlayer = players.get(1);
 		//test that the correct number of players was loaded
 		assertTrue(players.size() == 6);
@@ -44,14 +46,14 @@ private static Board board;
 		 * The following test will test different players for correct 
 		 * Name, Color, Human/Computer, Start Location
 		 */
-		
-		
+
+
 		//test the human player
 		assertTrue(humanPlayer.getColorString().equals("GREEN"));
 		assertTrue(humanPlayer.getName().equals("Beatrix Bourbon"));
 		assertTrue(humanPlayer.getType().equals("Human"));
 		assertTrue(humanPlayer.getStartLocation() == board.getCellAt(5, 5));
-		
+
 		//test the first player in file 
 		assertTrue(players.get(0).getColorString().equals("RED"));
 		assertTrue(players.get(0).getName().equals("Voodoo Mama JuuJuu"));
@@ -68,9 +70,44 @@ private static Board board;
 		assertTrue(players.get(players.size()-1).getType().equals("CPU"));
 		assertTrue(players.get(players.size()-1).getStartLocation() == board.getCellAt(13, 7));
 	}
-	
-	
-	
-	
 
+	//test the creation of card deck 
+	@Test
+	public void testDeckLoaded() {
+		//Take all the cards and place into one hashset
+
+		boolean containsRoom = false;
+		boolean containsPerson = false;
+		boolean containsWeapon = false;
+
+		int numRooms = 0;
+		int numPeople = 0;
+		int numWeapons = 0;
+
+		for ( Card card : board.getCards() ) {
+			if ( card.getCardType() == CardType.ROOM ) {
+				numRooms++;
+				if ( card.getName().equals("Ballroom") ) {
+					containsRoom = true;
+				}
+			}
+			else if ( card.getCardType() == CardType.PERSON ) {
+				numPeople++;
+				if ( card.getName().equals("Naughty Nellie Nutmeg") ) {
+					containsPerson = true;
+				}
+			}
+			else if ( card.getCardType() == CardType.WEAPON ) {
+				numWeapons++;
+				if (card.getName().equals("Wrench") ) {
+					containsWeapon = true;
+				}
+			}
+		}
+
+
+
+
+
+	}
 }
