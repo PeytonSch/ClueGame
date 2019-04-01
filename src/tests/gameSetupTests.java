@@ -139,24 +139,22 @@ public class gameSetupTests {
 		//deck should be empty after it is dealt
 		assertEquals(0, deck.size());
 		
+		boolean handSizeNotWithinOneCardForPlayer = false;
 		
 		ArrayList<Player> players = board.getPlayers();
 		
+		System.out.println(board.getAllCards().size());
+		
+		// Test player hands - players should have close to same number of cards
 		for (Player p : players) {
-			System.out.println(p.getHand().size());
+			if(p.getHand().size() < board.getAllCards().size()-4 || p.getHand().size() > board.getAllCards().size()-2 ) {
+				handSizeNotWithinOneCardForPlayer = true;
+			}
 		}
 		
-		// Test player hands
-//		boolean notEnoughCards = false;
-//		
-//		Set<String> playerKeys = board.getPlayerMap().keySet();
-//		for (String key : playerKeys) {
-//			Player player = board.getPlayerMap().get(key);
-//			if ( ( (TOTAL_CARDS - 3) / NUM_PEOPLE) > player.getHand().size() ) {
-//				notEnoughCards = true;
-//			}
-//		}
-//		
-//		assertFalse(notEnoughCards);
+		
+		
+		
+
 	}
 }
