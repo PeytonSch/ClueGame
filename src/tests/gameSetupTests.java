@@ -22,7 +22,7 @@ private static Board board;
 	public static void setUp() throws BadConfigFormatException {
 		board = Board.getInstance();
 		
-		board.setPlayerFile("PlayersConfig.txt");
+		board.setAllConfigFiles("ClueGameLayout.csv", "ClueRooms.txt", "PlayersConfig.txt");
 		board.initialize();
 	}
 	//do before each test

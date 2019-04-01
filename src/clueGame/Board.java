@@ -499,9 +499,15 @@ public class Board {
 
 
 
-	public void setConfigFiles(String string, String string2) {
-		setBoardConfigFile(string);
-		setRoomConfigFile(string2);
+	public void setAllConfigFiles(String boardConfigString, String roomConfigString, String playerConfig) {
+		setBoardConfigFile(boardConfigString);
+		setRoomConfigFile(roomConfigString);
+		setPlayerFile(playerConfig);
+	}
+	public void setConfigFiles(String boardConfigString, String roomConfigString) {
+		setBoardConfigFile(boardConfigString);
+		setRoomConfigFile(roomConfigString);
+		
 	}
 	public void setBoardConfigFile(String boardConfigFile) {
 		this.boardConfigFile = boardConfigFile;
