@@ -68,7 +68,7 @@ public class Board {
 		//a default file so that the initialize() method will run correctly on older test written by the instructor.
 		//these will always be overwritten outside of instructor provided tests
 		playerConfigFile = "PlayerConfig.txt";
-		weaponConfigFile = "Weapons.txt";
+		weaponConfigFile = "WeaponsConfig.txt";
 	}
 
 	/**

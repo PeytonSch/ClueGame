@@ -32,18 +32,14 @@ public class gameSetupTests {
 	@BeforeClass
 	public static void setUp() throws BadConfigFormatException {
 
-
+		//set up the board and initialize everything with config files
 
 		board = Board.getInstance();
 
 		board.setAllConfigFiles("ClueGameLayout.csv", "ClueRooms.txt", "PlayerConfig.txt", "WeaponsConfig.txt");
 		board.initialize();
 	}
-	//do before each test
-	@Before
-	public void reset() {
 
-	}
 
 
 	//test loading the people 
@@ -90,15 +86,27 @@ public class gameSetupTests {
 	@Test
 	public void testDeckLoaded() {
 		//Take all the cards and place into one hashset
-
+		
+		/*
+		 * I have picked a couple of cards at random to make sure that our deck contains
+		 * the cards we want it to.
+		 */
 		boolean containsBathroom = false;
 		boolean containsNellie = false;
 		boolean containsWrench = false;
+		
+		/*
+		 * These variables will ensure we load the correct total number of cards from files
+		 */
 
 		int numRooms = 0;
 		int numPeople = 0;
 		int numWeapons = 0;
 
+		/*
+		 * Iterate through all the cards we have loaded looking for the rooms we are testing
+		 * and incrementing the card types to test
+		 */
 		for ( Card card : board.getAllCards() ) {
 			if ( card.getCardType() == CardType.ROOM ) {
 				numRooms++;
@@ -124,35 +132,44 @@ public class gameSetupTests {
 		assertEquals(NUM_ROOMS, numRooms);
 		assertEquals(NUM_PEOPLE, numPeople);
 		assertEquals(NUM_WEAPONS, numWeapons);
+		//make sure the total number of cards we loaded is correct
 		assertEquals(TOTAL_CARDS, board.getAllCards().size());
 
-		// Test for containment
+		// Test for the cards we know should be there
 		assertTrue(containsBathroom);
 		assertTrue(containsNellie);
 		assertTrue(containsWrench);
 	}
 	
+	//test that we dealt all cards correctly from the deck
 	@Test
 	public void testDealCards() {
+		//get cards returns the deck, which we should have allready delt so this should be empty
 		ArrayList<Card> deck = board.getCards();
 
 		//deck should be empty after it is dealt
 		assertEquals(0, deck.size());
 		
+		//if any of the players do not have a hand size within 1 of what is expected then this test will not pass
 		boolean handSizeNotWithinOneCardForPlayer = false;
 		
 		ArrayList<Player> players = board.getPlayers();
 		
-		System.out.println(board.getAllCards().size());
+		
 		
 		// Test player hands - players should have close to same number of cards
 		for (Player p : players) {
-			if(p.getHand().size() < board.getAllCards().size()-4 || p.getHand().size() > board.getAllCards().size()-2 ) {
+			/*
+			 * This condition essentially takes the total number of cards, divides it by the number of players, and then assumes that each player
+			 * should have this number of cards +- 1. This will work for all card deck sizes. We subtract 3 to account for the cards that are
+			 * contained within the solution. 
+			 */
+			if(p.getHand().size() < ((board.getAllCards().size()-3) / NUM_PEOPLE) -1 || p.getHand().size() > ((board.getAllCards().size()-3) / NUM_PEOPLE ) + 1)  {
 				handSizeNotWithinOneCardForPlayer = true;
 			}
 		}
 		
-		
+		assertFalse(handSizeNotWithinOneCardForPlayer);
 		
 		
 
