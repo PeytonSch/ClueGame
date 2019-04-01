@@ -1,15 +1,25 @@
 package clueGame;
 
 public class Card {
-
+	private String name;
+	private CardType type;
+	
+	
 	public CardType getCardType() {
-		// TODO Auto-generated method stub
-		return null;
+		return type;
 	}
 
-	public Object getName() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getName() {
+		return name;
+	}
+	
+	public Card(String name, CardType type) {
+		this.name = name;
+		this.type = type;
+	}
+	
+	public boolean equals(String name) {
+		return (this.name == name);
 	}
 
 }

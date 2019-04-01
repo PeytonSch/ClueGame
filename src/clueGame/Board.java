@@ -33,9 +33,14 @@ public class Board {
 	private String boardConfigFile;
 	private String roomConfigFile;
 	private String playerConfigFile;
+	private String weaponConfigFile;
 	private Set<BoardCell> visited;
 	private ArrayList<Player> players;
 	private ArrayList<Card> cardDeck;
+	private Set<Card> playerCards;
+	private Set<Card> weaponCards;
+	private Set<Card> roomCards;
+	
 
 	private Board() {
 		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
@@ -45,12 +50,18 @@ public class Board {
 		visited = new HashSet<BoardCell>();
 		legend = new HashMap<Character, String>();
 		players = new ArrayList<Player>();
+		playerCards = new HashSet<Card>();
+		weaponCards = new HashSet<Card>();
+		roomCards = new HashSet<Card>();
+		cardDeck = new ArrayList<Card>();
 		
 		//setting this file to a default for our board because some of the given tests do not specify a file
 		//and therefore do not run. We are not allowed to change the test they give us and if the graders use a 
 		//script with unchanged tests we still need this to run for the old test. Therefore I am just setting
-		//a default file so that the initialize() method will run correctly on older test written by the instructor
+		//a default file so that the initialize() method will run correctly on older test written by the instructor.
+		//these will always be overwritten outside of instructor provided tests
 		playerConfigFile = "PlayerConfig.txt";
+		weaponConfigFile = "Weapons.txt";
 	}
 
 	/**
@@ -74,10 +85,46 @@ public class Board {
 		} catch (BadConfigFormatException e) {
 			e.getMessage();
 		}
+		try {
+			loadWeaponConfig();
+		} catch (BadConfigFormatException e) {
+			e.getMessage();
+		}
 		
 
 		//Calculates room adj
 		calcAdjacencies();
+		insertCardsIntoCardDeck();
+	}
+
+	//add all cards into one deck
+	private void insertCardsIntoCardDeck() {
+		cardDeck.addAll(playerCards);
+		cardDeck.addAll(roomCards);
+		cardDeck.addAll(weaponCards);
+		
+	}
+
+	private void loadWeaponConfig() throws BadConfigFormatException{
+		Scanner in = null;
+		try {
+			FileReader weaponFile = new FileReader(weaponConfigFile);
+			
+			in = new Scanner(weaponFile);
+			
+			//Split based on commas with limit equal to 2 commas
+			while(in.hasNextLine()){
+				String weapon = in.nextLine();
+				weaponCards.add(new Card(weapon, CardType.WEAPON));
+			}
+			
+		} catch (FileNotFoundException e) {
+			e.getMessage();
+		}
+		finally {
+			in.close();
+		}
+		
 	}
 
 	/**
@@ -108,6 +155,9 @@ public class Board {
 					throw new BadConfigFormatException();
 				}
 				legend.put(key, name);
+				if(type.equals("Card")) {
+					roomCards.add(new Card(name, CardType.ROOM));
+				}
 
 			}
 
@@ -232,6 +282,7 @@ public class Board {
 				}
 				Player p = new Player(name, color, colorString, type, cell);
 				players.add(p);
+				playerCards.add(new Card(name, CardType.PERSON));
 
 			}
 
@@ -513,10 +564,11 @@ public class Board {
 
 
 
-	public void setAllConfigFiles(String boardConfigString, String roomConfigString, String playerConfig) {
+	public void setAllConfigFiles(String boardConfigString, String roomConfigString, String playerConfig, String weaponConfig) {
 		setBoardConfigFile(boardConfigString);
 		setRoomConfigFile(roomConfigString);
 		setPlayerFile(playerConfig);
+		setWeaponConfigFile(weaponConfig);
 	}
 	public void setConfigFiles(String boardConfigString, String roomConfigString) {
 		setBoardConfigFile(boardConfigString);
@@ -534,6 +586,9 @@ public class Board {
 	
 	public void setPlayerFile(String playerConfigFile) {
 		this.playerConfigFile = playerConfigFile;
+	}
+	public void setWeaponConfigFile(String configFile) {
+		this.weaponConfigFile = configFile;
 	}
 
 	public static int getMaxBoardSize() {
