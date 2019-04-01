@@ -99,7 +99,7 @@ public class gameSetupTests {
 		int numPeople = 0;
 		int numWeapons = 0;
 
-		for ( Card card : board.getCards() ) {
+		for ( Card card : board.getAllCards() ) {
 			if ( card.getCardType() == CardType.ROOM ) {
 				numRooms++;
 				if ( card.getName().equals("Bathroom") ) {
@@ -124,7 +124,7 @@ public class gameSetupTests {
 		assertEquals(NUM_ROOMS, numRooms);
 		assertEquals(NUM_PEOPLE, numPeople);
 		assertEquals(NUM_WEAPONS, numWeapons);
-		assertEquals(TOTAL_CARDS, board.getCards().size());
+		assertEquals(TOTAL_CARDS, board.getAllCards().size());
 
 		// Test for containment
 		assertTrue(containsBathroom);

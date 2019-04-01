@@ -40,7 +40,13 @@ public class Board {
 	private Set<Card> playerCards;
 	private Set<Card> weaponCards;
 	private Set<Card> roomCards;
+	private Solution solution;
+	private ArrayList<Card> allCards;
 
+
+	public void setSolution(Solution solution) {
+		this.solution = solution;
+	}
 
 	private Board() {
 		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
@@ -54,6 +60,7 @@ public class Board {
 		weaponCards = new HashSet<Card>();
 		roomCards = new HashSet<Card>();
 		cardDeck = new ArrayList<Card>();
+		allCards = new ArrayList<Card>();
 
 		//setting this file to a default for our board because some of the given tests do not specify a file
 		//and therefore do not run. We are not allowed to change the test they give us and if the graders use a 
@@ -141,25 +148,21 @@ public class Board {
 		Card personSolution = new Card(personCard, CardType.PERSON);
 		Card weaponSolution = new Card(weaponCard, CardType.WEAPON);
 
-		//setSolution(new Solution(roomSolution, personSolution, weaponSolution));
+		setSolution(new Solution(roomSolution, personSolution, weaponSolution));
 		//move on to dealing deack if person, weapon and room are filled
 
 
 		// While deck is not empty, assign card at random to a player,
 		// move on to next one. Removes card after assignment
 
-//		while ( cardDeck.size() > 0 ) {
-//			// Random card
-//
-//
-//			// Random card to each person in cyclical order
-//			Set<String> playerKeys = players.keySet();
-//			for (String person : playerKeys) {
-//				Card random = deck.get((int)(Math.random() * cardDeck.size()));
-//				players.get(person).getHand().add(random);
-//				cardDeck.remove(random);
-//			}
-//		}
+		while ( cardDeck.size() > 0 ) {
+			for(Player p : players) {
+				Card random = cardDeck.get((int)(Math.random() * cardDeck.size()));
+				p.giveCard(random);
+				cardDeck.remove(random);
+			}
+			
+		}
 
 	}
 
@@ -168,6 +171,9 @@ public class Board {
 		cardDeck.addAll(playerCards);
 		cardDeck.addAll(roomCards);
 		cardDeck.addAll(weaponCards);
+		allCards.addAll(playerCards);
+		allCards.addAll(roomCards);
+		allCards.addAll(weaponCards);
 
 	}
 
@@ -672,6 +678,11 @@ public class Board {
 	public ArrayList<Card> getCards() {
 
 		return cardDeck;
+	}
+	
+	public ArrayList<Card> getAllCards() {
+
+		return allCards;
 	}
 
 }
