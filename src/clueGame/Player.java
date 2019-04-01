@@ -9,12 +9,14 @@ public class Player {
 	private Color color;
 	private String type;
 	private BoardCell startCell;
+	private String colorString;
 
-	public Player(String name, Color color, String type, BoardCell startCell) {
+	public Player(String name, Color color, String colorString, String type, BoardCell startCell) {
 		this.name = name;
 		this.color = color;
 		this.type = type;
 		this.startCell = startCell;
+		this.colorString = colorString;
 	}
 
 	public String getName() {
@@ -23,6 +25,11 @@ public class Player {
 	public Color getColor() {
 		return color;
 	}
+	
+	public String getColorString() {
+		return colorString;
+	}
+
 	public String getType() {
 		return type;
 	}

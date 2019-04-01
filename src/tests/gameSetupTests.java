@@ -22,7 +22,7 @@ private static Board board;
 	public static void setUp() throws BadConfigFormatException {
 		board = Board.getInstance();
 		
-		board.setAllConfigFiles("ClueGameLayout.csv", "ClueRooms.txt", "PlayersConfig.txt");
+		board.setAllConfigFiles("ClueGameLayout.csv", "ClueRooms.txt", "PlayerConfig.txt");
 		board.initialize();
 	}
 	//do before each test
@@ -47,26 +47,26 @@ private static Board board;
 		
 		
 		//test the human player
-		assertTrue(humanPlayer.getColor() == Color.GREEN);
-		assertTrue(humanPlayer.getName() == "Beatrix Bourbon");
-		assertTrue(humanPlayer.getType() == "Human");
+		assertTrue(humanPlayer.getColorString().equals("GREEN"));
+		assertTrue(humanPlayer.getName().equals("Beatrix Bourbon"));
+		assertTrue(humanPlayer.getType().equals("Human"));
 		assertTrue(humanPlayer.getStartLocation() == board.getCellAt(5, 5));
 		
 		//test the first player in file 
-		assertTrue(players.get(0).getColor() == Color.RED);
-		assertTrue(players.get(0).getName() == "Voodoo Mama JuuJuu");
-		assertTrue(players.get(0).getType() == "CPU");
+		assertTrue(players.get(0).getColorString().equals("RED"));
+		assertTrue(players.get(0).getName().equals("Voodoo Mama JuuJuu"));
+		assertTrue(players.get(0).getType().equals("CPU"));
 		assertTrue(players.get(0).getStartLocation() == board.getCellAt(1, 1));
 		//test the third player in file
-		assertTrue(players.get(2).getColor() == Color.PINK);
-		assertTrue(players.get(2).getName() == "Naughty Nellie Nutmeg");
-		assertTrue(players.get(2).getType() == "CPU");
+		assertTrue(players.get(2).getColorString().equals("PINK"));
+		assertTrue(players.get(2).getName().equals("Naughty Nellie Nutmeg"));
+		assertTrue(players.get(2).getType().equals("CPU"));
 		assertTrue(players.get(2).getStartLocation() == board.getCellAt(6, 7));
 		//test the last player in file
-		assertTrue(players.get(players.size()).getColor() == Color.GRAY);
-		assertTrue(players.get(players.size()).getName() == "Deb U. Taunt");
-		assertTrue(players.get(players.size()).getType() == "CPU");
-		assertTrue(players.get(players.size()).getStartLocation() == board.getCellAt(13, 7));
+		assertTrue(players.get(players.size()-1).getColorString().equals("GRAY"));
+		assertTrue(players.get(players.size()-1).getName().equals("Deb U. Taunt"));
+		assertTrue(players.get(players.size()-1).getType().equals("CPU"));
+		assertTrue(players.get(players.size()-1).getStartLocation() == board.getCellAt(13, 7));
 	}
 	
 	

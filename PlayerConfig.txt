@@ -3,4 +3,4 @@ Beatrix Bourbon, GREEN, Human, 5, 5
 Naughty Nellie Nutmeg, PINK, CPU, 6, 7
 Nathaniel Nutmeg, BLUE, CPU, 8, 9
 Caleb Crawdad, ORANGE, CPU, 10, 16
-Deb U. Taunt, GRAY, CPU, 13, 7 
+Deb U. Taunt, GRAY, CPU, 13, 7
