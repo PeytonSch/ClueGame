@@ -28,7 +28,9 @@ public class Player {
 		hand = new HashSet<Card>();
 	}
 	
-	
+	public Card disproveSuggestion(Solution suggestion) {
+		return null;
+	}
 
 	public Set<Card> getHand() {
 		return hand;

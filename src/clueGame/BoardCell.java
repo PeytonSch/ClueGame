@@ -54,4 +54,13 @@ public class BoardCell {
 		return roomLetter;
 	}
 
+	public int getRow() {
+		return row;
+	}
+
+	public int getCol() {
+		return col;
+	}
+	
+
 }
