@@ -15,7 +15,7 @@ public class ComputerPlayer extends Player {
 	}
 	
 	public void makeAccusation() {
-		
+		// picks 3 random, unseen cards (room, person, weapon). calls board.testAccusation(Card, Card, Card)
 	}
 	
 	public void createSuggestion() {

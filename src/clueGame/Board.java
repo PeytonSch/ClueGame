@@ -47,6 +47,10 @@ public class Board {
 	public void setSolution(Solution solution) {
 		this.solution = solution;
 	}
+	
+	public Solution getSolution() {
+		return solution;
+	}
 
 	private Board() {
 		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];

@@ -1,10 +1,17 @@
 package tests;
 
+import static org.junit.Assert.*;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
+import clueGame.Card;
+import clueGame.CardType;
+import clueGame.ComputerPlayer;
+import clueGame.Player;
+import clueGame.Solution;
 
 public class gameActionTests {
 	private static Board board;
@@ -37,6 +44,38 @@ public class gameActionTests {
 	//		solution with wrong room
 	@Test
 	public void accusationTest() {
+		// create solution string, will be populated by dealCards()
+		String roomCard = "Observatory";
+		String personCard = "Caleb Crawdad";
+		String weaponCard = "Revolver";
+		
+		// Turn solution strings to Card type
+		Card roomSolution = new Card(roomCard, CardType.ROOM);
+		Card personSolution = new Card(personCard, CardType.PERSON);
+		Card weaponSolution = new Card(weaponCard, CardType.WEAPON);
+		
+		// set the solution to ours for testing purposes
+		board.setSolution(new Solution(roomSolution, personSolution, weaponSolution));
+		
+		// test correct solution
+		assertTrue(board.getSolution().room.equals(roomCard));
+		assertTrue(board.getSolution().person.equals(personCard));
+		assertTrue(board.getSolution().weapon.equals(weaponCard));
+		
+		// test solution with wrong person
+		assertTrue(board.getSolution().room.equals(roomCard));
+		assertFalse(board.getSolution().person.equals("Naughty Nellie Nutmeg"));
+		assertTrue(board.getSolution().weapon.equals(weaponCard));
+		
+		// test solution with wrong weapon
+		assertTrue(board.getSolution().room.equals(roomCard));
+		assertTrue(board.getSolution().person.equals(personCard));
+		assertFalse(board.getSolution().weapon.equals("Dumbell"));
+
+		// test solution with wrong room
+		assertFalse(board.getSolution().room.equals("Sauna"));
+		assertTrue(board.getSolution().person.equals(personCard));
+		assertTrue(board.getSolution().weapon.equals(weaponCard));
 
 	}
 
