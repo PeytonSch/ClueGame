@@ -153,7 +153,7 @@ public class Board {
 		Card weaponSolution = new Card(weaponCard, CardType.WEAPON);
 
 		setSolution(new Solution(roomSolution, personSolution, weaponSolution));
-		//move on to dealing deack if person, weapon and room are filled
+		//move on to dealing deck if person, weapon and room are filled
 
 
 		// While deck is not empty, assign card at random to a player,
@@ -687,6 +687,14 @@ public class Board {
 	public ArrayList<Card> getAllCards() {
 
 		return allCards;
+	}
+	
+	//for testing
+	public void printTargetCells() {
+		System.out.println("Row - Col - Room");
+		for (BoardCell cell : targets) {
+			System.out.println(cell.getRow() + " - " + cell.getCol()+ " - " + cell.getInitial());
+		}
 	}
 
 }
