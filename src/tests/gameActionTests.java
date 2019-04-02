@@ -1,27 +1,20 @@
 package tests;
 
-<<<<<<< HEAD
+
 import static org.junit.Assert.*;
-=======
 import java.awt.Color;
 import java.util.Set;
->>>>>>> 3e5019bdf42060dbc8adc5fc74db9ed1a5b69491
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
-<<<<<<< HEAD
 import clueGame.Card;
 import clueGame.CardType;
 import clueGame.ComputerPlayer;
-import clueGame.Player;
 import clueGame.Solution;
-=======
 import clueGame.BoardCell;
-import clueGame.ComputerPlayer;
->>>>>>> 3e5019bdf42060dbc8adc5fc74db9ed1a5b69491
 
 public class gameActionTests {
 	private static Board board;
