@@ -587,7 +587,11 @@ public class Board {
 			}
 		}
 	}
-
+	
+	public boolean checkAccusaton(Solution accusation) {
+		return accusation.equals(solution);
+	}
+	
 	public static Board getInstance() {
 		return instance;
 	}

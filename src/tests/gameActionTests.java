@@ -159,27 +159,28 @@ public class gameActionTests {
 		Card weaponSolution = new Card(weaponCard, CardType.WEAPON);
 
 		// set the solution to ours for testing purposes
-		board.setSolution(new Solution(roomSolution, personSolution, weaponSolution));
+		Solution accusation = new Solution (roomSolution, personSolution, weaponSolution);
+		board.setSolution(accusation);
 
 		// test correct solution
-		assertTrue(board.getSolution().room.equals(roomCard));
-		assertTrue(board.getSolution().person.equals(personCard));
-		assertTrue(board.getSolution().weapon.equals(weaponCard));
+		assertTrue(board.checkAccusaton(accusation));
 
 		// test solution with wrong person
-		assertTrue(board.getSolution().room.equals(roomCard));
-		assertFalse(board.getSolution().person.equals("Naughty Nellie Nutmeg"));
-		assertTrue(board.getSolution().weapon.equals(weaponCard));
+		accusation.setPerson(new Card("This Person Does Not Exist", CardType.PERSON));
+		assertTrue(board.checkAccusaton(accusation));
+		
 
 		// test solution with wrong weapon
 		assertTrue(board.getSolution().room.equals(roomCard));
 		assertTrue(board.getSolution().person.equals(personCard));
 		assertFalse(board.getSolution().weapon.equals("Dumbell"));
+		assertFalse(board.getSolution().equals(accusation));
 
 		// test solution with wrong room
 		assertFalse(board.getSolution().room.equals("Sauna"));
 		assertTrue(board.getSolution().person.equals(personCard));
 		assertTrue(board.getSolution().weapon.equals(weaponCard));
+		assertFalse(board.getSolution().equals(accusation));
 
 	}
 
