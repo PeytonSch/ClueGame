@@ -38,7 +38,15 @@ public class Board {
 	private ArrayList<Player> players;
 	private ArrayList<Card> cardDeck;
 	private Set<Card> playerCards;
+	public Set<Card> getPlayerCards() {
+		return playerCards;
+	}
+
 	private Set<Card> weaponCards;
+	public Set<Card> getWeaponCards() {
+		return weaponCards;
+	}
+
 	private Set<Card> roomCards;
 	private Solution solution;
 	private ArrayList<Card> allCards;

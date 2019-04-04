@@ -61,4 +61,19 @@ public class ComputerPlayer extends Player {
 		
 	}
 
+	public Solution getSuggestion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Set<Card> getCardsAllreadySeen() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void addCardToSeen(Card card) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
