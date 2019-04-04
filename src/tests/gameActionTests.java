@@ -252,7 +252,7 @@ public class gameActionTests {
 		//if multiple persons not seen, one of them is randomly selected
 		seenList.removeAll(people);
 		seenList.add(board.getAllCards().get(2)); //Deb U. Taunt
-		
+
 		seenList.add(board.getAllCards().get(0)); //Naughty Nellie Nutmeg
 
 
@@ -273,26 +273,81 @@ public class gameActionTests {
 
 
 
-//Disprove suggestion - ComputerPlayer. Tests include:
-//If player has only one matching card it should be returned
-//If players has >1 matching card, returned card should be chosen randomly
-//If player has no matching cards, null is returned
+	//Disprove suggestion - ComputerPlayer. Tests include:
+	//If player has only one matching card it should be returned
+	//If players has >1 matching card, returned card should be chosen randomly
+	//If player has no matching cards, null is returned
 
-@Test
-public void disproveSuggestionTest() {
+	@Test
+	public void disproveSuggestionTest() {
+		// Create player and give them a deck with known cards
+		ComputerPlayer player = new ComputerPlayer();
 
-}
+		// Random person
+		Card person = board.getAllCards().get(0);
+		player.addCardToHand(person);
+		// Random room
+		Card room = board.getAllCards().get(6);
+		player.addCardToHand(room);
+		// Random room
+		Card weapon = board.getAllCards().get(20);
+		player.addCardToHand(weapon);
 
-//Handle suggestion - Board. Tests include:
-//Suggestion no one can disprove returns null
-//Suggestion only accusing player can disprove returns null
-//Suggestion only human can disprove returns answer (i.e., card that disproves suggestion)
-//Suggestion only human can disprove, but human is accuser, returns null
-//Suggestion that two players can disprove, correct player (based on starting with next player in list) returns answer
-//Suggestion that human and another player can disprove, other player is next in list, ensure other player returns answer
+		// Make new suggestion
+		Solution suggestion = new Solution(person, room, weapon);
 
-@Test
-public void handleSuggestionTest() {
+		// Test to see if player disproves all randomly
+		boolean disprovedPerson = false;
+		boolean disprovedRoom = false;
+		boolean disprovedWeapon = false;
 
-}
+		for (int i=0; i<100; i++) {
+			// Call disprove on player
+			Card card = player.disproveSuggestion(suggestion);
+
+			if ( card.equals(person) )
+				disprovedPerson = true;
+			else if ( card.equals(room) )
+				disprovedRoom = true;
+			else if ( card.equals(weapon) )
+				disprovedWeapon = true;
+		}
+
+		// Ensure disprove suggestion chooses all cards at least once
+		assertTrue(disprovedPerson);
+		assertTrue(disprovedRoom);
+		assertTrue(disprovedWeapon);
+
+
+		//if player has no matching cards, null is returned
+
+		//Clear hand, change cards to not match
+		player.getHand().clear();
+		// person
+		Card person1 = board.getAllCards().get(1);
+		player.addCardToHand(person1);
+		// room
+		Card room1 = board.getAllCards().get(7);
+		player.addCardToHand(room1);
+		// weapon
+		Card weapon1 = board.getAllCards().get(19);
+		player.addCardToHand(weapon1);
+
+		//Should return null now if suggestion remains the same as before
+		Card card = player.disproveSuggestion(suggestion);
+		assertEquals(null, card);
+	}
+
+	//Handle suggestion - Board. Tests include:
+	//Suggestion no one can disprove returns null
+	//Suggestion only accusing player can disprove returns null
+	//Suggestion only human can disprove returns answer (i.e., card that disproves suggestion)
+	//Suggestion only human can disprove, but human is accuser, returns null
+	//Suggestion that two players can disprove, correct player (based on starting with next player in list) returns answer
+	//Suggestion that human and another player can disprove, other player is next in list, ensure other player returns answer
+
+	@Test
+	public void handleSuggestionTest() {
+
+	}
 }

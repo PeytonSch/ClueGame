@@ -17,6 +17,9 @@ public class ComputerPlayer extends Player {
 		currentCell = startCell;
 		// TODO Auto-generated constructor stub
 	}
+	public ComputerPlayer() {
+		super();
+	}
 
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		//Should only choose a valid target (calculating targets already tested –yay)
@@ -110,25 +113,57 @@ public class ComputerPlayer extends Player {
 
 	}
 
+	@Override
+	public Card disproveSuggestion(Solution suggestion) {
 
+		Card room = suggestion.room;
+		Card person = suggestion.person;
+		Card weapon = suggestion.weapon;
 
-	public void clearLastRoom() {
-		lastRoom = '_';
+		boolean containsRoom = hand.contains(room);
+		boolean containsPerson = hand.contains(person);
+		boolean containsWeapon = hand.contains(weapon);
 
+		Set<Card> newHand = new HashSet<Card>();
+
+		if (containsRoom) newHand.add(room);
+		if (containsPerson) newHand.add(person);
+		if (containsWeapon) newHand.add(weapon);
+
+		if (!containsRoom && !containsPerson && !containsWeapon) {
+			return null;
+		} else if (hand.contains(room) || hand.contains(person) || hand.contains(weapon)) {
+			int size = newHand.size();
+			int num = new Random().nextInt(size);
+			int i = 0;
+			for (Card c : newHand) {
+				if (i == num) {
+					return c;
+				}
+				i++;
+			}
+
+		}
+		return null; 
 	}
 
-	public void setLastRoom(char c) {
-		lastRoom = c;
+		public void clearLastRoom() {
+			lastRoom = '_';
+
+		}
+
+		public void setLastRoom(char c) {
+			lastRoom = c;
+
+		}
+
+		public Solution getSuggestion() {
+			// TODO Auto-generated method stub
+			return suggestion;
+		}
+
+
+
+
 
 	}
-
-	public Solution getSuggestion() {
-		// TODO Auto-generated method stub
-		return suggestion;
-	}
-
-	
-
-	
-
-}

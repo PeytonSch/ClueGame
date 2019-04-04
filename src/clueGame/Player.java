@@ -10,14 +10,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Player {
-	
+
 
 	private String name;
 	private Color color;
 	private String type;
 	private BoardCell startCell;
 	private String colorString;
-	private Set<Card> hand;
+	protected Set<Card> hand;
 	private int row;
 	private int col;
 	protected Set<Card> seen;
@@ -30,12 +30,21 @@ public class Player {
 		this.colorString = colorString;
 		hand = new HashSet<Card>();
 		seen = new HashSet<Card>();
-		
+
 		row = startCell.getRow();
 		col = startCell.getCol();
-		
+
 	}
-	
+
+	public Player() {
+		seen = new HashSet<Card>();
+		hand = new HashSet<Card>();
+	}
+
+	public void addCardToHand(Card card) {
+		hand.add(card);
+	}
+
 	public Card disproveSuggestion(Solution suggestion) {
 		return null;
 	}
@@ -43,7 +52,7 @@ public class Player {
 	public Set<Card> getHand() {
 		return hand;
 	}
-	
+
 	public Set<Card> getCardsAllreadySeen(){
 		return seen;
 	}
@@ -56,7 +65,7 @@ public class Player {
 	public Color getColor() {
 		return color;
 	}
-	
+
 	public String getColorString() {
 		return colorString;
 	}
@@ -78,14 +87,14 @@ public class Player {
 	public int getCol() {
 		return col;
 	}
-	
+
 	public Set<Card> getSeen(){
 		return seen;
 	}
-	
+
 	public void addCardToSeen(Card card) {
 		seen.add(card);
 	}
-	
+
 
 }
