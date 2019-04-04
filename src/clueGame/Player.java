@@ -20,6 +20,7 @@ public class Player {
 	private Set<Card> hand;
 	private int row;
 	private int col;
+	protected Set<Card> seen;
 
 	public Player(String name, Color color, String colorString, String type, BoardCell startCell) {
 		this.name = name;
@@ -28,6 +29,7 @@ public class Player {
 		this.startCell = startCell;
 		this.colorString = colorString;
 		hand = new HashSet<Card>();
+		seen = new HashSet<Card>();
 		
 		row = startCell.getRow();
 		col = startCell.getCol();
@@ -40,6 +42,10 @@ public class Player {
 
 	public Set<Card> getHand() {
 		return hand;
+	}
+	
+	public Set<Card> getCardsAllreadySeen(){
+		return seen;
 	}
 
 
@@ -73,6 +79,13 @@ public class Player {
 		return col;
 	}
 	
+	public Set<Card> getSeen(){
+		return seen;
+	}
+	
+	public void addCardToSeen(Card card) {
+		seen.add(card);
+	}
 	
 
 }

@@ -706,6 +706,17 @@ public class Board {
 		return allCards;
 	}
 	
+	public Card getRoomWithInitial(char initial) {
+		String roomName = legend.get(initial);
+		for (Card r : roomCards) {
+			if (r.getName().equals(roomName)) {
+				return r;
+			}
+		}
+		return null;
+	}
+	
+	
 	//for testing
 	public void printTargetCells() {
 		System.out.println("Row - Col - Room");

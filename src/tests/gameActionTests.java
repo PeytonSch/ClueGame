@@ -189,11 +189,11 @@ public class gameActionTests {
 		ArrayList<Card> cards = board.getAllCards();
 		// Create player in Ballroom doorway
 		//Assure room matches current location
-		ComputerPlayer cpu = new ComputerPlayer("CPU", Color.RED,"RED", "CPU", board.getCellAt(5, 7));
+		ComputerPlayer cpu = new ComputerPlayer("CPU", Color.RED,"RED", "CPU", board.getCellAt(4, 9));
 		cpu.createSuggestion();
 		Solution suggestion = cpu.getSuggestion();
 
-		assertTrue(suggestion.getRoom().getName().equals("Ballroom"));
+		assertTrue(suggestion.getRoom().getName().equals("Observatory"));
 
 		//if only one weapon not seen, its selected
 		Set<Card> seenList = cpu.getCardsAllreadySeen();
@@ -252,6 +252,7 @@ public class gameActionTests {
 		//if multiple persons not seen, one of them is randomly selected
 		seenList.removeAll(people);
 		seenList.add(board.getAllCards().get(2)); //Deb U. Taunt
+		
 		seenList.add(board.getAllCards().get(0)); //Naughty Nellie Nutmeg
 
 
