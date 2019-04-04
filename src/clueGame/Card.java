@@ -23,7 +23,7 @@ public class Card {
 		this.type = type;
 	}
 	
-	public boolean equals(String name) {
+	public boolean cardNameEquals(String name) {
 		return (this.name == name);
 	}
 

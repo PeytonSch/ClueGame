@@ -148,39 +148,30 @@ public class gameActionTests {
 	//solution with wrong room
 	@Test
 	public void accusationTest() {
-		// create solution string, will be populated by dealCards()
-		String roomCard = "Observatory";
-		String personCard = "Caleb Crawdad";
-		String weaponCard = "Revolver";
 
-		// Turn solution strings to Card type
-		Card roomSolution = new Card(roomCard, CardType.ROOM);
-		Card personSolution = new Card(personCard, CardType.PERSON);
-		Card weaponSolution = new Card(weaponCard, CardType.WEAPON);
-
-		// set the solution to ours for testing purposes
-		Solution accusation = new Solution (roomSolution, personSolution, weaponSolution);
-		board.setSolution(accusation);
+		//get correct solution
+		Solution accusation = new Solution(new Card ("Room", CardType.ROOM), new Card ("Person", CardType.PERSON), new Card ("Wep", CardType.WEAPON));
+		Solution solToTestAgainst = new Solution(new Card ("Room", CardType.ROOM), new Card ("Person", CardType.PERSON), new Card ("Wep", CardType.WEAPON));
+		board.setSolution(solToTestAgainst);
 
 		// test correct solution
 		assertTrue(board.checkAccusaton(accusation));
 
 		// test solution with wrong person
 		accusation.setPerson(new Card("This Person Does Not Exist", CardType.PERSON));
-		assertTrue(board.checkAccusaton(accusation));
+		assertFalse(board.checkAccusaton(accusation));
 		
 
 		// test solution with wrong weapon
-		assertTrue(board.getSolution().room.equals(roomCard));
-		assertTrue(board.getSolution().person.equals(personCard));
-		assertFalse(board.getSolution().weapon.equals("Dumbell"));
-		assertFalse(board.getSolution().equals(accusation));
+		accusation.setPerson(new Card ("Person", CardType.PERSON));
+		accusation.setWeapon(new Card("Bunny", CardType.WEAPON));
+		assertFalse(board.checkAccusaton(accusation));
 
 		// test solution with wrong room
-		assertFalse(board.getSolution().room.equals("Sauna"));
-		assertTrue(board.getSolution().person.equals(personCard));
-		assertTrue(board.getSolution().weapon.equals(weaponCard));
-		assertFalse(board.getSolution().equals(accusation));
+		accusation.setWeapon(new Card ("Wep", CardType.WEAPON));
+		accusation.setRoom(new Card("Hut", CardType.ROOM));
+		assertFalse(board.checkAccusaton(accusation));
+		
 
 	}
 

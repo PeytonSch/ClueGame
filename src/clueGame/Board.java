@@ -589,7 +589,12 @@ public class Board {
 	}
 	
 	public boolean checkAccusaton(Solution accusation) {
-		return accusation.equals(solution);
+		if (accusation.isEqualTo(solution)) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	public static Board getInstance() {

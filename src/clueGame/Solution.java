@@ -40,6 +40,15 @@ public class Solution {
 		this.weapon = weapon;
 	}
 	
+	public boolean isEqualTo(Solution s) {
+		if (this.person.cardNameEquals(s.person.getName()) && this.room.cardNameEquals(s.room.getName()) && this.weapon.cardNameEquals(s.weapon.getName()) ) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 	
 	
 }
