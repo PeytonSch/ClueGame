@@ -36,11 +36,13 @@ public class Player {
 
 	}
 
+	//for testing just creating a simple player with the needed data structures
 	public Player() {
 		seen = new HashSet<Card>();
 		hand = new HashSet<Card>();
 	}
 
+	//give player card
 	public void addCardToHand(Card card) {
 		hand.add(card);
 	}
@@ -53,9 +55,6 @@ public class Player {
 		return hand;
 	}
 
-	public Set<Card> getCardsAllreadySeen(){
-		return seen;
-	}
 
 
 
@@ -88,11 +87,13 @@ public class Player {
 		return col;
 	}
 
-	public Set<Card> getSeen(){
+	//get cards player has seen
+	public Set<Card> getCardsAllreadySeen(){
 		return seen;
 	}
 
-	public void addCardToSeen(Card card) {
+	//add cards to list of cards player has seen
+	public void addCardToListOfCardsAllreadySeen(Card card) {
 		seen.add(card);
 	}
 

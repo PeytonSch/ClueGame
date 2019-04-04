@@ -16,36 +16,37 @@ public class HumanPlayer extends Player {
 		super(name, color, colorString, type, startCell);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public HumanPlayer() {
 		super();
 	}
-	
+
+	//human player logic for disproving a suggestion. Used for testing
 	@Override
 	public Card disproveSuggestion(Solution suggestion) {
 
-		Card room = suggestion.room;
-		Card person = suggestion.person;
-		Card weapon = suggestion.weapon;
-			
-		boolean containsRoom = hand.contains(room);
-		boolean containsPerson = hand.contains(person);
-		boolean containsWeapon = hand.contains(weapon);
-		
-		Set<Card> newHand = new HashSet<Card>();
-		
-		if (containsRoom) newHand.add(room);
-		if (containsPerson) newHand.add(person);
-		if (containsWeapon) newHand.add(weapon);
-		
-		if (!containsRoom && !containsPerson && !containsWeapon) {
+		Card roomCard = suggestion.room;
+		Card personCard = suggestion.person;
+		Card weaponCard = suggestion.weapon;
+
+		boolean doesContainsRoom = hand.contains(roomCard);
+		boolean doesContainsPerson = hand.contains(personCard);
+		boolean coesContainsWeapon = hand.contains(weaponCard);
+
+		Set<Card> newHandSet = new HashSet<Card>();
+
+		if (doesContainsRoom) newHandSet.add(roomCard);
+		if (doesContainsPerson) newHandSet.add(personCard);
+		if (coesContainsWeapon) newHandSet.add(weaponCard);
+
+		if (!doesContainsRoom && !doesContainsPerson && !coesContainsWeapon) {
 			return null;
-		} else if (hand.contains(room) || hand.contains(person) || hand.contains(weapon)) {
-			int size = newHand.size();
-			int num = new Random().nextInt(size);
+		} else if (hand.contains(roomCard) || hand.contains(personCard) || hand.contains(weaponCard)) {
+			int size = newHandSet.size();
+			int randNumInSize = new Random().nextInt(size);
 			int i = 0;
-			for (Card c : newHand) {
-				if (i == num) {
+			for (Card c : newHandSet) {
+				if (i == randNumInSize) {
 					return c;
 				}
 				i++;

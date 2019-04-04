@@ -755,7 +755,7 @@ public class Board {
 			if ( proof != null ) {
 				//update all players seenHand
 				for (Player p : players) {
-					p.addCardToSeen(proof);
+					p.addCardToListOfCardsAllreadySeen(proof);
 				}
 
 				return proof;

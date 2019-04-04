@@ -22,6 +22,7 @@ public class ComputerPlayer extends Player {
 		currentCell = startCell;
 		// TODO Auto-generated constructor stub
 	}
+	//simple constructor for testing
 	public ComputerPlayer() {
 		super();
 	}
@@ -50,35 +51,35 @@ public class ComputerPlayer extends Player {
 			i++;
 		}
 
-		// Something has gone wrong
+		//this shouldn't run
 		return null;
 	}
 
-	public void makeAccusation() {
-		// picks 3 random, unseen cards (room, person, weapon). calls board.testAccusation(Card, Card, Card)
-	}
+	//	public void makeAccusation() {
+	//		// picks 3 random, unseen cards (room, person, weapon). calls board.testAccusation(Card, Card, Card)
+	//	}
 
 	public void createSuggestion() {
 		currentCell = Board.getInstance().getCellAt(getRow(), getCol());
-		Card room = Board.getInstance().getRoomWithInitial(currentCell.getInitial());
+		Card roomCard = Board.getInstance().getRoomWithInitial(currentCell.getInitial());
 
-		Card weapon = null;
+		Card weaponCard = null;
 		Set<Card> allWeapons = Board.getInstance().getWeaponCards();
 		Set<Card> unseenWeapons = new HashSet<Card>();
 
-
+		//add weapons to unseen list if we havn't seen them
 		for ( Card w : allWeapons ) {
-			if ( !getSeen().contains(w) ) {
+			if ( !getCardsAllreadySeen().contains(w) ) {
 				unseenWeapons.add(w);
 			}
 		}
 
-		int sizeW = unseenWeapons.size();
-		int numW = new Random().nextInt(sizeW);
+		int weapSize = unseenWeapons.size();
+		int numWeapons = new Random().nextInt(weapSize);
 		int j = 0;
 		for ( Card w : unseenWeapons ) {
-			if ( j == numW ) {
-				weapon = w;
+			if ( j == numWeapons ) {
+				weaponCard = w;
 				break;
 			}
 			else {
@@ -89,22 +90,23 @@ public class ComputerPlayer extends Player {
 
 
 
-		Card player = null;
-		Set<Card> allPlayers = Board.getInstance().getPlayerCards();
-		Set<Card> unseenPlayers = new HashSet<Card>();
+		Card playerCard = null;
+		Set<Card> setOfAllPlayers = Board.getInstance().getPlayerCards();
+		Set<Card> setOfUnseenPlayers = new HashSet<Card>();
 
-		for ( Card p : allPlayers ) {
-			if ( !getSeen().contains(p) ) {
-				unseenPlayers.add(p);
+		//add players to unseen if we havn't seen them
+		for ( Card p : setOfAllPlayers ) {
+			if ( !getCardsAllreadySeen().contains(p) ) {
+				setOfUnseenPlayers.add(p);
 			}
 		}
 
-		int size = unseenPlayers.size();
-		int num = new Random().nextInt(size);
+		int numUnseenPlayers = setOfUnseenPlayers.size();
+		int randInUnseenPlayers = new Random().nextInt(numUnseenPlayers);
 		int i = 0;
-		for ( Card p : unseenPlayers ) {
-			if ( i == num ) {
-				player = p;
+		for ( Card p : setOfUnseenPlayers ) {
+			if ( i == randInUnseenPlayers ) {
+				playerCard = p;
 				break;
 			}
 			else {
@@ -113,36 +115,37 @@ public class ComputerPlayer extends Player {
 		}
 
 
-
-		suggestion = new Solution(room, player, weapon);
+		//create suggestion
+		suggestion = new Solution(roomCard, playerCard, weaponCard);
 
 	}
 
+	//disprove suggestion if we have a card to disprove it
 	@Override
 	public Card disproveSuggestion(Solution suggestion) {
 
-		Card room = suggestion.room;
-		Card person = suggestion.person;
-		Card weapon = suggestion.weapon;
+		Card roomCard = suggestion.room;
+		Card personCard = suggestion.person;
+		Card weaponCard = suggestion.weapon;
 
-		boolean containsRoom = hand.contains(room);
-		boolean containsPerson = hand.contains(person);
-		boolean containsWeapon = hand.contains(weapon);
+		boolean doesContainsRoom = hand.contains(roomCard);
+		boolean doesContainsPerson = hand.contains(personCard);
+		boolean doesContainsWeapon = hand.contains(weaponCard);
 
-		Set<Card> newHand = new HashSet<Card>();
+		Set<Card> newHandSet = new HashSet<Card>();
 
-		if (containsRoom) newHand.add(room);
-		if (containsPerson) newHand.add(person);
-		if (containsWeapon) newHand.add(weapon);
+		if (doesContainsRoom) newHandSet.add(roomCard);
+		if (doesContainsPerson) newHandSet.add(personCard);
+		if (doesContainsWeapon) newHandSet.add(weaponCard);
 
-		if (!containsRoom && !containsPerson && !containsWeapon) {
+		if (!doesContainsRoom && !doesContainsPerson && !doesContainsWeapon) {
 			return null;
-		} else if (hand.contains(room) || hand.contains(person) || hand.contains(weapon)) {
-			int size = newHand.size();
-			int num = new Random().nextInt(size);
+		} else if (hand.contains(roomCard) || hand.contains(personCard) || hand.contains(weaponCard)) {
+			int size = newHandSet.size();
+			int randNumInSize = new Random().nextInt(size);
 			int i = 0;
-			for (Card c : newHand) {
-				if (i == num) {
+			for (Card c : newHandSet) {
+				if (i == randNumInSize) {
 					return c;
 				}
 				i++;
@@ -152,23 +155,24 @@ public class ComputerPlayer extends Player {
 		return null; 
 	}
 
-		public void clearLastRoom() {
-			lastRoom = '_';
-
-		}
-
-		public void setLastRoom(char c) {
-			lastRoom = c;
-
-		}
-
-		public Solution getSuggestion() {
-			// TODO Auto-generated method stub
-			return suggestion;
-		}
-
-
-
-
+	//clear out last room to random char
+	public void clearLastRoom() {
+		lastRoom = '_';
 
 	}
+
+	public void setLastRoom(char c) {
+		lastRoom = c;
+
+	}
+
+	public Solution getSuggestion() {
+		// TODO Auto-generated method stub
+		return suggestion;
+	}
+
+
+
+
+
+}

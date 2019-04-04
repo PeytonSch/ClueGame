@@ -7,12 +7,12 @@
 package clueGame;
 
 public class BoardCell {
-	
+
 	private int row;
 	private int col;
 	private DoorDirection dir;
 	private char roomLetter;
-	
+
 
 	public void setDir(DoorDirection dir) {
 		this.dir = dir;
@@ -23,7 +23,7 @@ public class BoardCell {
 		this.col = col;
 	}
 
-	
+
 
 	public BoardCell(int row, int col, DoorDirection dir, char roomLetter) {
 		super();
@@ -36,11 +36,11 @@ public class BoardCell {
 	public boolean isDoorway() {
 		return !(dir.equals(DoorDirection.NONE));
 	}
-	
+
 	public boolean isWalkway() {
 		return (roomLetter == 'W');
 	}
-	
+
 	public boolean isRoom() {
 		return (roomLetter != 'W' && dir ==  DoorDirection.NONE);
 	}
@@ -61,6 +61,6 @@ public class BoardCell {
 	public int getCol() {
 		return col;
 	}
-	
+
 
 }
