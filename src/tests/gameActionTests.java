@@ -29,29 +29,117 @@ public class gameActionTests {
 
 		board.setAllConfigFiles("ClueGameLayout.csv", "ClueRooms.txt", "PlayerConfig.txt", "WeaponsConfig.txt");
 		board.initialize();
-		
+
 	}
 
-	
+
 	//CPU selecting a target
 	@Test
 	public void targetTests() {
 		ComputerPlayer cpu = new ComputerPlayer("CPU", Color.RED,"RED", "CPU", board.getCellAt(5, 7));
-		
-		board.calcTargets(cpu.getStartLocation(), 4);
-		
-		Set<BoardCell> targets = board.getTargets();
-		
-		board.printTargetCells();
-		
-		cpu.pickLocation(targets);
-		
-		
+
+
+
 		//if no rooms in list, select randomly
+		board.calcTargets(5, 7, 2);
+
+		boolean loc_05_05 = false;
+		boolean loc_05_09 = false;
+		boolean loc_04_06 = false;
+		boolean loc_06_06 = false;
+		boolean loc_06_08 = false;
+
+		//test a whole bunch of times to make sure it selects everything at some point
+		for (int i=0; i<100; i++) {
+			BoardCell selected = cpu.pickLocation(board.getTargets());
+			if (selected == board.getCellAt(5, 5))
+				loc_05_05 = true;
+			else if (selected == board.getCellAt(5, 9))
+				loc_05_09 = true;
+			else if (selected == board.getCellAt(4, 6))
+				loc_04_06 = true;
+			else if (selected == board.getCellAt(6, 6))
+				loc_06_06 = true;
+			else if (selected == board.getCellAt(6, 8))
+				loc_06_08 = true;
+			else
+				fail("Invalid target selected");
+		}
+		// Ensure targets were picked
+		assertTrue(loc_05_05);
+		assertTrue(loc_05_09);
+		assertTrue(loc_04_06);
+		assertTrue(loc_06_06);
+		assertTrue(loc_06_08);
+
 		//if room in list that was not just visited, must select it
+		board.calcTargets(5,8,2);
+		board.printTargetCells();
+
+		boolean loc_06_07 = false;
+		boolean loc_04_07 = false;
+		boolean loc_05_06 = false;
+		boolean loc_05_10 = false;
+		boolean loc_06_09 = false;
+		boolean door_1 = false; //cell 4,9
+		
+
+		for (int i=0; i<100; i++) {
+			BoardCell selected = cpu.pickLocation(board.getTargets());
+			if (selected == board.getCellAt(6, 7))
+				loc_06_07 = true;
+			if (selected == board.getCellAt(4, 7))
+				loc_04_07 = true;
+			if (selected == board.getCellAt(5, 6))
+				loc_05_06 = true;
+			if (selected == board.getCellAt(5, 10))
+				loc_05_10 = true;
+			if (selected == board.getCellAt(6, 9))
+				loc_06_09 = true;
+			cpu.clearLastRoom();
+			if (selected == board.getCellAt(4, 9))
+				door_1 = true;
+			cpu.clearLastRoom();
+		}
+
+		// Ensure doors were picked
+		assertTrue(door_1);
+		assertFalse(loc_06_07);
+		assertFalse(loc_04_07);
+		assertFalse(loc_05_06);
+		assertFalse(loc_05_10);
+		assertFalse(loc_06_09);
+
 		//if room just visited is in list, each target (including room) selected randomly
+		board.calcTargets(5, 9, 1);
+		board.printTargetCells();
+		cpu.setLastRoom('O');
+		
+		boolean door = false; //cell 4,9
+		loc_05_10 = false;
+		loc_06_09 = false;
+		boolean loc_05_08 = false;
+		
+		//test a whole bunch of times to make sure it selects everything at some point
+		for (int i=0; i<100; i++) {
+			BoardCell selected = cpu.pickLocation(board.getTargets());
+			if (selected == board.getCellAt(13, 1))
+				door = true;
+			if (selected == board.getCellAt(14, 0))
+				loc_05_10 = true;
+			if (selected == board.getCellAt(14, 2))
+				loc_06_09 = true;
+			if (selected == board.getCellAt(15, 1))
+				loc_05_08 = true;
+		}
+		
+		// Ensure all targets chosen
+		assertTrue(door);
+		assertTrue(loc_05_10);
+		assertTrue(loc_06_09);
+		assertTrue(loc_05_08);
 	}
-	
+
 	//Board
 	//Make an accusation. Tests include:
 	//solution that is correct
@@ -64,25 +152,25 @@ public class gameActionTests {
 		String roomCard = "Observatory";
 		String personCard = "Caleb Crawdad";
 		String weaponCard = "Revolver";
-		
+
 		// Turn solution strings to Card type
 		Card roomSolution = new Card(roomCard, CardType.ROOM);
 		Card personSolution = new Card(personCard, CardType.PERSON);
 		Card weaponSolution = new Card(weaponCard, CardType.WEAPON);
-		
+
 		// set the solution to ours for testing purposes
 		board.setSolution(new Solution(roomSolution, personSolution, weaponSolution));
-		
+
 		// test correct solution
 		assertTrue(board.getSolution().room.equals(roomCard));
 		assertTrue(board.getSolution().person.equals(personCard));
 		assertTrue(board.getSolution().weapon.equals(weaponCard));
-		
+
 		// test solution with wrong person
 		assertTrue(board.getSolution().room.equals(roomCard));
 		assertFalse(board.getSolution().person.equals("Naughty Nellie Nutmeg"));
 		assertTrue(board.getSolution().weapon.equals(weaponCard));
-		
+
 		// test solution with wrong weapon
 		assertTrue(board.getSolution().room.equals(roomCard));
 		assertTrue(board.getSolution().person.equals(personCard));
@@ -94,7 +182,7 @@ public class gameActionTests {
 		assertTrue(board.getSolution().weapon.equals(weaponCard));
 
 	}
-	
+
 	//CPU player
 	//Create suggestion. Tests include:
 	//Room matches current location
@@ -106,8 +194,8 @@ public class gameActionTests {
 	public void createSuggestionTest() {
 
 	}
-	
-	
+
+
 	//Disprove suggestion - ComputerPlayer. Tests include:
 	//If player has only one matching card it should be returned
 	//If players has >1 matching card, returned card should be chosen randomly

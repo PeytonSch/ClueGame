@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.Set;
 
 public class ComputerPlayer extends Player {
+	
+	private char lastRoom;
 
 	public ComputerPlayer(String name, Color color, String colorString, String type, BoardCell startCell) {
 		super(name, color, colorString, type, startCell);
@@ -19,6 +21,16 @@ public class ComputerPlayer extends Player {
 	}
 	
 	public void createSuggestion() {
+		
+	}
+
+	public void clearLastRoom() {
+		lastRoom = '_';
+		
+	}
+
+	public void setLastRoom(char c) {
+		lastRoom = c;
 		
 	}
 
