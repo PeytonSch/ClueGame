@@ -55,10 +55,12 @@ public class Board {
 	public void setSolution(Solution solution) {
 		this.solution = solution;
 	}
-	
+
 	public Solution getSolution() {
 		return solution;
 	}
+
+
 
 	private Board() {
 		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
@@ -116,7 +118,7 @@ public class Board {
 		insertCardsIntoCardDeck();
 		dealCards();
 	}
-	
+
 	//gives cards to all players and assigns solution
 	public void dealCards() {
 
@@ -154,7 +156,7 @@ public class Board {
 				hasWeapon = true;
 			}
 		}
-		
+
 		//these variables hold the solution we picked
 		Card roomSolution = new Card(roomCard, CardType.ROOM);
 		Card personSolution = new Card(personCard, CardType.PERSON);
@@ -173,7 +175,7 @@ public class Board {
 				p.giveCard(random);
 				cardDeck.remove(random);
 			}
-			
+
 		}
 
 	}
@@ -595,7 +597,7 @@ public class Board {
 			}
 		}
 	}
-	
+
 	public boolean checkAccusaton(Solution accusation) {
 		if (accusation.isEqualTo(solution)) {
 			return true;
@@ -604,7 +606,7 @@ public class Board {
 			return false;
 		}
 	}
-	
+
 	public static Board getInstance() {
 		return instance;
 	}
@@ -700,12 +702,12 @@ public class Board {
 
 		return cardDeck;
 	}
-	
+
 	public ArrayList<Card> getAllCards() {
 
 		return allCards;
 	}
-	
+
 	public Card getRoomWithInitial(char initial) {
 		String roomName = legend.get(initial);
 		for (Card r : roomCards) {
@@ -715,14 +717,54 @@ public class Board {
 		}
 		return null;
 	}
-	
-	
+
+
 	//for testing
 	public void printTargetCells() {
 		System.out.println("Row - Col - Room");
 		for (BoardCell cell : targets) {
 			System.out.println(cell.getRow() + " - " + cell.getCol()+ " - " + cell.getInitial());
 		}
+	}
+	public Card getSpecificCard(String name) {
+		for ( Card c : allCards ) {
+			if ( c.getName().equals(name) ) {
+				return c;
+			}
+		}
+		// Only returns if name does not match
+		return null;
+	}
+
+	public Card handleSuggestion(Player suggestor, Solution suggestion, ArrayList<Player> players) {
+
+		// Starting and ending location
+		int endLoc = players.indexOf(suggestor);
+		int curLoc = endLoc + 1;
+
+		// wrapping loop for players
+		while ( curLoc != endLoc ) {
+			if (curLoc >= players.size() ) {
+				curLoc = 0;
+			}
+
+			// if player can disprove, return card
+			Player player = players.get(curLoc);
+			Card proof = player.disproveSuggestion(suggestion);
+
+			if ( proof != null ) {
+				//update all players seenHand
+				for (Player p : players) {
+					p.addCardToSeen(proof);
+				}
+
+				return proof;
+			}
+			// else go to next player
+			curLoc++;
+		}
+		// if reach the suggestor, return null	
+		return null;
 	}
 
 }

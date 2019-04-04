@@ -15,6 +15,8 @@ import clueGame.Board;
 import clueGame.Card;
 import clueGame.CardType;
 import clueGame.ComputerPlayer;
+import clueGame.HumanPlayer;
+import clueGame.Player;
 import clueGame.Solution;
 import clueGame.BoardCell;
 
@@ -348,6 +350,105 @@ public class gameActionTests {
 
 	@Test
 	public void handleSuggestionTest() {
+		// Make arrayList of players
+		Player playerOne = new ComputerPlayer();
+		Player playerTwo = new ComputerPlayer();
+		Player playerThree = new ComputerPlayer();
+		Player playerHuman = new HumanPlayer();
 
+		ArrayList<Player> players = new ArrayList<Player>();
+		players.add(playerOne);
+		players.add(playerTwo);
+		players.add(playerThree);
+		players.add(playerHuman);
+
+		// Cards that cannot disprove
+		Card voodo = board.getSpecificCard("Voodoo Mama JuuJuu");
+		Card beatrix = board.getSpecificCard("Beatrix Bourbon");
+		Card bathroom = board.getSpecificCard("Bathroom,");
+		Card rope = board.getSpecificCard("Rope");
+		Card wrench = board.getSpecificCard("Wrench");
+
+		// Cards that can disprove
+		Card room = board.getSpecificCard("Ballroom");
+		Card person = board.getSpecificCard("Caleb Crawdad");
+		Card weapon = board.getSpecificCard("Revolver");
+
+		// Assign cards 
+		playerOne.addCardToHand(voodo);
+		playerTwo.addCardToHand(beatrix);
+		playerThree.addCardToHand(bathroom);
+		playerHuman.addCardToHand(rope);
+
+		// Test 1
+		//Suggestion no one can disprove returns null
+		Solution suggestion = new Solution(room, person, weapon);
+
+		Card returned = board.handleSuggestion(playerThree, suggestion, players);
+
+		assertEquals(null, returned);
+
+
+		// Test 2
+		//Suggestion only accusing player can disprove returns null
+		playerThree.getHand().clear();
+		playerThree.addCardToHand(room);
+
+		// Accusing player has room, no other disproving cards
+		returned = board.handleSuggestion(playerThree, suggestion, players);
+
+		// Ensure null return
+		assertEquals(null, returned);
+		assertTrue(playerThree.getHand().contains(room));
+
+
+		// Test 3
+		//Suggestion only human can disprove returns answer (card that disproves suggestion)
+		playerThree.getHand().clear();
+		playerThree.addCardToHand(bathroom);
+
+		// Human has only disproving card
+		playerHuman.getHand().clear();
+		playerHuman.addCardToHand(weapon);
+
+		returned = board.handleSuggestion(playerThree, suggestion, players);
+		assertEquals(weapon, returned);
+
+
+		// Test 4
+		//Suggestion only human can disproves but human is accuser returns null
+		// Human still has disproving card
+		returned = board.handleSuggestion(playerHuman, suggestion, players);
+		assertEquals(null, returned);
+		assertTrue(playerHuman.getHand().contains(weapon));
+
+
+		// Test 5
+		//Suggestion that two players can disprove, correct player (based on starting with next player in list) returns answer
+		playerHuman.getHand().clear();
+		playerHuman.addCardToHand(beatrix);
+		playerOne.addCardToHand(person);
+		playerTwo.addCardToHand(weapon);
+
+		// PlayerOne should disprove, playerTwo has disproving card too
+		returned = board.handleSuggestion(playerThree, suggestion, players);
+		assertEquals(person, returned);
+		assertTrue(playerTwo.getHand().contains(weapon));
+
+
+		// Test 6
+		// Suggestion that human and another player can disprove, other player is next in list, 
+		// ensure other player returns answer. playerThree has card, as does human
+		playerOne.getHand().clear();
+		playerOne.addCardToHand(wrench);
+		playerTwo.getHand().clear();
+		playerTwo.addCardToHand(voodo);
+		playerThree.addCardToHand(person);
+		playerHuman.addCardToHand(room);
+
+		returned = board.handleSuggestion(playerTwo, suggestion, players);
+
+		assertEquals(person, returned);
+		assertTrue(playerHuman.getHand().contains(room));
 	}
 }
