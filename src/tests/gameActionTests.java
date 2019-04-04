@@ -1,3 +1,8 @@
+/*
+ * Authors:
+ * Peyton Scherschel
+ * James Hawn
+ */
 package tests;
 
 
@@ -370,7 +375,7 @@ public class gameActionTests {
 		Card wrench = board.getSpecificCard("Wrench");
 
 		// Cards that can disprove
-		Card room = board.getSpecificCard("Ballroom");
+		Card room = board.getSpecificCard("Kitchen");
 		Card person = board.getSpecificCard("Caleb Crawdad");
 		Card weapon = board.getSpecificCard("Revolver");
 
