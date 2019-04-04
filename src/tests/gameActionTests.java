@@ -74,7 +74,7 @@ public class gameActionTests {
 
 		//if room in list that was not just visited, must select it
 		board.calcTargets(5,8,2);
-		board.printTargetCells();
+		
 
 		boolean loc_06_07 = false;
 		boolean loc_04_07 = false;
@@ -112,7 +112,7 @@ public class gameActionTests {
 
 		//if room just visited is in list, each target (including room) selected randomly
 		board.calcTargets(5, 9, 1);
-		board.printTargetCells();
+		
 		cpu.setLastRoom('O');
 		
 		boolean door = false; //cell 4,9
@@ -123,13 +123,13 @@ public class gameActionTests {
 		//test a whole bunch of times to make sure it selects everything at some point
 		for (int i=0; i<100; i++) {
 			BoardCell selected = cpu.pickLocation(board.getTargets());
-			if (selected == board.getCellAt(13, 1))
+			if (selected == board.getCellAt(4, 9))
 				door = true;
-			if (selected == board.getCellAt(14, 0))
+			if (selected == board.getCellAt(5, 10))
 				loc_05_10 = true;
-			if (selected == board.getCellAt(14, 2))
+			if (selected == board.getCellAt(6, 9))
 				loc_06_09 = true;
-			if (selected == board.getCellAt(15, 1))
+			if (selected == board.getCellAt(5, 8))
 				loc_05_08 = true;
 		}
 		
