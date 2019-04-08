@@ -117,6 +117,7 @@ public class Board {
 		calcAdjacencies();
 		insertCardsIntoCardDeck();
 		dealCards();
+		GUI g = new GUI();
 	}
 
 	//gives cards to all players and assigns solution
