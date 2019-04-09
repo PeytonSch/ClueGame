@@ -95,11 +95,12 @@ public class GUI extends JPanel {
 	
 	private JPanel createButtonPanel() {
 		// no layout specified, so this is flow
-		JButton agree = new JButton("Next Player");
-		JButton disagree = new JButton("Make an Accusation");
+		JButton next = new JButton("Next Player");
+		next.setBounds(200, 200, 200, 100);
+		JButton accuse = new JButton("Make an Accusation");
 		JPanel panel = new JPanel();
-		panel.add(agree);
-		panel.add(disagree);
+		panel.add(next);
+		panel.add(accuse);
 		return panel;
 	}
 	
