@@ -6,6 +6,8 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Field;
@@ -17,9 +19,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+
+import javax.swing.JPanel;
+
 import clueGame.BoardCell;
 
-public class Board {
+public class Board extends JPanel {
 
 	private int numRows;
 	private int numColumns;
@@ -59,8 +64,6 @@ public class Board {
 	public Solution getSolution() {
 		return solution;
 	}
-
-
 
 	private Board() {
 		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
@@ -766,6 +769,17 @@ public class Board {
 		}
 		// if reach the suggestor, return null	
 		return null;
+	}
+	
+	public void paintComponent(Graphics g) {
+		
+		JPanel boardPanel = new JPanel();
+		boardPanel.setLayout(new GridLayout(numRows,numColumns));
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numColumns; j++) {
+				boardPanel.add(board[i][j].draw(g));
+			}
+		}
 	}
 
 }

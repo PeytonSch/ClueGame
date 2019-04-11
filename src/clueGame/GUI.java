@@ -17,8 +17,9 @@ public class GUI extends JPanel {
 	public GUI(){
 		// Create a layout with 2 rows
 		
-		setLayout(new GridLayout(2,0));
+		setLayout(new GridLayout(2,1));
 		JPanel upperPanel = new JPanel();
+		upperPanel.setLayout(new GridLayout(1,2));  
 		JPanel turnPanel = createTurnPanel();
 		upperPanel.add(turnPanel);
 		JPanel buttonPanel = createButtonPanel();
@@ -26,12 +27,13 @@ public class GUI extends JPanel {
 		add(upperPanel);
 		
 		JPanel lowerPanel = new JPanel();
+		lowerPanel.setLayout(new GridLayout(1,3));  
 		JPanel dicePanel = createDicePanel();
 		JPanel guessPanel = createGuessPanel();
 		JPanel guessResult = createGuessResult();
-		lowerPanel.add(dicePanel, BorderLayout.WEST);
-		lowerPanel.add(guessPanel, BorderLayout.CENTER);
-		lowerPanel.add(guessResult, BorderLayout.EAST);
+		lowerPanel.add(dicePanel);
+		lowerPanel.add(guessPanel);
+		lowerPanel.add(guessResult);
 		add(lowerPanel);
 	}
 	
@@ -40,7 +42,7 @@ public class GUI extends JPanel {
 
 		// Use a grid layout, 1 row, 2 elements (label, text)
 
-		panel.setLayout(new GridLayout(1,2));      
+		panel.setLayout(new GridLayout(2,2));      
 		JLabel rollLabel = new JLabel("Response");
 		JLabel rollNum = new JLabel("                                     ");
 		rollNum.setBorder(new EtchedBorder());
@@ -70,7 +72,7 @@ public class GUI extends JPanel {
 
 		// Use a grid layout, 1 row, 2 elements (label, text)
 
-		panel.setLayout(new GridLayout(1,2));      
+		panel.setLayout(new GridLayout(2,2));      
 		JLabel rollLabel = new JLabel("Roll  ");
 		JLabel rollNum = new JLabel("4");
 		rollNum.setBorder(new EtchedBorder());
@@ -85,8 +87,8 @@ public class GUI extends JPanel {
 
 		// Use a grid layout, 1 row, 2 elements (label, text)
 
-		panel.setLayout(new GridLayout(1,2));      
-		JLabel nameLabel = new JLabel("                             ");
+		panel.setLayout(new GridLayout(4,2));     
+		JLabel nameLabel = new JLabel("");
 		nameLabel.setBorder(new EtchedBorder());
 		JLabel turnLabel = new JLabel("Whose Turn?");
 		panel.add(turnLabel);
@@ -96,10 +98,11 @@ public class GUI extends JPanel {
 	
 	private JPanel createButtonPanel() {
 		// no layout specified, so this is flow
-		JButton next = new JButton("Next Player");
-		next.setBounds(200, 200, 200, 100);
-		JButton accuse = new JButton("Make an Accusation");
 		JPanel panel = new JPanel();
+		panel.setSize(500, 250);
+		panel.setLayout(new GridLayout(1,2));      
+		JButton next = new JButton("Next Player");
+		JButton accuse = new JButton("Make an Accusation");
 		panel.add(next);
 		panel.add(accuse);
 		return panel;

@@ -6,12 +6,21 @@
 
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+
+import javax.swing.JPanel;
+
 public class BoardCell {
 
 	private int row;
 	private int col;
 	private DoorDirection dir;
 	private char roomLetter;
+	private int rowSize;
+	private int colSize;
 
 
 	public void setDir(DoorDirection dir) {
@@ -60,6 +69,23 @@ public class BoardCell {
 
 	public int getCol() {
 		return col;
+	}
+	
+	public JPanel draw(Graphics g) {
+		JPanel cellPanel = new JPanel();
+		cellPanel.setLayout(new GridLayout(1,1));
+		cellPanel.setOpaque(true);
+		if (this.isRoom()) {
+			cellPanel.setBackground(Color.GRAY);
+		}
+		else if (this.isWalkway()) {
+			cellPanel.setBackground(Color.YELLOW);
+		}
+		else {
+			cellPanel.setBackground(Color.RED);
+		}
+		return cellPanel;
+		
 	}
 
 
