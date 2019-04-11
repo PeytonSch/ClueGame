@@ -5,6 +5,7 @@
  */
 package clueGame;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -20,6 +21,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import clueGame.BoardCell;
@@ -771,15 +773,31 @@ public class Board extends JPanel {
 		return null;
 	}
 	
-	public void paintComponent(Graphics g) {
+	public JPanel paintComponent() {
 		
 		JPanel boardPanel = new JPanel();
 		boardPanel.setLayout(new GridLayout(numRows,numColumns));
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numColumns; j++) {
-				boardPanel.add(board[i][j].draw(g));
+				boardPanel.add(board[i][j].draw());
 			}
 		}
+		return boardPanel;
+	}
+	
+	public static void main(String[] args) throws BadConfigFormatException {
+		// Create a JFrame with all the normal functionality
+		JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("Board GUI");frame.setSize(1000, 1000);
+		// Create the JPanel and add it to the JFrame
+		Board b = Board.getInstance();
+		b.setAllConfigFiles("ClueGameLayout.csv", "ClueRooms.txt", "PlayerConfig.txt", "WeaponsConfig.txt");
+		b.initialize();
+		JPanel boardPanel = b.paintComponent();
+		frame.add(boardPanel, BorderLayout.CENTER);
+		// Now let's view it
+		frame.setVisible(true);
 	}
 
 }
