@@ -88,8 +88,9 @@ public class GUI extends JPanel {
 		panel.setLayout(new GridLayout(1,2));      
 		JLabel nameLabel = new JLabel("                             ");
 		nameLabel.setBorder(new EtchedBorder());
+		JLabel turnLabel = new JLabel("Whose Turn?");
+		panel.add(turnLabel);
 		panel.add(nameLabel);
-		panel.setBorder(new TitledBorder ("Whose Turn?"));
 		return panel;
 	}
 	
