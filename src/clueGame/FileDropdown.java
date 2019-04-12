@@ -159,13 +159,13 @@ public class FileDropdown extends JMenuBar {
 		String[] roomGuess = { "Kitchen", "Dining Room", "Planetarium", "Reptile Room", "Hydroponics Lab", 
 				"Tool Closet", "Crematorium", "Cinema", "Ballroom"};
 		JComboBox roomBox = new JComboBox(roomGuess);
-		playerBox.setBorder(new TitledBorder(new EtchedBorder(), "Room Guess"));
+		roomBox.setBorder(new TitledBorder(new EtchedBorder(), "Room Guess"));
 		dropdowns.add(roomBox);
 
 		// Weapon dropdown
 		String[] weaponGuess = { "Candlestick", "Dumbell", "Lead Pipe", "Revolver", "Rope", "Wrench"};
 		JComboBox weaponBox = new JComboBox(weaponGuess);
-		playerBox.setBorder(new TitledBorder(new EtchedBorder(), "Weapon Guess"));
+		weaponBox.setBorder(new TitledBorder(new EtchedBorder(), "Weapon Guess"));
 		dropdowns.add(weaponBox);
 
 		// Add dropdowns to main panel

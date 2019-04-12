@@ -1,6 +1,6 @@
-Voodoo Mama JuuJuu, RED, CPU, 1, 1
-Beatrix Bourbon, GREEN, Human, 5, 5
-Naughty Nellie Nutmeg, PINK, CPU, 6, 7
-Nathaniel Nutmeg, BLUE, CPU, 8, 9
-Caleb Crawdad, ORANGE, CPU, 10, 16
-Deb U. Taunt, GRAY, CPU, 13, 7
+Voodoo Mama JuuJuu, RED, CPU, 0, 5
+Beatrix Bourbon, GREEN, Human, 22, 5
+Naughty Nellie Nutmeg, PINK, CPU, 5, 0
+Nathaniel Nutmeg, BLUE, CPU, 0, 19
+Caleb Crawdad, ORANGE, CPU, 22, 19
+Deb U. Taunt, GRAY, CPU, 14, 0

@@ -1,3 +1,9 @@
+/*
+ * Authors:
+ * James Hawn
+ * Peyton Scherschel
+ */
+
 package clueGame;
 
 import java.awt.BorderLayout;
@@ -13,10 +19,10 @@ import javax.swing.border.TitledBorder;
 
 public class ControlGui extends JPanel {
 	private JTextField name;
-	
+
 	public ControlGui(){
 		// Create a layout with 2 rows
-		
+
 		setLayout(new GridLayout(2,1));
 		JPanel upperPanel = new JPanel();
 		upperPanel.setLayout(new GridLayout(1,2));  
@@ -25,7 +31,7 @@ public class ControlGui extends JPanel {
 		JPanel buttonPanel = createButtonPanel();
 		upperPanel.add(buttonPanel);
 		add(upperPanel);
-		
+
 		JPanel lowerPanel = new JPanel();
 		lowerPanel.setLayout(new GridLayout(1,3));  
 		JPanel dicePanel = createDicePanel();
@@ -36,7 +42,7 @@ public class ControlGui extends JPanel {
 		lowerPanel.add(guessResult);
 		add(lowerPanel);
 	}
-	
+
 	private JPanel createGuessResult() {
 		JPanel panel = new JPanel();
 
@@ -44,7 +50,7 @@ public class ControlGui extends JPanel {
 
 		panel.setLayout(new GridLayout(2,2));      
 		JLabel rollLabel = new JLabel("Response");
-		JLabel rollNum = new JLabel("                                     ");
+		JLabel rollNum = new JLabel("                  Test                   ");
 		rollNum.setBorder(new EtchedBorder());
 		panel.add(rollLabel);
 		panel.add(rollNum);
@@ -59,7 +65,7 @@ public class ControlGui extends JPanel {
 
 		panel.setLayout(new GridLayout(2,1));      
 		JLabel rollLabel = new JLabel("Guess");
-		JLabel rollNum = new JLabel("                                     ");
+		JLabel rollNum = new JLabel("              Test                       ");
 		rollNum.setBorder(new EtchedBorder());
 		panel.add(rollLabel);
 		panel.add(rollNum);
@@ -88,14 +94,14 @@ public class ControlGui extends JPanel {
 		// Use a grid layout, 1 row, 2 elements (label, text)
 
 		panel.setLayout(new GridLayout(4,2));     
-		JLabel nameLabel = new JLabel("");
+		JLabel nameLabel = new JLabel("Test");
 		nameLabel.setBorder(new EtchedBorder());
 		JLabel turnLabel = new JLabel("Whose Turn?");
 		panel.add(turnLabel);
 		panel.add(nameLabel);
 		return panel;
 	}
-	
+
 	private JPanel createButtonPanel() {
 		// no layout specified, so this is flow
 		JPanel panel = new JPanel();
@@ -107,7 +113,7 @@ public class ControlGui extends JPanel {
 		panel.add(accuse);
 		return panel;
 	}
-	
+
 	public static void main(String[] args) {
 		// Create a JFrame with all the normal functionality
 		JFrame frame = new JFrame();

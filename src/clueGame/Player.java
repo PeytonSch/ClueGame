@@ -6,8 +6,14 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.swing.JPanel;
 
 public class Player {
 
@@ -21,6 +27,7 @@ public class Player {
 	private int row;
 	private int col;
 	protected Set<Card> seen;
+	private Boolean isAlive;
 
 	public Player(String name, Color color, String colorString, String type, BoardCell startCell) {
 		this.name = name;
@@ -30,6 +37,7 @@ public class Player {
 		this.colorString = colorString;
 		hand = new HashSet<Card>();
 		seen = new HashSet<Card>();
+		isAlive = true;
 
 		row = startCell.getRow();
 		col = startCell.getCol();
@@ -40,6 +48,7 @@ public class Player {
 	public Player() {
 		seen = new HashSet<Card>();
 		hand = new HashSet<Card>();
+		isAlive = true;
 	}
 
 	//give player card
@@ -95,6 +104,30 @@ public class Player {
 	//add cards to list of cards player has seen
 	public void addCardToListOfCardsAllreadySeen(Card card) {
 		seen.add(card);
+	}
+	private Color convertColor(String string) {
+		Color color; 
+		try {
+			// We can use reflection to convert the string to a color
+			Field field = Class.forName("java.awt.Color").getField(string.trim()); 
+			color = (Color)field.get(null);
+		} catch (Exception e) {
+			color = null; // Not defined
+		}
+		return color;
+	}
+
+	//draw player ovals and set colors to player colors
+	public void drawPlayer(Graphics g) {
+		int scale = 25;
+		if (!isAlive) {
+			return;
+		}
+		g.setColor(color);
+		g.drawOval(this.col * scale, this.row * scale, scale, scale);
+		g.fillOval(this.col*scale, this.row*scale, scale, scale);
+		g.setColor(Color.BLACK);
+		g.drawOval(this.col*scale, this.row*scale, scale, scale);
 	}
 
 

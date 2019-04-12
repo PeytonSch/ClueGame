@@ -123,6 +123,7 @@ public class Board extends JPanel {
 		insertCardsIntoCardDeck();
 		dealCards();
 		ControlGui g = new ControlGui();
+
 	}
 
 	//gives cards to all players and assigns solution
@@ -772,32 +773,42 @@ public class Board extends JPanel {
 		// if reach the suggestor, return null	
 		return null;
 	}
-	
-	public JPanel paintComponent() {
-		
-		JPanel boardPanel = new JPanel();
-		boardPanel.setLayout(new GridLayout(numRows,numColumns));
-		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numColumns; j++) {
-				boardPanel.add(board[i][j].draw());
+
+	//draw board componenents
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		int scale = 25;
+		//make frame
+		g.setColor(Color.BLACK);
+		g.drawRect(0, 0, scale * numColumns, scale * numRows);
+
+		//render board cells
+		for (int i = 0; i < getNumRows(); i++) { 
+			for(int j = 0; j < getNumColumns(); j++) { 
+				getCellAt(i, j).drawCell(g);
 			}
 		}
-		return boardPanel;
+
+
+
+		//room label
+		g.setColor(Color.BLUE);
+		g.drawString("Library", 15, 70);
+		g.drawString("Observatory", 230, 40);
+		g.drawString("Hall", 435, 60);
+		g.drawString("Bathroom", 520, 70);
+		g.drawString("Wine Cellar", 30, 225);
+		g.drawString("Art Room", 25, 475);
+		g.drawString("Kitchen", 185, 475);
+		g.drawString("Garage", 370, 480);
+		g.drawString("Sauna", 520, 375);
+
+
+		//render people
+		for (Player person : players) {
+			person.drawPlayer(g);
+		}
 	}
-	
-	public static void main(String[] args) throws BadConfigFormatException {
-		// Create a JFrame with all the normal functionality
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Board GUI");frame.setSize(1000, 1000);
-		// Create the JPanel and add it to the JFrame
-		Board b = Board.getInstance();
-		b.setAllConfigFiles("ClueGameLayout.csv", "ClueRooms.txt", "PlayerConfig.txt", "WeaponsConfig.txt");
-		b.initialize();
-		JPanel boardPanel = b.paintComponent();
-		frame.add(boardPanel, BorderLayout.CENTER);
-		// Now let's view it
-		frame.setVisible(true);
-	}
+
 
 }
