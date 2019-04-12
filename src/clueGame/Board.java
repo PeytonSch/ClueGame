@@ -120,7 +120,7 @@ public class Board extends JPanel {
 		calcAdjacencies();
 		insertCardsIntoCardDeck();
 		dealCards();
-		GUI g = new GUI();
+		ControlGui g = new ControlGui();
 	}
 
 	//gives cards to all players and assigns solution

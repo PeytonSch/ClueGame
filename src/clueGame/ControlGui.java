@@ -11,10 +11,10 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class GUI extends JPanel {
+public class ControlGui extends JPanel {
 	private JTextField name;
 	
-	public GUI(){
+	public ControlGui(){
 		// Create a layout with 2 rows
 		
 		setLayout(new GridLayout(2,1));
@@ -114,7 +114,7 @@ public class GUI extends JPanel {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Control GUI");frame.setSize(1000, 200);
 		// Create the JPanel and add it to the JFrame
-		GUI gui = new GUI();
+		ControlGui gui = new ControlGui();
 		frame.add(gui, BorderLayout.CENTER);
 		// Now let's view it
 		frame.setVisible(true);
