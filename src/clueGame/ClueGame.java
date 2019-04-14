@@ -8,6 +8,7 @@ package clueGame;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class ClueGame extends JFrame {
 
@@ -37,6 +38,7 @@ public class ClueGame extends JFrame {
 	//main calls constructor and sets visible
 	public static void main(String[] args) throws BadConfigFormatException {
 		ClueGame game = new ClueGame();
+		JOptionPane.showMessageDialog(game, "You are Caleb Crawdad, press Next Player to begin play", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
 		game.setVisible(true);
 
 	}
