@@ -45,16 +45,17 @@ public class Board extends JPanel {
 	private ArrayList<Player> players;
 	private ArrayList<Card> cardDeck;
 	private Set<Card> playerCards;
+	
 	public Set<Card> getPlayerCards() {
 		return playerCards;
 	}
 
-	private Set<Card> weaponCards;
-	public Set<Card> getWeaponCards() {
+	private ArrayList<Card> weaponCards;
+	public ArrayList<Card> getWeaponCards() {
 		return weaponCards;
 	}
 
-	private Set<Card> roomCards;
+	private ArrayList<Card> roomCards;
 	private Solution solution;
 	private ArrayList<Card> allCards;
 
@@ -76,8 +77,8 @@ public class Board extends JPanel {
 		legend = new HashMap<Character, String>();
 		players = new ArrayList<Player>();
 		playerCards = new HashSet<Card>();
-		weaponCards = new HashSet<Card>();
-		roomCards = new HashSet<Card>();
+		weaponCards = new ArrayList<Card>();
+		roomCards = new ArrayList<Card>();
 		cardDeck = new ArrayList<Card>();
 		allCards = new ArrayList<Card>();
 
@@ -148,17 +149,17 @@ public class Board extends JPanel {
 
 			//assign solution based on card type for all
 			if (!hasRoom && next.getCardType() == CardType.ROOM) {
-				roomCard += next.getName();
+				roomCard = next.getName();
 				cardDeck.remove(next);
 				hasRoom = true;
 			}
 			else if ( !hasPerson  && next.getCardType() == CardType.PERSON) {
-				personCard += next.getName();
+				personCard = next.getName();
 				cardDeck.remove(next);
 				hasPerson = true;
 			}
 			else if ( !hasWeapon && next.getCardType() == CardType.WEAPON) {
-				weaponCard += next.getName();
+				weaponCard = next.getName();
 				cardDeck.remove(next);
 				hasWeapon = true;
 			}
@@ -176,15 +177,17 @@ public class Board extends JPanel {
 		// While deck is not empty, assign card at random to a player,
 		// move on to next one. Removes card after assignment
 
-		while ( cardDeck.size() > 0 ) {
+		
 			for(Player p : players) {
-				Card random = cardDeck.get((int)(Math.random() * cardDeck.size()));
-				p.giveCard(random);
-				cardDeck.remove(random);
+				Card randomRoom = roomCards.get((int)(Math.random() * roomCards.size()));
+				Card randomWeapon = weaponCards.get((int)(Math.random() * weaponCards.size()));
+				
+				p.giveCard(randomRoom);
+				p.giveCard(randomWeapon);
+				
+				roomCards.remove(randomRoom);
+				weaponCards.remove(randomWeapon);
 			}
-
-		}
-
 	}
 
 	//add all cards into one deck

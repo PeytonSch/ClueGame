@@ -6,6 +6,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -28,7 +29,7 @@ public class ComputerPlayer extends Player {
 	}
 
 	public BoardCell pickLocation(Set<BoardCell> targets) {
-		//Should only choose a valid target (calculating targets already tested –yay)
+		//Should only choose a valid target (calculating targets already tested ï¿½yay)
 		//If room in list and has not been visited last:
 		for ( BoardCell cell : targets ) {
 			if ( cell.isDoorway() && cell.getInitial() != lastRoom ) {
@@ -64,7 +65,7 @@ public class ComputerPlayer extends Player {
 		Card roomCard = Board.getInstance().getRoomWithInitial(currentCell.getInitial());
 
 		Card weaponCard = null;
-		Set<Card> allWeapons = Board.getInstance().getWeaponCards();
+		ArrayList<Card> allWeapons = Board.getInstance().getWeaponCards();
 		Set<Card> unseenWeapons = new HashSet<Card>();
 
 		//add weapons to unseen list if we havn't seen them
