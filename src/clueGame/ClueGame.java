@@ -57,8 +57,8 @@ public class ClueGame extends JFrame {
 		panel.setLayout(new GridLayout(3,1)); 
 
 		// CHoose a random Player
-		double random = Math.random() * players.size();
-		Player user = players.get((int)random);
+		double randomPlayer = Math.random() * players.size();
+		Player user = players.get((int)randomPlayer);
 		HashSet<Card> playerCardSet = (HashSet<Card>) user.getHand();
 
 
