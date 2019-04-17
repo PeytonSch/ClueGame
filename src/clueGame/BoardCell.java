@@ -120,6 +120,14 @@ public class BoardCell {
 		}
 
 	}
+	
+	public void drawHumanTargetCells(Graphics g) {
+		g.setColor(Color.PINK);
+		g.drawRect(this.col * 25, this.row * 25, 25, 25);
+		g.fillRect(this.col * 25, this.row * 25, 25, 25);
+		g.setColor(Color.BLACK);
+		g.drawRect(this.col * 25, this.row * 25, 25, 25);
+	}
 
 
 }

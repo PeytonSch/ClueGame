@@ -18,7 +18,17 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class ControlGui extends JPanel {
-	private JTextField name;
+	
+	private JLabel guessLabel;
+	private JLabel guessText;
+	private JLabel nameLabel;
+	private JLabel turnLabel;
+	private JLabel responseText;
+	private JLabel responseLabel;
+	private JLabel rollLabel;
+	private JLabel rollText;
+	
+	JButton next, accuse;
 
 	public ControlGui(){
 		// Create a layout with 2 rows
@@ -49,11 +59,11 @@ public class ControlGui extends JPanel {
 		// Use a grid layout, 1 row, 2 elements (label, text)
 
 		panel.setLayout(new GridLayout(2,2));      
-		JLabel rollLabel = new JLabel("Response");
-		JLabel rollNum = new JLabel("                  Test                   ");
-		rollNum.setBorder(new EtchedBorder());
-		panel.add(rollLabel);
-		panel.add(rollNum);
+		responseLabel = new JLabel("Response");
+		responseText = new JLabel("      responseText  ");
+		responseText.setBorder(new EtchedBorder());
+		panel.add(responseLabel);
+		panel.add(responseText);
 		panel.setBorder(new TitledBorder ("Guess Result"));
 		return panel;
 	}
@@ -64,11 +74,11 @@ public class ControlGui extends JPanel {
 		// Use a grid layout, 1 row, 2 elements (label, text)
 
 		panel.setLayout(new GridLayout(2,1));      
-		JLabel rollLabel = new JLabel("Guess");
-		JLabel rollNum = new JLabel("              Test                       ");
-		rollNum.setBorder(new EtchedBorder());
-		panel.add(rollLabel);
-		panel.add(rollNum);
+		guessLabel = new JLabel("Guess");
+		guessText = new JLabel("              guessText                     ");
+		guessText.setBorder(new EtchedBorder());
+		panel.add(guessLabel);
+		panel.add(guessText);
 		panel.setBorder(new TitledBorder ("Guess"));
 		return panel;
 	}
@@ -79,11 +89,11 @@ public class ControlGui extends JPanel {
 		// Use a grid layout, 1 row, 2 elements (label, text)
 
 		panel.setLayout(new GridLayout(2,2));      
-		JLabel rollLabel = new JLabel("Roll  ");
-		JLabel rollNum = new JLabel("4");
-		rollNum.setBorder(new EtchedBorder());
+		rollLabel = new JLabel("Roll");
+		rollText = new JLabel(" rollText Random Start Value 99");
+		rollText.setBorder(new EtchedBorder());
 		panel.add(rollLabel);
-		panel.add(rollNum);
+		panel.add(rollText);
 		panel.setBorder(new TitledBorder ("Die"));
 		return panel;
 	}
@@ -94,9 +104,9 @@ public class ControlGui extends JPanel {
 		// Use a grid layout, 1 row, 2 elements (label, text)
 
 		panel.setLayout(new GridLayout(4,2));     
-		JLabel nameLabel = new JLabel("Test");
+		nameLabel = new JLabel("nameLabel");
 		nameLabel.setBorder(new EtchedBorder());
-		JLabel turnLabel = new JLabel("Whose Turn?");
+		turnLabel = new JLabel("Whose Turn?");
 		panel.add(turnLabel);
 		panel.add(nameLabel);
 		return panel;
@@ -107,13 +117,19 @@ public class ControlGui extends JPanel {
 		JPanel panel = new JPanel();
 		panel.setSize(500, 250);
 		panel.setLayout(new GridLayout(1,2));      
-		JButton next = new JButton("Next Player");
-		JButton accuse = new JButton("Make an Accusation");
+		next = new JButton("Next Player");
+		accuse = new JButton("Make an Accusation");
 		panel.add(next);
 		panel.add(accuse);
 		return panel;
 	}
-
+	
+	public void updateGUI(Player player, int dieRoll) {
+		// Update any and all GUI needs
+		rollText.setText(Integer.toString(dieRoll));
+		nameLabel.setText(player.getName());
+	}
+	
 	public static void main(String[] args) {
 		// Create a JFrame with all the normal functionality
 		JFrame frame = new JFrame();

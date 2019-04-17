@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.lang.reflect.Field;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import javax.swing.JPanel;
@@ -28,6 +29,7 @@ public class Player {
 	private int col;
 	protected Set<Card> seen;
 	private Boolean isAlive;
+	private boolean currentlyInRoom;
 
 	public Player(String name, Color color, String colorString, String type, BoardCell startCell) {
 		this.name = name;
@@ -41,6 +43,8 @@ public class Player {
 
 		row = startCell.getRow();
 		col = startCell.getCol();
+		
+		currentlyInRoom = false;
 
 	}
 
@@ -128,6 +132,42 @@ public class Player {
 		g.fillOval(this.col*scale, this.row*scale, scale, scale);
 		g.setColor(Color.BLACK);
 		g.drawOval(this.col*scale, this.row*scale, scale, scale);
+	}
+	
+	public void movePlayer(BoardCell cell) {
+		//human needs to pick from list of targets
+		//computer needs to pick its own cell
+		setLocation(cell.getRow(), cell.getCol());
+		
+		// check if the cell we moved to is a room
+		if (cell.isRoom()) {
+			currentlyInRoom = true;
+		}
+		else {
+			currentlyInRoom = false;
+		}
+	}
+	
+	public void setLocation(int row, int col) {
+		this.row = row;
+		this.col = col;
+	}
+	
+	public boolean getCurrentlyInRoom() {
+		return currentlyInRoom;
+	}
+
+	public BoardCell pickLocation(Set<BoardCell> targets) {
+		// TODO Auto-generated method stub
+		int target = new Random().nextInt(targets.size());
+		int i = 0;
+		for(BoardCell cell : targets) {
+			if (i == target) {
+				return cell;
+				
+			}
+		}
+		return null;
 	}
 
 

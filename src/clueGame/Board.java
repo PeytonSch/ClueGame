@@ -45,7 +45,8 @@ public class Board extends JPanel {
 	private ArrayList<Player> players;
 	private ArrayList<Card> cardDeck;
 	private Set<Card> playerCards;
-	
+	private boolean isHumanPlayer = false;
+
 	public Set<Card> getPlayerCards() {
 		return playerCards;
 	}
@@ -177,17 +178,17 @@ public class Board extends JPanel {
 		// While deck is not empty, assign card at random to a player,
 		// move on to next one. Removes card after assignment
 
-		
-			for(Player p : players) {
-				Card randomRoom = roomCards.get((int)(Math.random() * roomCards.size()));
-				Card randomWeapon = weaponCards.get((int)(Math.random() * weaponCards.size()));
-				
-				p.giveCard(randomRoom);
-				p.giveCard(randomWeapon);
-				
-				roomCards.remove(randomRoom);
-				weaponCards.remove(randomWeapon);
-			}
+
+		for(Player p : players) {
+			Card randomRoom = roomCards.get((int)(Math.random() * roomCards.size()));
+			Card randomWeapon = weaponCards.get((int)(Math.random() * weaponCards.size()));
+
+			p.giveCard(randomRoom);
+			p.giveCard(randomWeapon);
+
+			roomCards.remove(randomRoom);
+			weaponCards.remove(randomWeapon);
+		}
 	}
 
 	//add all cards into one deck
@@ -791,6 +792,14 @@ public class Board extends JPanel {
 				getCellAt(i, j).drawCell(g);
 			}
 		}
+		
+		//show targets for human players
+		if (isHumanPlayer) {
+			for (BoardCell cell : targets) {
+				cell.drawHumanTargetCells(g);
+			}
+			isHumanPlayer = false;
+		}
 
 
 
@@ -810,6 +819,29 @@ public class Board extends JPanel {
 		//render people
 		for (Player person : players) {
 			person.drawPlayer(g);
+		}
+	}
+
+
+	public void nextPlayer(Player player, int dieRoll, ArrayList<Player> players) {
+
+
+		// Calculate targets
+		calcTargets(player.getRow(), player.getCol(), dieRoll);
+
+		// IF HUMAN
+		if (player instanceof HumanPlayer) {
+			// For drawing targets
+			isHumanPlayer = true;
+		}		
+
+		// IF COMP
+		// Choose target at random
+		else if (player instanceof ComputerPlayer) {
+			
+
+			player.pickLocation(targets);
+			
 		}
 	}
 

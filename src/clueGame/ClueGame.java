@@ -7,6 +7,8 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -20,15 +22,23 @@ import javax.swing.border.TitledBorder;
 public class ClueGame extends JFrame {
 
 	private static String userName;
+	private boolean humanTurnComplete = false;
+	private int iterator = 0;
+	private Player player;
+	private static String pleaseCompleteTurn = "Please finish your turn before pressing Next Player.";
+	private ArrayList<Player> players;
+	private Board board;
+	private ControlGui gui;
 
 	public ClueGame() throws BadConfigFormatException {
-		Board board = Board.getInstance();
+		board = Board.getInstance();
 
 		board.setAllConfigFiles("ClueGameLayout.csv", "ClueRooms.txt", "PlayerConfig.txt", "WeaponsConfig.txt");
 		board.initialize();
 
 		//gui is control panel at bottom
-		ControlGui gui = new ControlGui();
+		gui = new ControlGui();
+		gui.next.addActionListener(new nextPlayerListener());
 		FileDropdown menu = new FileDropdown();
 		//set close op
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,7 +48,7 @@ public class ClueGame extends JFrame {
 		setTitle("Clue Game");
 
 		//create Player Cards JPanel and add the JFrame
-		ArrayList<Player> players = board.getPlayers();
+		players = board.getPlayers();
 		JPanel playerCards = createPlayerCardsPanel(players);
 		add(playerCards, BorderLayout.EAST);
 
@@ -104,6 +114,46 @@ public class ClueGame extends JFrame {
 		panel.setBorder(new TitledBorder ("My Cards"));
 		return panel;
 	}
+	
+	// Next Player listener
+		public class nextPlayerListener implements ActionListener {
+			
+			public void actionPerformed(ActionEvent e) {
+				// run all code for game
+				// goes to next player in list
+
+				// If human is not done display error
+				if (!humanTurnComplete && player instanceof HumanPlayer) {
+					JOptionPane errorPane = new JOptionPane();
+					errorPane.showMessageDialog(new JFrame(), pleaseCompleteTurn, "Error", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+
+				// Reset boolean
+				humanTurnComplete = false;
+				
+
+				// Wrap around array if at max
+				if (iterator >= players.size()) iterator = 0;
+				player = players.get(iterator);
+				// Roll dice
+				int dieRoll = (int)Math.floor(Math.random() * Math.floor(6)) + 1;
+
+				// Update GUI with current info
+				gui.updateGUI(player, dieRoll);
+
+				
+				// Call draws targets for human
+				board.nextPlayer(player, dieRoll, players);
+				board.repaint();
+
+				
+
+				// Increase offset
+				iterator++;					
+			}
+		}
+	
 
 	//main calls constructor and sets visible
 	public static void main(String[] args) throws BadConfigFormatException {
