@@ -7,8 +7,11 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -26,9 +29,13 @@ public class ClueGame extends JFrame {
 	private int iterator = 0;
 	private Player player;
 	private static String pleaseCompleteTurn = "Please finish your turn before pressing Next Player.";
+	private static String incorrectLocationMessage = "Please select a valid space.";
+	private static String errorTitle = "Error";
+	
 	private ArrayList<Player> players;
 	private Board board;
 	private ControlGui gui;
+	private Player user = new Player();
 
 	public ClueGame() throws BadConfigFormatException {
 		board = Board.getInstance();
@@ -39,6 +46,7 @@ public class ClueGame extends JFrame {
 		//gui is control panel at bottom
 		gui = new ControlGui();
 		gui.next.addActionListener(new nextPlayerListener());
+		addMouseListener(new MoveHumanPlayer());
 		FileDropdown menu = new FileDropdown();
 		//set close op
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,7 +76,7 @@ public class ClueGame extends JFrame {
 
 		// CHoose a random Player
 		double randomPlayer = Math.random() * players.size();
-		Player user = players.get((int)randomPlayer);
+		user = players.get((int)randomPlayer);
 		HashSet<Card> playerCardSet = (HashSet<Card>) user.getHand();
 
 
@@ -114,46 +122,91 @@ public class ClueGame extends JFrame {
 		panel.setBorder(new TitledBorder ("My Cards"));
 		return panel;
 	}
-	
+
 	// Next Player listener
-		public class nextPlayerListener implements ActionListener {
-			
-			public void actionPerformed(ActionEvent e) {
-				// run all code for game
-				// goes to next player in list
+	public class nextPlayerListener implements ActionListener {
 
-				// If human is not done display error
-				if (!humanTurnComplete && player instanceof HumanPlayer) {
-					JOptionPane errorPane = new JOptionPane();
-					errorPane.showMessageDialog(new JFrame(), pleaseCompleteTurn, "Error", JOptionPane.INFORMATION_MESSAGE);
-					return;
+		public void actionPerformed(ActionEvent e) {
+			// run all code for game
+			// goes to next player in list
+
+			// If human is not done display error
+			if (!humanTurnComplete && player instanceof HumanPlayer) {
+				JOptionPane errorPane = new JOptionPane();
+				errorPane.showMessageDialog(new JFrame(), pleaseCompleteTurn, "Error", JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+
+			// Reset boolean
+			humanTurnComplete = false;
+
+
+			// Wrap around array if at max
+			if (iterator >= players.size()) iterator = 0;
+			player = players.get(iterator);
+			// Roll dice
+			int dieRoll = (int)Math.floor(Math.random() * Math.floor(6)) + 1;
+
+			// Update GUI with current info
+			gui.updateGUI(player, dieRoll);
+
+
+			// Call draws targets for human
+			board.nextPlayer(player, dieRoll, players);
+			board.repaint();
+
+
+
+			// Increase offset
+			iterator++;					
+		}
+	}
+
+	// Human move listener, handles suggestions
+	public class MoveHumanPlayer implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (player instanceof ComputerPlayer) return;
+
+			boolean validMove = false;
+
+			// IS VALID
+			System.out.println("Click X and Y");
+			System.out.println(e.getX() + "  " + e.getY());
+			System.out.println("OK BOUNDS");
+			for (BoardCell c : board.getTargets()) {
+				int scale = 25;
+				System.out.println(c.getCol()*scale + "-" + c.getCol()*scale + scale);
+				if (e.getX() >= c.getCol() * scale && e.getX() <= (c.getCol() * scale) + scale) {
+					if (e.getY() >= c.getRow() * scale + 50 && e.getY() <= (c.getRow() * scale) + 75) {
+						user.makeMove(board.getCellAt(c.getRow(), c.getCol()));
+						validMove = true;
+						
+						humanTurnComplete = true;
+						board.repaint();
+					}
 				}
+			}
 
-				// Reset boolean
-				humanTurnComplete = false;
-				
-
-				// Wrap around array if at max
-				if (iterator >= players.size()) iterator = 0;
-				player = players.get(iterator);
-				// Roll dice
-				int dieRoll = (int)Math.floor(Math.random() * Math.floor(6)) + 1;
-
-				// Update GUI with current info
-				gui.updateGUI(player, dieRoll);
-
-				
-				// Call draws targets for human
-				board.nextPlayer(player, dieRoll, players);
-				board.repaint();
-
-				
-
-				// Increase offset
-				iterator++;					
+			if (!validMove) {
+				//Choose a valid target
+				JOptionPane errorPane = new JOptionPane();
+				errorPane.showMessageDialog(new JFrame(), incorrectLocationMessage, errorTitle, JOptionPane.INFORMATION_MESSAGE);
+				return;
 			}
 		}
-	
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {}
+		@Override
+		public void mouseExited(MouseEvent arg0) {}
+		@Override
+		public void mousePressed(MouseEvent arg0) {}
+		@Override
+		public void mouseReleased(MouseEvent arg0) {}
+	}
+
 
 	//main calls constructor and sets visible
 	public static void main(String[] args) throws BadConfigFormatException {

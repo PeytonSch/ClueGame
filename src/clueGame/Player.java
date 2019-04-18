@@ -176,7 +176,9 @@ public class Player {
 				return cell;
 				
 			}
+			i++;
 		}
+		System.out.println("pickLocation returning null");
 		return null;
 	}
 

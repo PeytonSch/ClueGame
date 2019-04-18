@@ -833,7 +833,11 @@ public class Board extends JPanel {
 		if (player.getType().equals("Human")) {
 			// For drawing targets
 			isHumanPlayer = true;
-			player.makeMove(player.pickLocation(targets));
+			BoardCell temp = player.pickLocation(targets);
+			if(temp == null) {
+				System.out.println("ERROR PART 1");
+			}
+			player.makeMove(temp);
 		}		
 
 		// IF COMP
