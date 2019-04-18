@@ -373,7 +373,7 @@ public class Board extends JPanel {
 				int startX = Integer.parseInt(playerFromFile.get(3));
 				int startY = Integer.parseInt(playerFromFile.get(4));
 				BoardCell cell = board[startX][startY];
-
+				
 				//throw exception if key name or card type isn't what we expect
 				if(!type.equals("Human") && !type.equals("CPU")) {
 					throw new BadConfigFormatException();

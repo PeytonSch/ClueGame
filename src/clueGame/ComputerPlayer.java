@@ -76,6 +76,7 @@ public class ComputerPlayer extends Player {
 		}
 
 		int weapSize = unseenWeapons.size();
+		
 		int numWeapons = new Random().nextInt(weapSize);
 		int j = 0;
 		for ( Card w : unseenWeapons ) {
