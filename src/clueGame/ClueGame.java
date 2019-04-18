@@ -26,7 +26,7 @@ public class ClueGame extends JFrame {
 
 	private static String userName;
 	private boolean humanTurnComplete = false;
-	private int counter = 0;
+	private int counter = 1; //human starts first (index 1 in config file)
 	private Player player;
 	private static String completeTurnMessage = "Turn not finished";
 	private static String wrongLocationMessage = "Invalid location selected";
