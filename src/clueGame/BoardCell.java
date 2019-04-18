@@ -120,6 +120,15 @@ public class BoardCell {
 		}
 
 	}
+	
+	public void showTargets(Graphics g) {
+		int scale = 25;
+		g.setColor(Color.RED);
+		g.drawRect(this.col * scale, this.row * scale, scale, scale);
+		g.fillRect(this.col * scale, this.row * scale, scale, scale);
+		g.setColor(Color.BLACK);
+		g.drawRect(this.col * scale, this.row * scale, scale, scale);
+	}
 
 
 }

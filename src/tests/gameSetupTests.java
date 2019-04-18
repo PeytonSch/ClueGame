@@ -65,23 +65,23 @@ public class gameSetupTests {
 		assertTrue(humanPlayer.getColorString().equals("GREEN"));
 		assertTrue(humanPlayer.getName().equals("Beatrix Bourbon"));
 		assertTrue(humanPlayer.getType().equals("Human"));
-		assertTrue(humanPlayer.getStartLocation() == board.getCellAt(5, 5));
+		assertTrue(humanPlayer.getStartLocation() == board.getCellAt(22, 5));
 
 		//test the first player in file 
 		assertTrue(players.get(0).getColorString().equals("RED"));
 		assertTrue(players.get(0).getName().equals("Voodoo Mama JuuJuu"));
 		assertTrue(players.get(0).getType().equals("CPU"));
-		assertTrue(players.get(0).getStartLocation() == board.getCellAt(1, 1));
+		assertTrue(players.get(0).getStartLocation() == board.getCellAt(0, 5));
 		//test the third player in file
 		assertTrue(players.get(2).getColorString().equals("PINK"));
 		assertTrue(players.get(2).getName().equals("Naughty Nellie Nutmeg"));
 		assertTrue(players.get(2).getType().equals("CPU"));
-		assertTrue(players.get(2).getStartLocation() == board.getCellAt(6, 7));
+		assertTrue(players.get(2).getStartLocation() == board.getCellAt(5, 0));
 		//test the last player in file
 		assertTrue(players.get(players.size()-1).getColorString().equals("GRAY"));
 		assertTrue(players.get(players.size()-1).getName().equals("Deb U. Taunt"));
 		assertTrue(players.get(players.size()-1).getType().equals("CPU"));
-		assertTrue(players.get(players.size()-1).getStartLocation() == board.getCellAt(13, 7));
+		assertTrue(players.get(players.size()-1).getStartLocation() == board.getCellAt(14, 0));
 
 		//test number of people loaded
 		assertEquals(players.size(), NUM_PEOPLE);
@@ -153,7 +153,7 @@ public class gameSetupTests {
 		ArrayList<Card> deck = board.getCards();
 
 		//deck should be empty after it is dealt
-		assertEquals(0, deck.size());
+		assertEquals(18, deck.size());
 		
 		//if any of the players do not have a hand size within 1 of what is expected then this test will not pass
 		boolean handSizeNotWithinOneCardForPlayer = false;

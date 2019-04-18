@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.lang.reflect.Field;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import javax.swing.JPanel;
@@ -28,6 +29,7 @@ public class Player {
 	private int col;
 	protected Set<Card> seen;
 	private Boolean isAlive;
+	private boolean currentlyInRoom;
 
 	public Player(String name, Color color, String colorString, String type, BoardCell startCell) {
 		this.name = name;
@@ -41,6 +43,8 @@ public class Player {
 
 		row = startCell.getRow();
 		col = startCell.getCol();
+		
+		currentlyInRoom = false;
 
 	}
 
@@ -128,6 +132,45 @@ public class Player {
 		g.fillOval(this.col*scale, this.row*scale, scale, scale);
 		g.setColor(Color.BLACK);
 		g.drawOval(this.col*scale, this.row*scale, scale, scale);
+	}
+	
+	public void makeMove(BoardCell cell) {
+		//moves player to given cell
+		setLocation(cell.getRow(), cell.getCol());
+		
+		//update room status
+		if (cell.isRoom()) {
+			currentlyInRoom = true;
+		}
+		else {
+			currentlyInRoom = false;
+		}
+	}
+	
+	public void setLocation(int row, int col) {
+		this.row = row;
+		this.col = col;
+	}
+	
+	public boolean getCurrentlyInRoom() {
+		return currentlyInRoom;
+	}
+	
+
+
+	public BoardCell pickLocation(Set<BoardCell> targets) {
+		// TODO Auto-generated method stub
+		int target = new Random().nextInt(targets.size());
+		int i = 0;
+		for(BoardCell cell : targets) {
+			if (i == target) {
+				return cell;
+				
+			}
+			i++;
+		}
+		System.out.println("pickLocation returning null");
+		return null;
 	}
 
 

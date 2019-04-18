@@ -11,10 +11,13 @@ import java.util.Random;
 import java.util.Set;
 
 public class HumanPlayer extends Player {
+	
+	private boolean waitingToGiveSuggestion;
 
 	public HumanPlayer(String name, Color color, String colorString, String type, BoardCell startCell) {
 		super(name, color, colorString, type, startCell);
 		// TODO Auto-generated constructor stub
+		waitingToGiveSuggestion = false;		
 	}
 
 	public HumanPlayer() {
@@ -55,5 +58,7 @@ public class HumanPlayer extends Player {
 		}
 		return null; 
 	}
+	
+	
 
 }

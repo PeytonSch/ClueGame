@@ -65,7 +65,7 @@ public class ComputerPlayer extends Player {
 		Card roomCard = Board.getInstance().getRoomWithInitial(currentCell.getInitial());
 
 		Card weaponCard = null;
-		ArrayList<Card> allWeapons = Board.getInstance().getWeaponCards();
+		ArrayList<Card> allWeapons = Board.getInstance().getAllWeaponCards();
 		Set<Card> unseenWeapons = new HashSet<Card>();
 
 		//add weapons to unseen list if we havn't seen them
@@ -74,9 +74,11 @@ public class ComputerPlayer extends Player {
 				unseenWeapons.add(w);
 			}
 		}
-
+		System.out.println("cardsAllreadySeen: " + getCardsAllreadySeen().size());
 		int weapSize = unseenWeapons.size();
+		System.out.println("Wep size (unsean weapons):  " + weapSize);
 		int numWeapons = new Random().nextInt(weapSize);
+		System.out.println("numWeapons:   " + numWeapons);
 		int j = 0;
 		for ( Card w : unseenWeapons ) {
 			if ( j == numWeapons ) {

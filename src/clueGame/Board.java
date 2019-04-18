@@ -45,11 +45,16 @@ public class Board extends JPanel {
 	private ArrayList<Player> players;
 	private ArrayList<Card> cardDeck;
 	private Set<Card> playerCards;
-	
+	private boolean isHumanPlayer = false;
+
 	public Set<Card> getPlayerCards() {
 		return playerCards;
 	}
-
+	
+	private ArrayList<Card> allWeaponCards;
+	public ArrayList<Card> getAllWeaponCards() {
+		return allWeaponCards;
+	}
 	private ArrayList<Card> weaponCards;
 	public ArrayList<Card> getWeaponCards() {
 		return weaponCards;
@@ -78,6 +83,7 @@ public class Board extends JPanel {
 		players = new ArrayList<Player>();
 		playerCards = new HashSet<Card>();
 		weaponCards = new ArrayList<Card>();
+		allWeaponCards = new ArrayList<Card>(); //this list does not empty when dealing
 		roomCards = new ArrayList<Card>();
 		cardDeck = new ArrayList<Card>();
 		allCards = new ArrayList<Card>();
@@ -177,17 +183,17 @@ public class Board extends JPanel {
 		// While deck is not empty, assign card at random to a player,
 		// move on to next one. Removes card after assignment
 
-		
-			for(Player p : players) {
-				Card randomRoom = roomCards.get((int)(Math.random() * roomCards.size()));
-				Card randomWeapon = weaponCards.get((int)(Math.random() * weaponCards.size()));
-				
-				p.giveCard(randomRoom);
-				p.giveCard(randomWeapon);
-				
-				roomCards.remove(randomRoom);
-				weaponCards.remove(randomWeapon);
-			}
+
+		for(Player p : players) {
+			Card randomRoom = roomCards.get((int)(Math.random() * roomCards.size()));
+			Card randomWeapon = weaponCards.get((int)(Math.random() * weaponCards.size()));
+
+			p.giveCard(randomRoom);
+			p.giveCard(randomWeapon);
+
+			roomCards.remove(randomRoom);
+			weaponCards.remove(randomWeapon);
+		}
 	}
 
 	//add all cards into one deck
@@ -198,6 +204,7 @@ public class Board extends JPanel {
 		allCards.addAll(playerCards);
 		allCards.addAll(roomCards);
 		allCards.addAll(weaponCards);
+		allWeaponCards.addAll(weaponCards);
 
 	}
 
@@ -341,6 +348,7 @@ public class Board extends JPanel {
 			}
 			//set numRows
 			numRows = rowCount;
+			//System.out.println(numRows);
 		} catch (FileNotFoundException e) {
 			System.out.println("Load Board Config File Not Found");
 			e.getMessage();
@@ -371,7 +379,7 @@ public class Board extends JPanel {
 				int startX = Integer.parseInt(playerFromFile.get(3));
 				int startY = Integer.parseInt(playerFromFile.get(4));
 				BoardCell cell = board[startX][startY];
-
+				
 				//throw exception if key name or card type isn't what we expect
 				if(!type.equals("Human") && !type.equals("CPU")) {
 					throw new BadConfigFormatException();
@@ -720,7 +728,7 @@ public class Board extends JPanel {
 
 	public Card getRoomWithInitial(char initial) {
 		String roomName = legend.get(initial);
-		for (Card r : roomCards) {
+		for (Card r : allCards) {
 			if (r.getName().equals(roomName)) {
 				return r;
 			}
@@ -791,6 +799,14 @@ public class Board extends JPanel {
 				getCellAt(i, j).drawCell(g);
 			}
 		}
+		
+		//show targets for human players
+		if (isHumanPlayer) {
+			for (BoardCell cell : targets) {
+				cell.showTargets(g);
+			}
+			isHumanPlayer = false;
+		}
 
 
 
@@ -810,6 +826,45 @@ public class Board extends JPanel {
 		//render people
 		for (Player person : players) {
 			person.drawPlayer(g);
+		}
+	}
+
+
+	public void nextPlayer(Player player, int dieRoll, ArrayList<Player> players) {
+
+
+		//calc targets for player
+		calcTargets(player.getRow(), player.getCol(), dieRoll);
+
+		//draw the targets and let human decide if its a human
+		if (player.getType().equals("Human")) {
+			isHumanPlayer = true;
+			//for debugging
+			BoardCell temp = player.pickLocation(targets);
+			if(temp == null) {
+				System.out.println("ERROR PART 1");
+			}
+			//for testing
+			//player.makeMove(temp);
+		}		
+
+		//if its a CPU player then picks location randomly 
+		else if (player.getType().equals("CPU")) {
+			
+			//for debugging 
+			BoardCell temp = player.pickLocation(targets);
+			if(temp == null) {
+				System.out.println("ERROR");
+			}
+			//let the cpu player chose where to go next
+			player.makeMove(temp);
+			
+		}
+		
+		//for debugging and error catching
+		else {
+			System.out.println("ERROR not computer or human player");
+			System.out.println(player.getType());
 		}
 	}
 

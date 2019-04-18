@@ -153,7 +153,7 @@ public class CTest_BoardAdjTargetTests {
 		testList = board.getAdjList(21, 15);
 		assertTrue(testList.contains(board.getCellAt(21, 16)));
 		assertTrue(testList.contains(board.getCellAt(20, 15)));
-		assertEquals(2, testList.size());
+		assertEquals(3, testList.size());
 		
 		// Test on right edge of board, next to 1 room piece
 		testList = board.getAdjList(14, 22);
@@ -180,7 +180,7 @@ public class CTest_BoardAdjTargetTests {
 	public void testTargetsOneStep() {
 		board.calcTargets(21, 7, 1);
 		Set<BoardCell> targets= board.getTargets();
-		assertEquals(2, targets.size());
+		assertEquals(3, targets.size());
 		assertTrue(targets.contains(board.getCellAt(20, 7)));
 		assertTrue(targets.contains(board.getCellAt(21, 6)));	
 		
@@ -198,7 +198,7 @@ public class CTest_BoardAdjTargetTests {
 	public void testTargetsTwoSteps() {
 		board.calcTargets(21, 7, 2);
 		Set<BoardCell> targets= board.getTargets();
-		assertEquals(2, targets.size());
+		assertEquals(3, targets.size());
 		assertTrue(targets.contains(board.getCellAt(19, 7)));
 		assertTrue(targets.contains(board.getCellAt(20, 6)));
 		
@@ -216,7 +216,7 @@ public class CTest_BoardAdjTargetTests {
 	public void testTargetsFourSteps() {
 		board.calcTargets(21, 7, 4);
 		Set<BoardCell> targets= board.getTargets();
-		assertEquals(4, targets.size());
+		assertEquals(5, targets.size());
 		assertTrue(targets.contains(board.getCellAt(17, 7)));
 		assertTrue(targets.contains(board.getCellAt(19, 7)));
 		assertTrue(targets.contains(board.getCellAt(18, 6)));
