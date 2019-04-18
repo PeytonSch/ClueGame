@@ -31,11 +31,12 @@ public class ClueGame extends JFrame {
 	private static String completeTurnMessage = "Turn not finished";
 	private static String wrongLocationMessage = "Invalid location selected";
 	private static String errorMessage = "Error";
-	
+
 	private ArrayList<Player> playerList;
 	private Board board;
 	private ControlGui gui;
 	private Player user;
+	private boolean firstIteration = true;
 
 	public ClueGame() throws BadConfigFormatException {
 		board = Board.getInstance();
@@ -129,6 +130,16 @@ public class ClueGame extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 			
+			if(!firstIteration) {
+				if (!humanTurnComplete && player.getType().equals("Human")) {
+					JOptionPane errorPane = new JOptionPane();
+					errorPane.showMessageDialog(new JFrame(), completeTurnMessage, "Error", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+			}
+			firstIteration = false;
+
+
 
 			//reset turn complete
 			humanTurnComplete = false;
@@ -137,6 +148,8 @@ public class ClueGame extends JFrame {
 			//go through playerList
 			if (counter >= playerList.size()) counter = 0;
 			player = playerList.get(counter);
+
+
 			//roll dice
 			int dieRoll = (int)Math.floor(Math.random() * Math.floor(6)) + 1;
 
@@ -146,6 +159,8 @@ public class ClueGame extends JFrame {
 
 			//draw player targets
 			board.nextPlayer(player, dieRoll, playerList);
+
+
 			board.repaint();
 
 
@@ -164,9 +179,9 @@ public class ClueGame extends JFrame {
 			boolean acceptableTarget = false;
 
 			//for testing
-//			System.out.println("Click X and Y");
-//			System.out.println("(" + e.getX() + "  " + e.getY() + ")");
-//			System.out.println("OK BOUNDS");
+			//			System.out.println("Click X and Y");
+			//			System.out.println("(" + e.getX() + "  " + e.getY() + ")");
+			//			System.out.println("OK BOUNDS");
 			for (BoardCell cell : board.getTargets()) {
 				int scale = 25;
 				//for testing
@@ -175,7 +190,7 @@ public class ClueGame extends JFrame {
 					if (e.getY() >= cell.getRow() * scale + 75 && e.getY() <= ((cell.getRow() * scale) + 100)) {
 						user.makeMove(board.getCellAt(cell.getRow(), cell.getCol()));
 						acceptableTarget = true;
-						
+
 						humanTurnComplete = true;
 						board.repaint();
 					}
