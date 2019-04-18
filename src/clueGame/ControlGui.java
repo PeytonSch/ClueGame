@@ -60,7 +60,7 @@ public class ControlGui extends JPanel {
 
 		panel.setLayout(new GridLayout(2,2));      
 		responseLabel = new JLabel("Response");
-		responseText = new JLabel("      responseText  ");
+		responseText = new JLabel("");
 		responseText.setBorder(new EtchedBorder());
 		panel.add(responseLabel);
 		panel.add(responseText);
@@ -75,7 +75,7 @@ public class ControlGui extends JPanel {
 
 		panel.setLayout(new GridLayout(2,1));      
 		guessLabel = new JLabel("Guess");
-		guessText = new JLabel("              guessText                     ");
+		guessText = new JLabel("");
 		guessText.setBorder(new EtchedBorder());
 		panel.add(guessLabel);
 		panel.add(guessText);
@@ -90,7 +90,7 @@ public class ControlGui extends JPanel {
 
 		panel.setLayout(new GridLayout(2,2));      
 		rollLabel = new JLabel("Roll");
-		rollText = new JLabel(" rollText Random Start Value 99");
+		rollText = new JLabel("");
 		rollText.setBorder(new EtchedBorder());
 		panel.add(rollLabel);
 		panel.add(rollText);
@@ -104,7 +104,7 @@ public class ControlGui extends JPanel {
 		// Use a grid layout, 1 row, 2 elements (label, text)
 
 		panel.setLayout(new GridLayout(4,2));     
-		nameLabel = new JLabel("nameLabel");
+		nameLabel = new JLabel("");
 		nameLabel.setBorder(new EtchedBorder());
 		turnLabel = new JLabel("Whose Turn?");
 		panel.add(turnLabel);

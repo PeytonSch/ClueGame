@@ -50,7 +50,11 @@ public class Board extends JPanel {
 	public Set<Card> getPlayerCards() {
 		return playerCards;
 	}
-
+	
+	private ArrayList<Card> allWeaponCards;
+	public ArrayList<Card> getAllWeaponCards() {
+		return allWeaponCards;
+	}
 	private ArrayList<Card> weaponCards;
 	public ArrayList<Card> getWeaponCards() {
 		return weaponCards;
@@ -79,6 +83,7 @@ public class Board extends JPanel {
 		players = new ArrayList<Player>();
 		playerCards = new HashSet<Card>();
 		weaponCards = new ArrayList<Card>();
+		allWeaponCards = new ArrayList<Card>(); //this list does not empty when dealing
 		roomCards = new ArrayList<Card>();
 		cardDeck = new ArrayList<Card>();
 		allCards = new ArrayList<Card>();
@@ -199,6 +204,7 @@ public class Board extends JPanel {
 		allCards.addAll(playerCards);
 		allCards.addAll(roomCards);
 		allCards.addAll(weaponCards);
+		allWeaponCards.addAll(weaponCards);
 
 	}
 
@@ -722,7 +728,7 @@ public class Board extends JPanel {
 
 	public Card getRoomWithInitial(char initial) {
 		String roomName = legend.get(initial);
-		for (Card r : roomCards) {
+		for (Card r : allCards) {
 			if (r.getName().equals(roomName)) {
 				return r;
 			}
