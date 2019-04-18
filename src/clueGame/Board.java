@@ -780,7 +780,7 @@ public class Board extends JPanel {
 	//draw board componenents
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		int scale = 25;
+		int scale = 20;
 		//make frame
 		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, scale * numColumns, scale * numRows);

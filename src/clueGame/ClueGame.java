@@ -33,7 +33,7 @@ public class ClueGame extends JFrame {
 		//set close op
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//window size
-		setSize(850,850);
+		setSize(1000,1000);
 		//title
 		setTitle("Clue Game");
 
