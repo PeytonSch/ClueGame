@@ -830,18 +830,27 @@ public class Board extends JPanel {
 		calcTargets(player.getRow(), player.getCol(), dieRoll);
 
 		// IF HUMAN
-		if (player instanceof HumanPlayer) {
+		if (player.getType().equals("Human")) {
 			// For drawing targets
 			isHumanPlayer = true;
+			player.makeMove(player.pickLocation(targets));
 		}		
 
 		// IF COMP
 		// Choose target at random
-		else if (player instanceof ComputerPlayer) {
+		else if (player.getType().equals("CPU")) {
 			
-
-			player.pickLocation(targets);
+			BoardCell temp = player.pickLocation(targets);
+			if(temp == null) {
+				System.out.println("ERROR");
+			}
+			player.makeMove(temp);
 			
+		}
+		
+		else {
+			System.out.println("ERROR not computer or human player");
+			System.out.println(player.getType());
 		}
 	}
 

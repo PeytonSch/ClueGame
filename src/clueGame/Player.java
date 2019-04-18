@@ -156,6 +156,16 @@ public class Player {
 	public boolean getCurrentlyInRoom() {
 		return currentlyInRoom;
 	}
+	
+	public void makeMove(BoardCell cell) {
+		// Lets human choose from target list
+		// comp will randomly select from target list
+		setLocation(cell.getRow(), cell.getCol());
+		
+		// Check for room status
+		if (cell.isRoom()) currentlyInRoom = true;
+		else currentlyInRoom = false;
+	}
 
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		// TODO Auto-generated method stub
