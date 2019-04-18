@@ -123,7 +123,7 @@ public class Player {
 
 	//draw player ovals and set colors to player colors
 	public void drawPlayer(Graphics g) {
-		int scale = 20;
+		int scale = 23;
 		if (!isAlive) {
 			return;
 		}

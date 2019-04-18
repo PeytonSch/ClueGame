@@ -76,9 +76,10 @@ public class ClueGame extends JFrame {
 		panel.setLayout(new GridLayout(3,1)); 
 
 		// CHoose a random Player
-		//double randomPlayer = Math.random() * players.size();
-		//user = players.get((int)randomPlayer);
+		double randomPlayer = Math.random() * players.size();
+		user = players.get((int)randomPlayer);
 		user = players.get(1);
+		//user = players.get(1);
 		HashSet<Card> playerCardSet = (HashSet<Card>) user.getHand();
 
 
@@ -151,14 +152,17 @@ public class ClueGame extends JFrame {
 
 
 			//roll dice
-			int dieRoll = (int)Math.floor(Math.random() * Math.floor(6)) + 1;
+			double dieRoll = Math.floor(Math.random() * Math.floor(6)) + 1;
+			
+			//int dieNum = (int) dieRoll;
+			int dieNum = 1;
 
 			//refresh gui
-			gui.refreshGui(player, dieRoll);
+			gui.refreshGui(player, dieNum);
 
 
 			//draw player targets
-			board.nextPlayer(player, dieRoll, playerList);
+			board.nextPlayer(player, dieNum, playerList);
 
 
 			board.repaint();
@@ -175,25 +179,23 @@ public class ClueGame extends JFrame {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-
+			
+			
 			boolean acceptableTarget = false;
 
-			//for testing
-			//			System.out.println("Click X and Y");
-			//			System.out.println("(" + e.getX() + "  " + e.getY() + ")");
-			//			System.out.println("OK BOUNDS");
+			board.calcTargets(user.getRow(),user.getCol(), 1);
+			HashSet<BoardCell> targets = (HashSet<BoardCell>) board.getTargets();
+			int scale = 23;
+			int selectedRow = (e.getY()-46)/scale;
+			int selectedCol = e.getX()/scale;
 			for (BoardCell cell : board.getTargets()) {
-				int scale = 25;
-				//for testing
-				//System.out.println("(" + (c.getCol()*scale + 20) + "-" + ((c.getCol()*scale) + scale + 20) + ")  " + (c.getRow() * scale + 75) + "-" + ((c.getRow() * scale) + 100) );
-				if (e.getX() >= (cell.getCol() * scale + 20) && e.getX() <= ((cell.getCol() * scale) + scale + 20)) {
-					if (e.getY() >= cell.getRow() * scale + 75 && e.getY() <= ((cell.getRow() * scale) + 100)) {
-						user.makeMove(board.getCellAt(cell.getRow(), cell.getCol()));
-						acceptableTarget = true;
+				scale = 23;
+				if (selectedRow == cell.getRow() && selectedCol == cell.getCol()) {
+					user.makeMove(board.getCellAt(cell.getRow(), cell.getCol()));
+					acceptableTarget = true;
 
-						humanTurnComplete = true;
-						board.repaint();
-					}
+					humanTurnComplete = true;
+					board.repaint();
 				}
 			}
 
@@ -213,9 +215,9 @@ public class ClueGame extends JFrame {
 		public void mousePressed(MouseEvent arg0) {}
 		@Override
 		public void mouseReleased(MouseEvent arg0) {}
+
 	}
-
-
+	
 	//main calls constructor and sets visible
 	public static void main(String[] args) throws BadConfigFormatException {
 		ClueGame game = new ClueGame();

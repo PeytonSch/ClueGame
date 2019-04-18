@@ -76,7 +76,7 @@ public class BoardCell {
 
 	//draw boardcells
 	public void drawCell(Graphics g) {
-		int scale = 25;
+		int scale = 23;
 		switch(this.roomLetter) {
 
 		case 'W':
@@ -98,23 +98,23 @@ public class BoardCell {
 		if(this.dir != DoorDirection.NONE) {
 			if(this.dir == DoorDirection.UP) {
 				g.setColor(Color.BLUE);
-				g.drawRect(this.col * scale, this.row * scale, scale, 3);
-				g.fillRect(this.col * scale, this.row * scale, scale, 3);
+				g.drawRect(this.col * scale, this.row * scale, scale, 2);
+				g.fillRect(this.col * scale, this.row * scale, scale, 2);
 			}
 			if(this.dir == DoorDirection.DOWN) {
 				g.setColor(Color.BLUE);
-				g.drawRect(this.col * scale, this.row * scale + 22, scale, 3);
-				g.fillRect(this.col * scale, this.row * scale + 22, scale, 3);
+				g.drawRect(this.col * scale, this.row * scale + 21, scale, 2);
+				g.fillRect(this.col * scale, this.row * scale + 21, scale, 2);
 			}
 			if(this.dir == DoorDirection.LEFT) {
 				g.setColor(Color.BLUE);
-				g.drawRect(this.col * scale, this.row * scale, 3, scale);
-				g.fillRect(this.col * scale, this.row * scale, 3, scale);
+				g.drawRect(this.col * scale, this.row * scale, 2, scale);
+				g.fillRect(this.col * scale, this.row * scale, 2, scale);
 			}
 			if(this.dir == DoorDirection.RIGHT) {
 				g.setColor(Color.BLUE);
-				g.drawRect(this.col * scale + 22, this.row * scale, 3, scale);
-				g.fillRect(this.col * scale + 22, this.row * scale, 3, scale);
+				g.drawRect(this.col * scale + 21, this.row * scale, 2, scale);
+				g.fillRect(this.col * scale + 21, this.row * scale, 2, scale);
 			}
 
 		}
@@ -122,8 +122,8 @@ public class BoardCell {
 	}
 	
 	public void showTargets(Graphics g) {
-		int scale = 25;
-		g.setColor(Color.RED);
+		int scale = 23;
+		g.setColor(Color.CYAN);
 		g.drawRect(this.col * scale, this.row * scale, scale, scale);
 		g.fillRect(this.col * scale, this.row * scale, scale, scale);
 		g.setColor(Color.BLACK);

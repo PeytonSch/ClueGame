@@ -788,7 +788,7 @@ public class Board extends JPanel {
 	//draw board componenents
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		int scale = 20;
+		int scale = 23;
 		//make frame
 		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, scale * numColumns, scale * numRows);
@@ -813,14 +813,14 @@ public class Board extends JPanel {
 		//room label
 		g.setColor(Color.BLUE);
 		g.drawString("Library", 15, 70);
-		g.drawString("Observatory", 230, 40);
-		g.drawString("Hall", 435, 60);
-		g.drawString("Bathroom", 520, 70);
+		g.drawString("Observatory", 200, 40);
+		g.drawString("Hall", 390, 60);
+		g.drawString("Bathroom", 465, 70);
 		g.drawString("Wine Cellar", 30, 225);
 		g.drawString("Art Room", 25, 475);
 		g.drawString("Kitchen", 185, 475);
 		g.drawString("Garage", 370, 480);
-		g.drawString("Sauna", 520, 375);
+		g.drawString("Sauna", 480, 375);
 
 
 		//render people
