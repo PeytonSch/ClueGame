@@ -342,6 +342,7 @@ public class Board extends JPanel {
 			}
 			//set numRows
 			numRows = rowCount;
+			//System.out.println(numRows);
 		} catch (FileNotFoundException e) {
 			System.out.println("Load Board Config File Not Found");
 			e.getMessage();
