@@ -31,7 +31,7 @@ public class ControlGui extends JPanel {
 	JButton next, accuse;
 
 	public ControlGui(){
-		// Create a layout with 2 rows
+		//Create a layout with 2 rows
 
 		setLayout(new GridLayout(2,1));
 		JPanel upperPanel = new JPanel();
@@ -124,8 +124,8 @@ public class ControlGui extends JPanel {
 		return panel;
 	}
 	
-	public void updateGUI(Player player, int dieRoll) {
-		// Update any and all GUI needs
+	public void refreshGui(Player player, int dieRoll) {
+		//set dice roll and player name
 		rollText.setText(Integer.toString(dieRoll));
 		nameLabel.setText(player.getName());
 	}

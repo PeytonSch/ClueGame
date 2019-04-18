@@ -796,7 +796,7 @@ public class Board extends JPanel {
 		//show targets for human players
 		if (isHumanPlayer) {
 			for (BoardCell cell : targets) {
-				cell.drawHumanTargetCells(g);
+				cell.showTargets(g);
 			}
 			isHumanPlayer = false;
 		}
@@ -826,32 +826,35 @@ public class Board extends JPanel {
 	public void nextPlayer(Player player, int dieRoll, ArrayList<Player> players) {
 
 
-		// Calculate targets
+		//calc targets for player
 		calcTargets(player.getRow(), player.getCol(), dieRoll);
 
-		// IF HUMAN
+		//draw the targets and let human decide if its a human
 		if (player.getType().equals("Human")) {
-			// For drawing targets
 			isHumanPlayer = true;
+			//for debugging
 			BoardCell temp = player.pickLocation(targets);
 			if(temp == null) {
 				System.out.println("ERROR PART 1");
 			}
-			player.makeMove(temp);
+			//for testing
+			//player.makeMove(temp);
 		}		
 
-		// IF COMP
-		// Choose target at random
+		//if its a CPU player then picks location randomly 
 		else if (player.getType().equals("CPU")) {
 			
+			//for debugging 
 			BoardCell temp = player.pickLocation(targets);
 			if(temp == null) {
 				System.out.println("ERROR");
 			}
+			//let the cpu player chose where to go next
 			player.makeMove(temp);
 			
 		}
 		
+		//for debugging and error catching
 		else {
 			System.out.println("ERROR not computer or human player");
 			System.out.println(player.getType());

@@ -134,12 +134,11 @@ public class Player {
 		g.drawOval(this.col*scale, this.row*scale, scale, scale);
 	}
 	
-	public void movePlayer(BoardCell cell) {
-		//human needs to pick from list of targets
-		//computer needs to pick its own cell
+	public void makeMove(BoardCell cell) {
+		//moves player to given cell
 		setLocation(cell.getRow(), cell.getCol());
 		
-		// check if the cell we moved to is a room
+		//update room status
 		if (cell.isRoom()) {
 			currentlyInRoom = true;
 		}
@@ -157,15 +156,7 @@ public class Player {
 		return currentlyInRoom;
 	}
 	
-	public void makeMove(BoardCell cell) {
-		// Lets human choose from target list
-		// comp will randomly select from target list
-		setLocation(cell.getRow(), cell.getCol());
-		
-		// Check for room status
-		if (cell.isRoom()) currentlyInRoom = true;
-		else currentlyInRoom = false;
-	}
+
 
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		// TODO Auto-generated method stub

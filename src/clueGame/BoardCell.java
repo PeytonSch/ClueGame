@@ -121,12 +121,13 @@ public class BoardCell {
 
 	}
 	
-	public void drawHumanTargetCells(Graphics g) {
-		g.setColor(Color.PINK);
-		g.drawRect(this.col * 25, this.row * 25, 25, 25);
-		g.fillRect(this.col * 25, this.row * 25, 25, 25);
+	public void showTargets(Graphics g) {
+		int scale = 25;
+		g.setColor(Color.RED);
+		g.drawRect(this.col * scale, this.row * scale, scale, scale);
+		g.fillRect(this.col * scale, this.row * scale, scale, scale);
 		g.setColor(Color.BLACK);
-		g.drawRect(this.col * 25, this.row * 25, 25, 25);
+		g.drawRect(this.col * scale, this.row * scale, scale, scale);
 	}
 
 

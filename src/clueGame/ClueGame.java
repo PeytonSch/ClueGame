@@ -26,16 +26,16 @@ public class ClueGame extends JFrame {
 
 	private static String userName;
 	private boolean humanTurnComplete = false;
-	private int iterator = 0;
+	private int counter = 0;
 	private Player player;
-	private static String pleaseCompleteTurn = "Please finish your turn before pressing Next Player.";
-	private static String incorrectLocationMessage = "Please select a valid space.";
-	private static String errorTitle = "Error";
+	private static String completeTurnMessage = "Turn not finished";
+	private static String wrongLocationMessage = "Invalid location selected";
+	private static String errorMessage = "Error";
 	
-	private ArrayList<Player> players;
+	private ArrayList<Player> playerList;
 	private Board board;
 	private ControlGui gui;
-	private Player user = new Player();
+	private Player user;
 
 	public ClueGame() throws BadConfigFormatException {
 		board = Board.getInstance();
@@ -45,8 +45,8 @@ public class ClueGame extends JFrame {
 
 		//gui is control panel at bottom
 		gui = new ControlGui();
-		gui.next.addActionListener(new nextPlayerListener());
-		addMouseListener(new MoveHumanPlayer());
+		gui.next.addActionListener(new NextPlayerButtonListener());
+		addMouseListener(new MouseClickTarget());
 		FileDropdown menu = new FileDropdown();
 		//set close op
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,8 +56,8 @@ public class ClueGame extends JFrame {
 		setTitle("Clue Game");
 
 		//create Player Cards JPanel and add the JFrame
-		players = board.getPlayers();
-		JPanel playerCards = createPlayerCardsPanel(players);
+		playerList = board.getPlayers();
+		JPanel playerCards = createPlayerCardsPanel(playerList);
 		add(playerCards, BorderLayout.EAST);
 
 		//add board to center and control gui to bottom
@@ -75,8 +75,9 @@ public class ClueGame extends JFrame {
 		panel.setLayout(new GridLayout(3,1)); 
 
 		// CHoose a random Player
-		double randomPlayer = Math.random() * players.size();
-		user = players.get((int)randomPlayer);
+		//double randomPlayer = Math.random() * players.size();
+		//user = players.get((int)randomPlayer);
+		user = players.get(1);
 		HashSet<Card> playerCardSet = (HashSet<Card>) user.getHand();
 
 
@@ -124,64 +125,56 @@ public class ClueGame extends JFrame {
 	}
 
 	// Next Player listener
-	public class nextPlayerListener implements ActionListener {
+	public class NextPlayerButtonListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			// run all code for game
-			// goes to next player in list
+			
 
-			// If human is not done display error
-			if (!humanTurnComplete && player instanceof HumanPlayer) {
-				JOptionPane errorPane = new JOptionPane();
-				errorPane.showMessageDialog(new JFrame(), pleaseCompleteTurn, "Error", JOptionPane.INFORMATION_MESSAGE);
-				return;
-			}
-
-			// Reset boolean
+			//reset turn complete
 			humanTurnComplete = false;
 
 
-			// Wrap around array if at max
-			if (iterator >= players.size()) iterator = 0;
-			player = players.get(iterator);
-			// Roll dice
+			//go through playerList
+			if (counter >= playerList.size()) counter = 0;
+			player = playerList.get(counter);
+			//roll dice
 			int dieRoll = (int)Math.floor(Math.random() * Math.floor(6)) + 1;
 
-			// Update GUI with current info
-			gui.updateGUI(player, dieRoll);
+			//refresh gui
+			gui.refreshGui(player, dieRoll);
 
 
-			// Call draws targets for human
-			board.nextPlayer(player, dieRoll, players);
+			//draw player targets
+			board.nextPlayer(player, dieRoll, playerList);
 			board.repaint();
 
 
 
-			// Increase offset
-			iterator++;					
+			//increase counter
+			counter++;					
 		}
 	}
 
-	// Human move listener, handles suggestions
-	public class MoveHumanPlayer implements MouseListener {
+	//move human by clicking targets
+	public class MouseClickTarget implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			if (player instanceof ComputerPlayer) return;
 
-			boolean validMove = false;
+			boolean acceptableTarget = false;
 
-			// IS VALID
-			System.out.println("Click X and Y");
-			System.out.println(e.getX() + "  " + e.getY());
-			System.out.println("OK BOUNDS");
-			for (BoardCell c : board.getTargets()) {
+			//for testing
+//			System.out.println("Click X and Y");
+//			System.out.println("(" + e.getX() + "  " + e.getY() + ")");
+//			System.out.println("OK BOUNDS");
+			for (BoardCell cell : board.getTargets()) {
 				int scale = 25;
-				System.out.println(c.getCol()*scale + "-" + c.getCol()*scale + scale);
-				if (e.getX() >= c.getCol() * scale && e.getX() <= (c.getCol() * scale) + scale) {
-					if (e.getY() >= c.getRow() * scale + 50 && e.getY() <= (c.getRow() * scale) + 75) {
-						user.makeMove(board.getCellAt(c.getRow(), c.getCol()));
-						validMove = true;
+				//for testing
+				//System.out.println("(" + (c.getCol()*scale + 20) + "-" + ((c.getCol()*scale) + scale + 20) + ")  " + (c.getRow() * scale + 75) + "-" + ((c.getRow() * scale) + 100) );
+				if (e.getX() >= (cell.getCol() * scale + 20) && e.getX() <= ((cell.getCol() * scale) + scale + 20)) {
+					if (e.getY() >= cell.getRow() * scale + 75 && e.getY() <= ((cell.getRow() * scale) + 100)) {
+						user.makeMove(board.getCellAt(cell.getRow(), cell.getCol()));
+						acceptableTarget = true;
 						
 						humanTurnComplete = true;
 						board.repaint();
@@ -189,10 +182,10 @@ public class ClueGame extends JFrame {
 				}
 			}
 
-			if (!validMove) {
+			if (!acceptableTarget) {
 				//Choose a valid target
 				JOptionPane errorPane = new JOptionPane();
-				errorPane.showMessageDialog(new JFrame(), incorrectLocationMessage, errorTitle, JOptionPane.INFORMATION_MESSAGE);
+				errorPane.showMessageDialog(new JFrame(), wrongLocationMessage, errorMessage, JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 		}
