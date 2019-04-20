@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -76,8 +77,8 @@ public class ClueGame extends JFrame {
 		panel.setLayout(new GridLayout(3,1)); 
 
 		// CHoose a random Player
-		double randomPlayer = Math.random() * players.size();
-		user = players.get((int)randomPlayer);
+		//double randomPlayer = Math.random() * players.size();
+		//user = players.get((int)randomPlayer);
 		user = players.get(1);
 		//user = players.get(1);
 		HashSet<Card> playerCardSet = (HashSet<Card>) user.getHand();
@@ -154,8 +155,8 @@ public class ClueGame extends JFrame {
 			//roll dice
 			double dieRoll = Math.floor(Math.random() * Math.floor(6)) + 1;
 			
-			//int dieNum = (int) dieRoll;
-			int dieNum = 1;
+			int dieNum = (int) dieRoll;
+			
 
 			//refresh gui
 			gui.refreshGui(player, dieNum);
@@ -183,16 +184,15 @@ public class ClueGame extends JFrame {
 			
 			boolean acceptableTarget = false;
 
-			board.calcTargets(user.getRow(),user.getCol(), 1);
-			HashSet<BoardCell> targets = (HashSet<BoardCell>) board.getTargets();
+			Set<BoardCell> targets = board.getTargets();
 			int scale = 23;
 			int selectedRow = ((e.getY()-56)/scale)-1;
 			int selectedCol = (e.getX()-11)/scale;
-			//System.out.println("Click: " + e.getX() + " " + e.getY());
-			//System.out.println("Row: " + selectedRow);
-			//System.out.println("Col: " + selectedCol);
+			System.out.println("Click: " + e.getX() + " " + e.getY());
+			System.out.println("Row: " + selectedRow);
+			System.out.println("Col: " + selectedCol);
 			for (BoardCell cell : board.getTargets()) {
-				scale = 23;
+				System.out.println("OK: " + cell.getRow() + " " + cell.getCol());
 				if (selectedRow == cell.getRow() && selectedCol == cell.getCol()) {
 					user.makeMove(board.getCellAt(cell.getRow(), cell.getCol()));
 					acceptableTarget = true;
