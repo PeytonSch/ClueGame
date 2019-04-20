@@ -186,8 +186,11 @@ public class ClueGame extends JFrame {
 			board.calcTargets(user.getRow(),user.getCol(), 1);
 			HashSet<BoardCell> targets = (HashSet<BoardCell>) board.getTargets();
 			int scale = 23;
-			int selectedRow = (e.getY()-46)/scale;
-			int selectedCol = e.getX()/scale;
+			int selectedRow = ((e.getY()-56)/scale)-1;
+			int selectedCol = (e.getX()-11)/scale;
+			//System.out.println("Click: " + e.getX() + " " + e.getY());
+			//System.out.println("Row: " + selectedRow);
+			//System.out.println("Col: " + selectedCol);
 			for (BoardCell cell : board.getTargets()) {
 				scale = 23;
 				if (selectedRow == cell.getRow() && selectedCol == cell.getCol()) {
