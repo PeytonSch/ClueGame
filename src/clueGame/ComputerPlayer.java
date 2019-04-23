@@ -131,7 +131,6 @@ public class ComputerPlayer extends Player {
 	}
 
 	//disprove suggestion if we have a card to disprove it
-	@Override
 	public Card disproveSuggestion(Solution suggestion) {
 
 		Card roomCard = suggestion.room;

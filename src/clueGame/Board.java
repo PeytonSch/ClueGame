@@ -189,6 +189,8 @@ public class Board extends JPanel {
 		Card personSolution = new Card(personCard, CardType.PERSON);
 		Card weaponSolution = new Card(weaponCard, CardType.WEAPON);
 
+		System.out.println("SOLUTION: " + roomCard + personCard + weaponCard);
+
 		setSolution(new Solution(roomSolution, personSolution, weaponSolution));
 		//move on to dealing deck if person, weapon and room are filled
 
@@ -198,14 +200,11 @@ public class Board extends JPanel {
 
 
 		for(Player p : players) {
-			Card randomRoom = roomCards.get((int)(Math.random() * roomCards.size()));
-			Card randomWeapon = weaponCards.get((int)(Math.random() * weaponCards.size()));
-
-			p.giveCard(randomRoom);
-			p.giveCard(randomWeapon);
-
-			roomCards.remove(randomRoom);
-			weaponCards.remove(randomWeapon);
+			for(int i =0; i < 3; i++) {
+				Card randomCard = cardDeck.get((int)(Math.random() * cardDeck.size()));
+				p.giveCard(randomCard);
+				cardDeck.remove(randomCard);
+			}
 		}
 	}
 
@@ -411,9 +410,9 @@ public class Board extends JPanel {
 					System.out.println("ERROR IN DETERMINING PLAYER TYPE");
 					throw new BadConfigFormatException();
 				}
-//				Player p = new Player(name, color, colorString, type, cell);
-//				players.add(p);
-//				playerCards.add(new Card(name, CardType.PERSON));
+				//				Player p = new Player(name, color, colorString, type, cell);
+				//				players.add(p);
+				//				playerCards.add(new Card(name, CardType.PERSON));
 
 			}
 
@@ -615,9 +614,9 @@ public class Board extends JPanel {
 	public void findTargets(BoardCell startCell, int movesLeft) {
 		//for each adjCell in adjacentCells
 
-		
-		
-		
+
+
+
 		for(BoardCell cell : getAdjList(startCell)) {
 
 			//if already in visited list, skip rest of this
@@ -798,7 +797,17 @@ public class Board extends JPanel {
 
 			// if player can disprove, return card
 			Player player = players.get(curLoc);
-			Card proof = player.disproveSuggestion(suggestion);
+			Card proof;
+			if(player instanceof ComputerPlayer) {
+				proof = ((ComputerPlayer)player).disproveSuggestion(suggestion);
+			}
+			else if(player instanceof HumanPlayer) {
+				proof = ((HumanPlayer)player).disproveSuggestion(suggestion);
+			}
+			else {
+				System.out.println("ERROR PLAYER NOT HUMAN OR COMPUTER WHEN CREATING SUGGESTION");
+				proof = null;
+			}
 
 			if ( proof != null ) {
 				//update all players seenHand
@@ -870,10 +879,10 @@ public class Board extends JPanel {
 		if (player instanceof HumanPlayer) {
 			isHumanPlayer = true;
 			//for debugging
-//			BoardCell temp = player.pickLocation(targets);
-//			if(temp == null) {
-//				System.out.println("ERROR PART 1");
-//			}
+			//			BoardCell temp = player.pickLocation(targets);
+			//			if(temp == null) {
+			//				System.out.println("ERROR PART 1");
+			//			}
 			//for testing
 			//player.makeMove(temp);
 		}		
@@ -897,7 +906,7 @@ public class Board extends JPanel {
 			}
 			player.makeMove(player.pickLocation(targets));
 			BoardCell playerLoc = getCellAt(player.getRow(), player.getCol());
-			
+
 			if (playerLoc.isRoom()) {
 				((ComputerPlayer) player).createSuggestion();
 				disproven = handleSuggestion(player, ((ComputerPlayer) player).getSuggestion(), players);

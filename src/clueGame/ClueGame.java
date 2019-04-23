@@ -180,6 +180,7 @@ public class ClueGame extends JFrame {
 			gui.refreshGui(player, dieNum);
 			
 			//Handle computer accusation before movement
+			//!= 1 because thats the human player
 			if (counter != 1 && player.getCurrentlyInRoom()) {
 				if (((ComputerPlayer) player).getAccuseFlag()) {
 					if (board.checkAccusaton(((ComputerPlayer) player).getSuggestion()) ) {
@@ -308,6 +309,7 @@ public class ClueGame extends JFrame {
 				if (((HumanPlayer) player).getSuggestionFlag()) {
 					Card proof = board.handleSuggestion(player, ((HumanPlayer) player).getHumanSuggestion(), playerList);
 					gui.updateGuessGUI(((HumanPlayer) player).getHumanSuggestion(), proof);
+					
 
 					if (gameWon) {
 						//game over, human wins
