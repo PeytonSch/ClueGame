@@ -344,3 +344,8 @@ public class ClueGame extends JFrame {
 	}
 
 }
+
+//should know other players accusations
+//should know other players suggestions
+//should know cards given to disprove suggestion
+//do NOT know disproved accusation cards
