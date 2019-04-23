@@ -37,6 +37,8 @@ public class ClueGame extends JFrame {
 	private ControlGui gui;
 	private Player user;
 	private boolean firstIteration = true;
+	
+	private int dieNum;
 
 	public ClueGame() throws BadConfigFormatException {
 		board = Board.getInstance();
@@ -78,7 +80,6 @@ public class ClueGame extends JFrame {
 		// CHoose a random Player
 		double randomPlayer = Math.random() * players.size();
 		user = players.get((int)randomPlayer);
-		user = players.get(1);
 		//user = players.get(1);
 		HashSet<Card> playerCardSet = (HashSet<Card>) user.getHand();
 
@@ -154,8 +155,7 @@ public class ClueGame extends JFrame {
 			//roll dice
 			double dieRoll = Math.floor(Math.random() * Math.floor(6)) + 1;
 			
-			//int dieNum = (int) dieRoll;
-			int dieNum = 1;
+			dieNum = (int) dieRoll;
 
 			//refresh gui
 			gui.refreshGui(player, dieNum);
@@ -183,7 +183,7 @@ public class ClueGame extends JFrame {
 			
 			boolean acceptableTarget = false;
 
-			board.calcTargets(user.getRow(),user.getCol(), 1);
+			board.calcTargets(user.getRow(),user.getCol(), dieNum);
 			HashSet<BoardCell> targets = (HashSet<BoardCell>) board.getTargets();
 			int scale = 23;
 			int selectedRow = (e.getY()-46)/scale;

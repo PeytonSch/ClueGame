@@ -127,7 +127,7 @@ public class ControlGui extends JPanel {
 	public void refreshGui(Player player, int dieRoll) {
 		//set dice roll and player name
 		rollText.setText(Integer.toString(dieRoll));
-		nameLabel.setText(player.getName());
+		nameLabel.setText(player.getName()+", "+player.getColorString());
 	}
 	
 	public static void main(String[] args) {
