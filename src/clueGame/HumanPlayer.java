@@ -45,7 +45,7 @@ public class HumanPlayer extends Player {
 	}
 
 	//human player logic for disproving a suggestion. Used for testing
-	@Override
+
 	public Card disproveSuggestion(Solution suggestion) {
 
 		Card roomCard = suggestion.room;

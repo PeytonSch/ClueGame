@@ -78,9 +78,9 @@ public class Player {
 		hand.add(card);
 	}
 
-	public Card disproveSuggestion(Solution suggestion) {
-		return null;
-	}
+//	public Card disproveSuggestion(Solution suggestion) {
+//		return null;
+//	}
 
 	public Set<Card> getHand() {
 		return hand;
