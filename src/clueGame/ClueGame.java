@@ -309,13 +309,16 @@ public class ClueGame extends JFrame {
 				if (((HumanPlayer) player).getSuggestionFlag()) {
 					Card proof = board.handleSuggestion(player, ((HumanPlayer) player).getHumanSuggestion(), playerList);
 					gui.updateGuessGUI(((HumanPlayer) player).getHumanSuggestion(), proof);
-					
+					if(proof == null) {
+						gameWon = true;
+					}
 
 					if (gameWon) {
 						//game over, human wins
 						humanWins = player.getName() + " wins! Congratulations!";
 						JOptionPane winnerPane = new JOptionPane();
 						winnerPane.showMessageDialog(new JFrame(), humanWins, winTitle, JOptionPane.INFORMATION_MESSAGE);
+						System.exit(0);
 					}
 					else {
 						//game over, human loses, comps continue
@@ -341,3 +344,8 @@ public class ClueGame extends JFrame {
 	}
 
 }
+
+//should know other players accusations
+//should know other players suggestions
+//should know cards given to disprove suggestion
+//do NOT know disproved accusation cards
