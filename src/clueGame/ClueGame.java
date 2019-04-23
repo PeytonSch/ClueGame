@@ -49,11 +49,10 @@ public class ClueGame extends JFrame {
 	private ControlGui gui;
 	private Player user;
 	private boolean firstIteration = true;
+	private int dieNum;
 	private boolean gameWon = false; //
 	private boolean humanGuessSubmitted = false; //
 	private String humanWins; //
-
-
 
 	public ClueGame() throws BadConfigFormatException {
 		board = Board.getInstance();
@@ -103,7 +102,6 @@ public class ClueGame extends JFrame {
 
 		panel.setLayout(new GridLayout(3,1)); 
 
-		// CHoose a random Player
 		//double randomPlayer = Math.random() * players.size();
 		//user = players.get((int)randomPlayer);
 		user = players.get(1);
@@ -122,34 +120,29 @@ public class ClueGame extends JFrame {
 		for (Card card : playerCardSet) {
 			if (card.getCardType() == CardType.ROOM) {
 				roomName = new JLabel(card.getName());
+				JPanel room = new JPanel();
+				room.setLayout(new GridLayout(2,1));      
+				room.setBorder(new TitledBorder ("Room"));
+				room.add(roomName);
+				panel.add(room);
 			}
 			else if (card.getCardType() == CardType.WEAPON) {
 				weaponName = new JLabel(card.getName());
+				JPanel weapon = new JPanel();
+				weapon.setLayout(new GridLayout(2,1));      
+				weapon.setBorder(new TitledBorder ("Weapon"));
+				weapon.add(weaponName);
+				panel.add(weapon);
 			}
 			else {
-				break;
+				JPanel person = new JPanel();
+				person.setLayout(new GridLayout(2,1));      
+				person.setBorder(new TitledBorder ("Person"));
+				person.add(personName);
+				panel.add(person);
 			}
 		}
 
-		JPanel person = new JPanel();
-		person.setLayout(new GridLayout(2,1));      
-		person.setBorder(new TitledBorder ("Person"));
-
-		person.add(personName);
-
-		JPanel room = new JPanel();
-		room.setLayout(new GridLayout(2,1));      
-		room.setBorder(new TitledBorder ("Room"));
-		room.add(roomName);
-
-		JPanel weapon = new JPanel();
-		weapon.setLayout(new GridLayout(2,1));      
-		weapon.setBorder(new TitledBorder ("Weapon"));
-		weapon.add(weaponName);
-
-		panel.add(person);
-		panel.add(room);
-		panel.add(weapon);
 		panel.setBorder(new TitledBorder ("My Cards"));
 		return panel;
 	}
@@ -181,8 +174,7 @@ public class ClueGame extends JFrame {
 
 			//roll dice
 			double dieRoll = Math.floor(Math.random() * Math.floor(6)) + 1;
-
-			int dieNum = (int) dieRoll;
+			dieNum = (int) dieRoll;
 
 			//refresh gui
 			gui.refreshGui(player, dieNum);
@@ -241,10 +233,13 @@ public class ClueGame extends JFrame {
 
 			boolean acceptableTarget = false;
 
-			Set<BoardCell> targets = board.getTargets();
+
+			board.calcTargets(user.getRow(),user.getCol(), dieNum);
+			HashSet<BoardCell> targets = (HashSet<BoardCell>) board.getTargets();
+			
 			int scale = 23;
-			int selectedRow = ((e.getY()-56)/scale)-1;
-			int selectedCol = (e.getX()-11)/scale;
+			int selectedRow = ((e.getY()-23)/scale)-1;
+			int selectedCol = (e.getX())/scale;
 			//System.out.println("Click: " + e.getX() + " " + e.getY());
 			//System.out.println("Row: " + selectedRow);
 			//System.out.println("Col: " + selectedCol);

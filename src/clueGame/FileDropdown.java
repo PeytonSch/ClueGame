@@ -80,18 +80,16 @@ public class FileDropdown extends JMenuBar {
 		JPanel people = new JPanel();
 		people.setLayout(new GridLayout(3, 2));
 
-		JCheckBox redBox = new JCheckBox("Miss Scarlett");
+		JCheckBox redBox = new JCheckBox("Voodoo Mama JuuJuu");
 		people.add(redBox);
-		JCheckBox magentaBox = new JCheckBox("Professor Plum");
+		JCheckBox magentaBox = new JCheckBox("Beatrix Bourbon");
 		people.add(magentaBox);
-		JCheckBox blueBox = new JCheckBox("Mrs. Peacock");
+		JCheckBox blueBox = new JCheckBox("Naughty Nellie Nutmeg");
 		people.add(blueBox);
-		JCheckBox greenBox = new JCheckBox("Reverend Green");
+		JCheckBox greenBox = new JCheckBox("Caleb Crawdad");
 		people.add(greenBox);
-		JCheckBox yellowBox = new JCheckBox("Colonel Mustard");
+		JCheckBox yellowBox = new JCheckBox("Deb U. Taunt");
 		people.add(yellowBox);
-		JCheckBox whiteBox = new JCheckBox("Mrs. White");
-		people.add(whiteBox);
 		// Title
 		people.setBorder(new TitledBorder(new EtchedBorder(), "People"));
 		checkboxes.add(people);
@@ -102,21 +100,21 @@ public class FileDropdown extends JMenuBar {
 
 		JCheckBox kitchen = new JCheckBox("Kitchen");
 		rooms.add(kitchen);
-		JCheckBox diningRoom= new JCheckBox("Dining Room");
+		JCheckBox diningRoom= new JCheckBox("Art Room");
 		rooms.add(diningRoom);
-		JCheckBox planetarium = new JCheckBox("Planetarium");
+		JCheckBox planetarium = new JCheckBox("Bathroom");
 		rooms.add(planetarium);
-		JCheckBox reptile = new JCheckBox("Reptile Room");
+		JCheckBox reptile = new JCheckBox("Garage");
 		rooms.add(reptile);
-		JCheckBox hydro = new JCheckBox("Hydroponics Lab");
+		JCheckBox hydro = new JCheckBox("Hall");
 		rooms.add(hydro);
-		JCheckBox tool = new JCheckBox("Tool Closet");
+		JCheckBox tool = new JCheckBox("Library");
 		rooms.add(tool);
-		JCheckBox cream = new JCheckBox("Crematorium");
+		JCheckBox cream = new JCheckBox("Wine Cellar");
 		rooms.add(cream);
-		JCheckBox cinema = new JCheckBox("Cinema");
+		JCheckBox cinema = new JCheckBox("Observatory");
 		rooms.add(cinema);
-		JCheckBox balls = new JCheckBox("Ballroom");
+		JCheckBox balls = new JCheckBox("Sauna");
 		rooms.add(balls);
 		//Title
 		rooms.setBorder(new TitledBorder(new EtchedBorder(), "Rooms"));
