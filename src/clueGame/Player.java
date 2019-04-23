@@ -30,6 +30,22 @@ public class Player {
 	protected Set<Card> seen;
 	private Boolean isAlive;
 	private boolean currentlyInRoom;
+	private boolean hasSuggestion;
+	
+	public boolean getSuggestionFlag() {
+		return hasSuggestion;
+	}
+	public void setSuggestionFlag(boolean flag) {
+		hasSuggestion = flag;
+	}
+
+	public Boolean getIsAlive() {
+		return isAlive;
+	}
+
+	public void setIsAlive(Boolean isAlive) {
+		this.isAlive = isAlive;
+	}
 
 	public Player(String name, Color color, String colorString, String type, BoardCell startCell) {
 		this.name = name;

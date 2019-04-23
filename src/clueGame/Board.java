@@ -46,11 +46,18 @@ public class Board extends JPanel {
 	private ArrayList<Card> cardDeck;
 	private Set<Card> playerCards;
 	private boolean isHumanPlayer = false;
+	private boolean correctGuess;
 
 	public Set<Card> getPlayerCards() {
 		return playerCards;
 	}
-	
+	public Card getRoom(Player player) {
+		return getRoomWithInitial(getCellAt(player.getRow(), player.getCol()).getInitial());
+	}
+	public Set<Card> getPeople(){
+		return playerCards;
+	}
+
 	private ArrayList<Card> allWeaponCards;
 	public ArrayList<Card> getAllWeaponCards() {
 		return allWeaponCards;
@@ -58,6 +65,11 @@ public class Board extends JPanel {
 	private ArrayList<Card> weaponCards;
 	public ArrayList<Card> getWeaponCards() {
 		return weaponCards;
+	}
+	public Set<Card>getWeapons() {
+		Set <Card >weapons = new HashSet<Card>();
+		weapons.addAll(weaponCards);
+		return weapons;
 	}
 
 	private ArrayList<Card> roomCards;
@@ -379,7 +391,7 @@ public class Board extends JPanel {
 				int startX = Integer.parseInt(playerFromFile.get(3));
 				int startY = Integer.parseInt(playerFromFile.get(4));
 				BoardCell cell = board[startX][startY];
-				
+
 				//throw exception if key name or card type isn't what we expect
 				if(!type.equals("Human") && !type.equals("CPU")) {
 					throw new BadConfigFormatException();
@@ -799,7 +811,7 @@ public class Board extends JPanel {
 				getCellAt(i, j).drawCell(g);
 			}
 		}
-		
+
 		//show targets for human players
 		if (isHumanPlayer) {
 			for (BoardCell cell : targets) {
@@ -850,7 +862,7 @@ public class Board extends JPanel {
 
 		//if its a CPU player then picks location randomly 
 		else if (player.getType().equals("CPU")) {
-			
+
 			//for debugging 
 			BoardCell temp = player.pickLocation(targets);
 			if(temp == null) {
@@ -858,13 +870,28 @@ public class Board extends JPanel {
 			}
 			//let the cpu player chose where to go next
 			player.makeMove(temp);
-			
+
 		}
-		
+
 		//for debugging and error catching
 		else {
 			System.out.println("ERROR not computer or human player");
 			System.out.println(player.getType());
+		}
+	}
+
+	public boolean isCorrectGuess() {
+		return correctGuess;
+	}
+
+	public void setCorrectGuess(boolean correctGuess) {
+		this.correctGuess = correctGuess;
+	}
+
+	public void showCardsOnDeath(Player player) {
+		for (Card card : player.getHand()) {
+			for(Player person : players)
+				person.addCardToListOfCardsAllreadySeen(card);
 		}
 	}
 

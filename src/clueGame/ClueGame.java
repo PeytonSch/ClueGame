@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,12 +33,27 @@ public class ClueGame extends JFrame {
 	private static String completeTurnMessage = "Turn not finished";
 	private static String wrongLocationMessage = "Invalid location selected";
 	private static String errorMessage = "Error";
+	private static String wrongAnswerTitle = "Incorrect Accusation : Player Lost";
+	private static String wrongAnswerMsg = " submitted an incorrect accusation. The player has been removed from the game.";
+	private static String unableToMakeAccusation = "You can only make an accusation when inside of a room.";
+	private static String winTitle = "Winner!";
+	private static String exitTitle = "Game Over";
+	private static String exitMsg = "Thank you for playing, please exit the game at this time. Restart if you wish to play again.";
+	private static String poorlyTimedAccusation = "You can only make an accusation at the beginning of your turn.";
+	private GuessDialog guessDialog;
+	private String response;
+	private String cpuWins;
 
 	private ArrayList<Player> playerList;
 	private Board board;
 	private ControlGui gui;
 	private Player user;
 	private boolean firstIteration = true;
+	private boolean gameWon = false; //
+	private boolean humanGuessSubmitted = false; //
+	private String humanWins; //
+
+
 
 	public ClueGame() throws BadConfigFormatException {
 		board = Board.getInstance();
@@ -48,6 +64,7 @@ public class ClueGame extends JFrame {
 		//gui is control panel at bottom
 		gui = new ControlGui();
 		gui.next.addActionListener(new NextPlayerButtonListener());
+		gui.accuse.addActionListener(new accusationListener());
 		addMouseListener(new MouseClickTarget());
 		FileDropdown menu = new FileDropdown();
 		//set close op
@@ -131,7 +148,7 @@ public class ClueGame extends JFrame {
 	public class NextPlayerButtonListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			
+
 			if(!firstIteration) {
 				if (!humanTurnComplete && player.getType().equals("Human")) {
 					JOptionPane errorPane = new JOptionPane();
@@ -154,13 +171,42 @@ public class ClueGame extends JFrame {
 
 			//roll dice
 			double dieRoll = Math.floor(Math.random() * Math.floor(6)) + 1;
-			
+
 			int dieNum = (int) dieRoll;
-			
+
 
 			//refresh gui
 			gui.refreshGui(player, dieNum);
+			
+			//Handle computer accusation before movement
+			if (counter > 0 && player.getCurrentlyInRoom()) {
+				if (((ComputerPlayer) player).getAccuseFlag()) {
+					if (board.checkAccusaton(((ComputerPlayer) player).getSuggestion()) ) {
+						//Comp player wins
+						response = ((ComputerPlayer) player).getSuggestion().toString();
+						cpuWins = player.getName() + " wins!" + "Answer: " + response;
 
+						JOptionPane winnerPane = new JOptionPane();
+						winnerPane.showMessageDialog(new JFrame(), cpuWins, winTitle, JOptionPane.INFORMATION_MESSAGE);
+
+						// Exit
+						JOptionPane exitPane = new JOptionPane();
+						exitPane.showMessageDialog(new JFrame(), exitMsg, exitTitle, JOptionPane.INFORMATION_MESSAGE);
+						System.exit(0);
+					}
+					else if (!board.isCorrectGuess()){
+						//player loses
+						//Player is kicked message
+						player.setIsAlive(false);
+						board.showCardsOnDeath(player);
+						playerList.remove(player);
+
+						//Message
+						JOptionPane kickedPane = new JOptionPane();
+						kickedPane.showMessageDialog(new JFrame(), player.getName() + wrongAnswerMsg, wrongAnswerTitle, JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+			}
 
 			//draw player targets
 			board.nextPlayer(player, dieNum, playerList);
@@ -180,22 +226,38 @@ public class ClueGame extends JFrame {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			
-			
+
+
 			boolean acceptableTarget = false;
 
 			Set<BoardCell> targets = board.getTargets();
 			int scale = 23;
 			int selectedRow = ((e.getY()-56)/scale)-1;
 			int selectedCol = (e.getX()-11)/scale;
-			System.out.println("Click: " + e.getX() + " " + e.getY());
-			System.out.println("Row: " + selectedRow);
-			System.out.println("Col: " + selectedCol);
+			//System.out.println("Click: " + e.getX() + " " + e.getY());
+			//System.out.println("Row: " + selectedRow);
+			//System.out.println("Col: " + selectedCol);
 			for (BoardCell cell : board.getTargets()) {
-				System.out.println("OK: " + cell.getRow() + " " + cell.getCol());
+				//System.out.println("OK: " + cell.getRow() + " " + cell.getCol());
 				if (selectedRow == cell.getRow() && selectedCol == cell.getCol()) {
 					user.makeMove(board.getCellAt(cell.getRow(), cell.getCol()));
 					acceptableTarget = true;
+					
+					
+
+					// Draw suggestion box
+					if (player.getCurrentlyInRoom()) {
+						guessDialog = new GuessDialog(player);
+						guessDialog.setModalityType(ModalityType.APPLICATION_MODAL);
+						guessDialog.setVisible(true);
+
+						// If guess submitted, handle suggestion, update GUI
+						if (((HumanPlayer) player).getSuggestionFlag()) {
+							Card proof = board.handleSuggestion(player, ((HumanPlayer) player).getHumanSuggestion(), playerList);
+							gui.updateGuessGUI(((HumanPlayer) player).getHumanSuggestion(), proof);
+						}
+					}
+					player.setSuggestionFlag(false);
 
 					humanTurnComplete = true;
 					board.repaint();
@@ -220,7 +282,50 @@ public class ClueGame extends JFrame {
 		public void mouseReleased(MouseEvent arg0) {}
 
 	}
-	
+	//accusation listener
+	public class accusationListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (humanTurnComplete || player.getType().equals("CPU")) {
+				JOptionPane errorPane = new JOptionPane();
+				errorPane.showMessageDialog(new JFrame(), poorlyTimedAccusation, errorMessage, JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+			else if (!player.getCurrentlyInRoom()) {
+				JOptionPane errorPane = new JOptionPane();
+				errorPane.showMessageDialog(new JFrame(), unableToMakeAccusation, errorMessage, JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+			else {
+				JDialog accuseDialog = new GuessDialog(player);
+				accuseDialog.setModalityType(ModalityType.APPLICATION_MODAL);
+				accuseDialog.setVisible(true);
+
+				if (((HumanPlayer) player).getSuggestionFlag()) {
+					Card proof = board.handleSuggestion(player, ((HumanPlayer) player).getHumanSuggestion(), playerList);
+					gui.updateGuessGUI(((HumanPlayer) player).getHumanSuggestion(), proof);
+
+					if (gameWon) {
+						//game over, human wins
+						humanWins = player.getName() + " wins! Congratulations!";
+						JOptionPane winnerPane = new JOptionPane();
+						winnerPane.showMessageDialog(new JFrame(), humanWins, winTitle, JOptionPane.INFORMATION_MESSAGE);
+					}
+					else {
+						//game over, human loses, comps continue
+						player.setIsAlive(false);
+						playerList.remove(player);
+						humanTurnComplete = true;
+						board.repaint();
+
+						//Message
+						JOptionPane kickedPane = new JOptionPane();
+						kickedPane.showMessageDialog(new JFrame(), "You" + wrongAnswerMsg, wrongAnswerTitle, JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+			}
+		}
+	}
+
 	//main calls constructor and sets visible
 	public static void main(String[] args) throws BadConfigFormatException {
 		ClueGame game = new ClueGame();
