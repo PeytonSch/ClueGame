@@ -89,6 +89,7 @@ public class IntBoardTests {
 		assertTrue(testList.contains(board.getCell(2, 2)));
 		assertEquals(testList.size(), 4);
 	}
+
 	
 	
 	

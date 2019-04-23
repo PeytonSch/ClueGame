@@ -46,11 +46,19 @@ public class Board extends JPanel {
 	private ArrayList<Card> cardDeck;
 	private Set<Card> playerCards;
 	private boolean isHumanPlayer = false;
+	private boolean correctGuess;
+	private Card disproven;
 
 	public Set<Card> getPlayerCards() {
 		return playerCards;
 	}
-	
+	public Card getRoom(Player player) {
+		return getRoomWithInitial(getCellAt(player.getRow(), player.getCol()).getInitial());
+	}
+	public Set<Card> getPeople(){
+		return playerCards;
+	}
+
 	private ArrayList<Card> allWeaponCards;
 	public ArrayList<Card> getAllWeaponCards() {
 		return allWeaponCards;
@@ -58,6 +66,11 @@ public class Board extends JPanel {
 	private ArrayList<Card> weaponCards;
 	public ArrayList<Card> getWeaponCards() {
 		return weaponCards;
+	}
+	public Set<Card>getWeapons() {
+		Set <Card >weapons = new HashSet<Card>();
+		weapons.addAll(weaponCards);
+		return weapons;
 	}
 
 	private ArrayList<Card> roomCards;
@@ -379,14 +392,28 @@ public class Board extends JPanel {
 				int startX = Integer.parseInt(playerFromFile.get(3));
 				int startY = Integer.parseInt(playerFromFile.get(4));
 				BoardCell cell = board[startX][startY];
-				
+
 				//throw exception if key name or card type isn't what we expect
 				if(!type.equals("Human") && !type.equals("CPU")) {
 					throw new BadConfigFormatException();
 				}
-				Player p = new Player(name, color, colorString, type, cell);
-				players.add(p);
-				playerCards.add(new Card(name, CardType.PERSON));
+				else if (type.equals("Human")) {
+					HumanPlayer p = new HumanPlayer(name, color, colorString, type, cell);
+					players.add(p);
+					playerCards.add(new Card(name, CardType.PERSON));
+				}
+				else if (type.equals("CPU")) {
+					ComputerPlayer p = new ComputerPlayer(name, color, colorString, type, cell);
+					players.add(p);
+					playerCards.add(new Card(name, CardType.PERSON));
+				}
+				else {
+					System.out.println("ERROR IN DETERMINING PLAYER TYPE");
+					throw new BadConfigFormatException();
+				}
+//				Player p = new Player(name, color, colorString, type, cell);
+//				players.add(p);
+//				playerCards.add(new Card(name, CardType.PERSON));
 
 			}
 
@@ -421,7 +448,7 @@ public class Board extends JPanel {
 			for (int j = 0; j < numColumns; j++) {
 
 				// if cell is in a room and not a door, add empty adjacent matrix, showing no moves
-				if (board[i][j].isRoom()) {
+				if (board[i][j].isRoom() && !board[i][j].isDoorway()) {
 
 					// create empty set
 					HashSet<BoardCell> adj = new HashSet<BoardCell>();
@@ -588,6 +615,9 @@ public class Board extends JPanel {
 	public void findTargets(BoardCell startCell, int movesLeft) {
 		//for each adjCell in adjacentCells
 
+		
+		
+		
 		for(BoardCell cell : getAdjList(startCell)) {
 
 			//if already in visited list, skip rest of this
@@ -799,7 +829,7 @@ public class Board extends JPanel {
 				getCellAt(i, j).drawCell(g);
 			}
 		}
-		
+
 		//show targets for human players
 		if (isHumanPlayer) {
 			for (BoardCell cell : targets) {
@@ -837,34 +867,65 @@ public class Board extends JPanel {
 		calcTargets(player.getRow(), player.getCol(), dieRoll);
 
 		//draw the targets and let human decide if its a human
-		if (player.getType().equals("Human")) {
+		if (player instanceof HumanPlayer) {
 			isHumanPlayer = true;
 			//for debugging
-			BoardCell temp = player.pickLocation(targets);
-			if(temp == null) {
-				System.out.println("ERROR PART 1");
-			}
+//			BoardCell temp = player.pickLocation(targets);
+//			if(temp == null) {
+//				System.out.println("ERROR PART 1");
+//			}
 			//for testing
 			//player.makeMove(temp);
 		}		
 
 		//if its a CPU player then picks location randomly 
-		else if (player.getType().equals("CPU")) {
-			
-			//for debugging 
-			BoardCell temp = player.pickLocation(targets);
-			if(temp == null) {
-				System.out.println("ERROR");
+		else if (player instanceof ComputerPlayer) {
+			if (((ComputerPlayer) player).getAccuseFlag()) {
+				setCorrectGuess(checkAccusaton(((ComputerPlayer) player).getSuggestion()));
+				return;
 			}
-			//let the cpu player chose where to go next
-			player.makeMove(temp);
+			if(targets.size() == 0) {
+				Board board = Board.getInstance();
+				System.out.println("TARGETS SIZE IS ZERO FOR COMPUTER PLAYER");
+				System.out.println("Player: " + player.getName());
+				System.out.println("Type: " + player.getType());
+				System.out.println("Color: " + player.getColorString());
+				System.out.println("Die Roll: " + dieRoll);
+				System.out.println("Row/Col: " + player.getRow() + " / " + player.getCol());
+				System.out.println("Current Cell: " + board.getCellAt(player.getRow(), player.getCol()).isRoom() + " " + board.getCellAt(player.getRow(), player.getCol()).isDoorway());
+				calcTargets(player.getRow(), player.getCol(), dieRoll);
+			}
+			player.makeMove(player.pickLocation(targets));
+			BoardCell playerLoc = getCellAt(player.getRow(), player.getCol());
 			
+			if (playerLoc.isRoom()) {
+				((ComputerPlayer) player).createSuggestion();
+				disproven = handleSuggestion(player, ((ComputerPlayer) player).getSuggestion(), players);
+				if ( disproven == null ) {
+					((ComputerPlayer)player).setAccuseFlag();
+				}
+			}
 		}
-		
+
 		//for debugging and error catching
 		else {
 			System.out.println("ERROR not computer or human player");
 			System.out.println(player.getType());
+		}
+	}
+
+	public boolean isCorrectGuess() {
+		return correctGuess;
+	}
+
+	public void setCorrectGuess(boolean correctGuess) {
+		this.correctGuess = correctGuess;
+	}
+
+	public void showCardsOnDeath(Player player) {
+		for (Card card : player.getHand()) {
+			for(Player person : players)
+				person.addCardToListOfCardsAllreadySeen(card);
 		}
 	}
 

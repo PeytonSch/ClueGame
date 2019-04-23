@@ -13,6 +13,10 @@ import java.util.Set;
 public class HumanPlayer extends Player {
 	
 	private boolean waitingToGiveSuggestion;
+	
+	private Solution playerSuggestion;
+	
+	private boolean hasSuggestion;
 
 	public HumanPlayer(String name, Color color, String colorString, String type, BoardCell startCell) {
 		super(name, color, colorString, type, startCell);
@@ -22,6 +26,22 @@ public class HumanPlayer extends Player {
 
 	public HumanPlayer() {
 		super();
+	}
+	
+	public boolean getSuggestionFlag() {
+		return hasSuggestion;
+	}
+	public void setSuggestionFlag(boolean flag) {
+		hasSuggestion = flag;
+	}
+	
+	public Solution getHumanSuggestion() {
+		return playerSuggestion;
+	}
+	
+	public void createHumanSuggestion(Card room, Card person, Card weapon) {
+		playerSuggestion = new Solution(room, person, weapon);
+		hasSuggestion = true;
 	}
 
 	//human player logic for disproving a suggestion. Used for testing

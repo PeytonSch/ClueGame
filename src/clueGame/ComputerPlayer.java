@@ -16,7 +16,8 @@ public class ComputerPlayer extends Player {
 	private char lastRoom;
 	private BoardCell currentCell;
 	private Solution suggestion;
-
+	
+	private boolean shouldAccuse = false;
 
 	public ComputerPlayer(String name, Color color, String colorString, String type, BoardCell startCell) {
 		super(name, color, colorString, type, startCell);
@@ -26,6 +27,12 @@ public class ComputerPlayer extends Player {
 	//simple constructor for testing
 	public ComputerPlayer() {
 		super();
+	}
+	public boolean getAccuseFlag() {
+		return shouldAccuse;
+	}
+	public void setAccuseFlag() {
+		shouldAccuse = true;
 	}
 
 	public BoardCell pickLocation(Set<BoardCell> targets) {
@@ -74,11 +81,11 @@ public class ComputerPlayer extends Player {
 				unseenWeapons.add(w);
 			}
 		}
-		System.out.println("cardsAllreadySeen: " + getCardsAllreadySeen().size());
+		//System.out.println("cardsAllreadySeen: " + getCardsAllreadySeen().size());
 		int weapSize = unseenWeapons.size();
-		System.out.println("Wep size (unsean weapons):  " + weapSize);
+		//System.out.println("Wep size (unsean weapons):  " + weapSize);
 		int numWeapons = new Random().nextInt(weapSize);
-		System.out.println("numWeapons:   " + numWeapons);
+		//System.out.println("numWeapons:   " + numWeapons);
 		int j = 0;
 		for ( Card w : unseenWeapons ) {
 			if ( j == numWeapons ) {

@@ -211,7 +211,7 @@ public class gameActionTests {
 		Set<Card> listOfCardsAllreadySeen = cpu.getCardsAllreadySeen();
 
 		Set<Card> allWeapons = new HashSet<Card>();
-		allWeapons.addAll(board.getWeaponCards());//puts all game weapons into a set
+		allWeapons.addAll(board.getAllWeaponCards());//puts all game weapons into a set
 
 		//remove a weapon to test
 		for (Card w : allWeapons){
@@ -223,7 +223,7 @@ public class gameActionTests {
 		cpu.createSuggestion();
 		cpuSuggestion = cpu.getSuggestion();
 		//ensure we pick that weapon
-		//assertTrue(cpuSuggestion.getWeapon().getName().equals("Rope"));
+		assertTrue(cpuSuggestion.getWeapon().getName().equals("Wrench"));
 
 		//if only one person not seen, its selected
 		Set<Card> allPeople = new HashSet<Card>();

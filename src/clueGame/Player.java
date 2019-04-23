@@ -30,6 +30,24 @@ public class Player {
 	protected Set<Card> seen;
 	private Boolean isAlive;
 	private boolean currentlyInRoom;
+	private boolean hasSuggestion;
+	
+	
+	
+	public boolean getSuggestionFlag() {
+		return hasSuggestion;
+	}
+	public void setSuggestionFlag(boolean flag) {
+		hasSuggestion = flag;
+	}
+
+	public Boolean getIsAlive() {
+		return isAlive;
+	}
+
+	public void setIsAlive(Boolean isAlive) {
+		this.isAlive = isAlive;
+	}
 
 	public Player(String name, Color color, String colorString, String type, BoardCell startCell) {
 		this.name = name;
@@ -47,7 +65,7 @@ public class Player {
 		currentlyInRoom = false;
 
 	}
-
+	
 	//for testing just creating a simple player with the needed data structures
 	public Player() {
 		seen = new HashSet<Card>();
@@ -67,7 +85,6 @@ public class Player {
 	public Set<Card> getHand() {
 		return hand;
 	}
-
 
 
 
@@ -160,7 +177,10 @@ public class Player {
 
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		// TODO Auto-generated method stub
+		//System.out.println("TARGETS");
+		//System.out.println(targets.size());
 		int target = new Random().nextInt(targets.size());
+		//System.out.println("   " + target);
 		int i = 0;
 		for(BoardCell cell : targets) {
 			if (i == target) {
@@ -172,6 +192,11 @@ public class Player {
 		System.out.println("pickLocation returning null");
 		return null;
 	}
+	
+	public boolean getAccuseFlag() {
+		return false;
+	}
+
 
 
 }

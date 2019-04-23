@@ -111,6 +111,16 @@ public class ControlGui extends JPanel {
 		panel.add(nameLabel);
 		return panel;
 	}
+	
+	public void updateGuessGUI(Solution suggestion, Card guessResult) {
+		guessText.setText(suggestion.getPerson().getName() 
+				+ " with " +
+				suggestion.getWeapon().getName() + " in the " +
+				suggestion.getRoom().getName());
+		
+		if (guessResult == null) responseText.setText("No new clue");
+		else responseText.setText(guessResult.getName());
+	}
 
 	private JPanel createButtonPanel() {
 		// no layout specified, so this is flow

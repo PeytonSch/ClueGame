@@ -54,7 +54,10 @@ public class BoardCell {
 	}
 
 	public boolean isRoom() {
-		return (roomLetter != 'W' && dir ==  DoorDirection.NONE);
+		//System.out.println("Room check " + (roomLetter != 'W' && dir ==  DoorDirection.NONE));
+		//System.out.println(roomLetter + " " + dir);
+		return (roomLetter != 'W');
+		//return (roomLetter != 'W' && dir ==  DoorDirection.NONE);
 	}
 
 	public DoorDirection getDoorDirection() {
