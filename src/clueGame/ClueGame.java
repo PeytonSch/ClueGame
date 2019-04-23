@@ -84,6 +84,16 @@ public class ClueGame extends JFrame {
 		add(gui, BorderLayout.SOUTH);
 		//add menu bar
 		setJMenuBar(menu);
+		player = playerList.get(1);
+		if (player instanceof HumanPlayer) {
+			System.out.println("Human");
+		}
+		else if (player instanceof ComputerPlayer) {
+			System.out.println("CPU");
+		}
+		else {
+			System.out.println("ERROR");
+		}
 	}
 
 	private JPanel createPlayerCardsPanel(ArrayList<Player> players) {
@@ -150,7 +160,7 @@ public class ClueGame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 
 			if(!firstIteration) {
-				if (!humanTurnComplete && player.getType().equals("Human")) {
+				if (!humanTurnComplete && player instanceof HumanPlayer) {
 					JOptionPane errorPane = new JOptionPane();
 					errorPane.showMessageDialog(new JFrame(), completeTurnMessage, "Error", JOptionPane.INFORMATION_MESSAGE);
 					return;
@@ -174,12 +184,11 @@ public class ClueGame extends JFrame {
 
 			int dieNum = (int) dieRoll;
 
-
 			//refresh gui
 			gui.refreshGui(player, dieNum);
 			
 			//Handle computer accusation before movement
-			if (counter > 0 && player.getCurrentlyInRoom()) {
+			if (counter != 1 && player.getCurrentlyInRoom()) {
 				if (((ComputerPlayer) player).getAccuseFlag()) {
 					if (board.checkAccusaton(((ComputerPlayer) player).getSuggestion()) ) {
 						//Comp player wins
@@ -226,6 +235,7 @@ public class ClueGame extends JFrame {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			if(player instanceof ComputerPlayer) return;
 
 
 			boolean acceptableTarget = false;
@@ -246,15 +256,15 @@ public class ClueGame extends JFrame {
 					
 
 					// Draw suggestion box
-					if (player.getCurrentlyInRoom()) {
+					if (((HumanPlayer) player).getCurrentlyInRoom()) {
 						guessDialog = new GuessDialog(player);
 						guessDialog.setModalityType(ModalityType.APPLICATION_MODAL);
 						guessDialog.setVisible(true);
 
 						// If guess submitted, handle suggestion, update GUI
-						if (((HumanPlayer) player).getSuggestionFlag()) {
-							Card proof = board.handleSuggestion(player, ((HumanPlayer) player).getHumanSuggestion(), playerList);
-							gui.updateGuessGUI(((HumanPlayer) player).getHumanSuggestion(), proof);
+						if (player.getSuggestionFlag()) {
+							Card proof = board.handleSuggestion(player, ((HumanPlayer)player).getHumanSuggestion(), playerList);
+							gui.updateGuessGUI(((HumanPlayer)player).getHumanSuggestion(), proof);
 						}
 					}
 					player.setSuggestionFlag(false);
@@ -285,7 +295,7 @@ public class ClueGame extends JFrame {
 	//accusation listener
 	public class accusationListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if (humanTurnComplete || player.getType().equals("CPU")) {
+			if (humanTurnComplete || player instanceof ComputerPlayer) {
 				JOptionPane errorPane = new JOptionPane();
 				errorPane.showMessageDialog(new JFrame(), poorlyTimedAccusation, errorMessage, JOptionPane.INFORMATION_MESSAGE);
 				return;

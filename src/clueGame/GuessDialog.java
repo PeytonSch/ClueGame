@@ -3,6 +3,7 @@ package clueGame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -58,7 +59,7 @@ public class GuessDialog extends JDialog  {
 		playersDropdown = createPlayersDropdown(board.getPeople());
 		
 		weaponsDropdown = new JComboBox<String>();
-		weaponsDropdown = createWeaponsDropdown(board.getWeapons());
+		weaponsDropdown = createWeaponsDropdown(board.getAllWeaponCards());
 		
 		//Buttons
 		JButton submit = new JButton("Submit");
@@ -83,7 +84,7 @@ public class GuessDialog extends JDialog  {
 	 * @param weapons
 	 * @return
 	 */
-	private JComboBox<String> createWeaponsDropdown(Set<Card> weapons) {
+	private JComboBox<String> createWeaponsDropdown(ArrayList<Card> weapons) {
 		JComboBox<String> weaponList = new JComboBox<String>();
 		for (Card w : weapons) {
 			weaponList.addItem(w.getName());
@@ -123,7 +124,7 @@ public class GuessDialog extends JDialog  {
 			}
 			
 			// Set suggestion, flag
-			((HumanPlayer) player).createHumanSuggestion(board.getRoom(player), savedPersonGuess, savedWeaponGuess);
+			((HumanPlayer)player).createHumanSuggestion(board.getRoom(player), savedPersonGuess, savedWeaponGuess);
 			
 			// Close
 			dispose();

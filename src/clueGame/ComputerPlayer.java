@@ -81,11 +81,11 @@ public class ComputerPlayer extends Player {
 				unseenWeapons.add(w);
 			}
 		}
-		System.out.println("cardsAllreadySeen: " + getCardsAllreadySeen().size());
+		//System.out.println("cardsAllreadySeen: " + getCardsAllreadySeen().size());
 		int weapSize = unseenWeapons.size();
-		System.out.println("Wep size (unsean weapons):  " + weapSize);
+		//System.out.println("Wep size (unsean weapons):  " + weapSize);
 		int numWeapons = new Random().nextInt(weapSize);
-		System.out.println("numWeapons:   " + numWeapons);
+		//System.out.println("numWeapons:   " + numWeapons);
 		int j = 0;
 		for ( Card w : unseenWeapons ) {
 			if ( j == numWeapons ) {
