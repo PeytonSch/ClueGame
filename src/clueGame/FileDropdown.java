@@ -90,6 +90,8 @@ public class FileDropdown extends JMenuBar {
 		people.add(greenBox);
 		JCheckBox yellowBox = new JCheckBox("Deb U. Taunt");
 		people.add(yellowBox);
+		JCheckBox lastBox = new JCheckBox("Nathaniel Nutmeg");
+		people.add(lastBox);
 		// Title
 		people.setBorder(new TitledBorder(new EtchedBorder(), "People"));
 		checkboxes.add(people);
@@ -148,14 +150,14 @@ public class FileDropdown extends JMenuBar {
 		dropdowns.setLayout(new GridLayout(3, 1));
 
 		// People dropdown
-		String[] playerGuess = { "Miss Scarlett", "Professor Plum", "Mrs. Peacock", "Reverend Green", "Colonel Mustard", "Mrs. White"};
+		String[] playerGuess = { "Voodoo Mama JuuJuu", "Beatrix Bourbon", "Naughty Nellie Nutmeg", "Caleb Crawdad", "Deb U. Taunt", "Nathaniel Nutmeg"};
 		JComboBox playerBox = new JComboBox(playerGuess);
 		playerBox.setBorder(new TitledBorder(new EtchedBorder(), "Player Guess"));
 		dropdowns.add(playerBox);
 
 		// Room dropdown
-		String[] roomGuess = { "Kitchen", "Dining Room", "Planetarium", "Reptile Room", "Hydroponics Lab", 
-				"Tool Closet", "Crematorium", "Cinema", "Ballroom"};
+		String[] roomGuess = { "Kitchen", "Art Room", "Bathroom", "Garage", "Hall", 
+				"Library", "Wine Cellar", "Observatory", "Sauna"};
 		JComboBox roomBox = new JComboBox(roomGuess);
 		roomBox.setBorder(new TitledBorder(new EtchedBorder(), "Room Guess"));
 		dropdowns.add(roomBox);

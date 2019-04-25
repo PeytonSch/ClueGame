@@ -18,7 +18,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class ControlGui extends JPanel {
-	
+
 	private JLabel guessLabel;
 	private JLabel guessText;
 	private JLabel nameLabel;
@@ -27,7 +27,7 @@ public class ControlGui extends JPanel {
 	private JLabel responseLabel;
 	private JLabel rollLabel;
 	private JLabel rollText;
-	
+
 	JButton next, accuse;
 
 	public ControlGui(){
@@ -111,13 +111,19 @@ public class ControlGui extends JPanel {
 		panel.add(nameLabel);
 		return panel;
 	}
-	
+
 	public void updateGuessGUI(Solution suggestion, Card guessResult) {
+		if(suggestion == null && guessResult == null) {
+			guessText.setText("");
+			responseText.setText("");
+			return;
+		}
 		guessText.setText(suggestion.getPerson().getName() 
 				+ " with " +
 				suggestion.getWeapon().getName() + " in the " +
 				suggestion.getRoom().getName());
-		
+
+
 		if (guessResult == null) responseText.setText("No new clue");
 		else responseText.setText(guessResult.getName());
 	}
@@ -133,13 +139,13 @@ public class ControlGui extends JPanel {
 		panel.add(accuse);
 		return panel;
 	}
-	
+
 	public void refreshGui(Player player, int dieRoll) {
 		//set dice roll and player name
 		rollText.setText(Integer.toString(dieRoll));
 		nameLabel.setText(player.getName()+", "+player.getColorString());
 	}
-	
+
 	public static void main(String[] args) {
 		// Create a JFrame with all the normal functionality
 		JFrame frame = new JFrame();

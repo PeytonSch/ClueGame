@@ -22,6 +22,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import clueGame.BoardCell;
@@ -100,6 +101,7 @@ public class Board extends JPanel {
 		roomCards = new ArrayList<Card>();
 		cardDeck = new ArrayList<Card>();
 		allCards = new ArrayList<Card>();
+
 
 		//setting this file to a default for our board because some of the given tests do not specify a file
 		//and therefore do not run. We are not allowed to change the test they give us and if the graders use a 
@@ -203,6 +205,8 @@ public class Board extends JPanel {
 			for(int i =0; i < 3; i++) {
 				Card randomCard = cardDeck.get((int)(Math.random() * cardDeck.size()));
 				p.giveCard(randomCard);
+				p.addCardToListOfCardsAllreadySeen(randomCard);
+				System.out.println(p.getName() + " given " + randomCard.getName());
 				cardDeck.remove(randomCard);
 			}
 		}
@@ -819,8 +823,8 @@ public class Board extends JPanel {
 			}
 			// else go to next player
 			curLoc++;
-		}
-		// if reach the suggestor, return null	
+		}		
+		// if reach the suggestor, return null
 		return null;
 	}
 
@@ -869,7 +873,7 @@ public class Board extends JPanel {
 	}
 
 
-	public void nextPlayer(Player player, int dieRoll, ArrayList<Player> players) {
+	public void nextPlayer(Player player, int dieRoll, ArrayList<Player> players, ControlGui gui) {
 
 
 		//calc targets for player
@@ -910,8 +914,20 @@ public class Board extends JPanel {
 			if (playerLoc.isRoom()) {
 				((ComputerPlayer) player).createSuggestion();
 				disproven = handleSuggestion(player, ((ComputerPlayer) player).getSuggestion(), players);
-				if ( disproven == null ) {
+
+				gui.updateGuessGUI(((ComputerPlayer)player).getSuggestion(), disproven);
+
+				//String response = ((ComputerPlayer) player).getSuggestion().getPerson().getName() + " in the " + ((ComputerPlayer) player).getSuggestion().getRoom().getName() + " with the " + ((ComputerPlayer) player).getSuggestion().getWeapon().getName();
+				//JOptionPane accusationPane = new JOptionPane();
+				//accusationPane.showMessageDialog(new JFrame(), "Suggestion: " + response, player.getName() + " is making an suggestion ", JOptionPane.INFORMATION_MESSAGE);
+				if ( disproven == null && !player.getCardsAllreadySeen().contains(((ComputerPlayer) player).getCurrentRoomCard()) ) {
 					((ComputerPlayer)player).setAccuseFlag();
+					//JOptionPane responsePane = new JOptionPane();
+					//responsePane.showMessageDialog(new JFrame(), "No new clue was given","Response", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else {
+					//JOptionPane responsePane = new JOptionPane();
+					//responsePane.showMessageDialog(new JFrame(), "Clue: " + disproven.getName() ,"Response", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		}
@@ -932,11 +948,17 @@ public class Board extends JPanel {
 	}
 
 	public void showCardsOnDeath(Player player) {
+		String message = player.getName() + " had the following cards: ";
 		for (Card card : player.getHand()) {
+			message += (" (" + card.getName() + ")");
 			for(Player person : players)
 				person.addCardToListOfCardsAllreadySeen(card);
 		}
+		JOptionPane showCards = new JOptionPane();
+		showCards.showMessageDialog(new JFrame(), message, "Revealed Cards", JOptionPane.INFORMATION_MESSAGE);
 	}
+	
+
 
 
 }

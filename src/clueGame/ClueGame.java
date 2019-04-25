@@ -38,7 +38,7 @@ public class ClueGame extends JFrame {
 	private static String unableToMakeAccusation = "You can only make an accusation when inside of a room.";
 	private static String winTitle = "Winner!";
 	private static String exitTitle = "Game Over";
-	private static String exitMsg = "Thank you for playing, please exit the game at this time. Restart if you wish to play again.";
+	private static String exitMsg = "Thank you for playing, the game will exit at this time. Restart if you wish to play again.";
 	private static String poorlyTimedAccusation = "You can only make an accusation at the beginning of your turn.";
 	private GuessDialog guessDialog;
 	private String response;
@@ -183,10 +183,12 @@ public class ClueGame extends JFrame {
 			//!= 1 because thats the human player
 			if (counter != 1 && player.getCurrentlyInRoom()) {
 				if (((ComputerPlayer) player).getAccuseFlag()) {
+					response = ((ComputerPlayer) player).getSuggestion().getPerson().getName() + " in the " + ((ComputerPlayer) player).getSuggestion().getRoom().getName() + " with the " + ((ComputerPlayer) player).getSuggestion().getWeapon().getName();
+					JOptionPane accusationPane = new JOptionPane();
+					accusationPane.showMessageDialog(new JFrame(), response, player.getName() + " is making an accusation ", JOptionPane.INFORMATION_MESSAGE);
 					if (board.checkAccusaton(((ComputerPlayer) player).getSuggestion()) ) {
 						//Comp player wins
-						response = ((ComputerPlayer) player).getSuggestion().toString();
-						cpuWins = player.getName() + " wins!" + "Answer: " + response;
+						cpuWins = player.getName() + " wins!" + " Answer: " + response;
 
 						JOptionPane winnerPane = new JOptionPane();
 						winnerPane.showMessageDialog(new JFrame(), cpuWins, winTitle, JOptionPane.INFORMATION_MESSAGE);
@@ -209,10 +211,12 @@ public class ClueGame extends JFrame {
 					}
 				}
 			}
+			else if (counter != 1 && !player.getCurrentlyInRoom()) {
+				gui.updateGuessGUI(null, null);
+			}
 
 			//draw player targets
-			board.nextPlayer(player, dieNum, playerList);
-
+			board.nextPlayer(player, dieNum, playerList, gui);
 
 			board.repaint();
 
@@ -262,6 +266,9 @@ public class ClueGame extends JFrame {
 							Card proof = board.handleSuggestion(player, ((HumanPlayer)player).getHumanSuggestion(), playerList);
 							gui.updateGuessGUI(((HumanPlayer)player).getHumanSuggestion(), proof);
 						}
+					}
+					else {
+						gui.updateGuessGUI(null, null);
 					}
 					player.setSuggestionFlag(false);
 

@@ -179,6 +179,11 @@ public class ComputerPlayer extends Player {
 		// TODO Auto-generated method stub
 		return suggestion;
 	}
+	
+	public Card getCurrentRoomCard() {
+		Card roomCard = Board.getInstance().getRoomWithInitial(currentCell.getInitial());
+		return roomCard;
+	}
 
 
 
