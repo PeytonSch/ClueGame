@@ -112,7 +112,7 @@ public class ControlGui extends JPanel {
 		return panel;
 	}
 
-	public void updateGuessGUI(Solution suggestion, Card guessResult) {
+	public void updateGuessPannel(Solution suggestion, Card guessResult) {
 		if(suggestion == null && guessResult == null) {
 			guessText.setText("");
 			responseText.setText("");

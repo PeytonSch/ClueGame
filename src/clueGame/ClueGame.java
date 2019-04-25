@@ -33,16 +33,16 @@ public class ClueGame extends JFrame {
 	private static String completeTurnMessage = "Turn not finished";
 	private static String wrongLocationMessage = "Invalid location selected";
 	private static String errorMessage = "Error";
-	private static String wrongAnswerTitle = "Incorrect Accusation : Player Lost";
-	private static String wrongAnswerMsg = " submitted an incorrect accusation. The player has been removed from the game.";
-	private static String unableToMakeAccusation = "You can only make an accusation when inside of a room.";
+	private static String incorrectAnsTitle = "Incorrect Accusation : Player Lost";
+	private static String incorrectAnsMsg = " submitted an incorrect accusation. The player has been removed from the game.";
+	private static String cantAccuse = "You can only make an accusation when inside of a room.";
 	private static String winTitle = "Winner!";
-	private static String exitTitle = "Game Over";
-	private static String exitMsg = "Thank you for playing, the game will exit at this time. Restart if you wish to play again.";
-	private static String poorlyTimedAccusation = "You can only make an accusation at the beginning of your turn.";
-	private GuessDialog guessDialog;
-	private String response;
-	private String cpuWins;
+	private static String exitBanner = "Game Over";
+	private static String exitMessage = "Thank you for playing, the game will exit at this time. Restart if you wish to play again.";
+	private static String wrongTimeToAccuse = "You can only make an accusation at the beginning of your turn.";
+	private GuessWindow guessWin;
+	private String reply;
+	private String computerWon;
 
 	private ArrayList<Player> playerList;
 	private Board board;
@@ -50,9 +50,10 @@ public class ClueGame extends JFrame {
 	private Player user;
 	private boolean firstIteration = true;
 	private int dieNum;
-	private boolean gameWon = false; //
-	private boolean humanGuessSubmitted = false; //
-	private String humanWins; //
+	private boolean gameWasWon = false; 
+	private boolean guessSubmittedByHuman = false; 
+	private String humanWon; 
+	private boolean humanDead = false; //lets cpu players continue if human dies
 
 	public ClueGame() throws BadConfigFormatException {
 		board = Board.getInstance();
@@ -84,15 +85,15 @@ public class ClueGame extends JFrame {
 		//add menu bar
 		setJMenuBar(menu);
 		player = playerList.get(1);
-		if (player instanceof HumanPlayer) {
-			System.out.println("Human");
-		}
-		else if (player instanceof ComputerPlayer) {
-			System.out.println("CPU");
-		}
-		else {
-			System.out.println("ERROR");
-		}
+//		if (player instanceof HumanPlayer) {
+//			System.out.println("Human");
+//		}
+//		else if (player instanceof ComputerPlayer) {
+//			System.out.println("CPU");
+//		}
+//		else {
+//			System.out.println("ERROR");
+//		}
 	}
 
 	private JPanel createPlayerCardsPanel(ArrayList<Player> players) {
@@ -114,7 +115,7 @@ public class ClueGame extends JFrame {
 		JLabel weaponName = null;
 
 
-		personName = new JLabel(user.getName());
+		
 		userName = user.getName();
 
 		for (Card card : playerCardSet) {
@@ -135,6 +136,7 @@ public class ClueGame extends JFrame {
 				panel.add(weapon);
 			}
 			else {
+				personName = new JLabel(card.getName());
 				JPanel person = new JPanel();
 				person.setLayout(new GridLayout(2,1));      
 				person.setBorder(new TitledBorder ("Person"));
@@ -147,7 +149,7 @@ public class ClueGame extends JFrame {
 		return panel;
 	}
 
-	// Next Player listener
+	//next player button listener 
 	public class NextPlayerButtonListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
@@ -181,38 +183,38 @@ public class ClueGame extends JFrame {
 			
 			//Handle computer accusation before movement
 			//!= 1 because thats the human player
-			if (counter != 1 && player.getCurrentlyInRoom()) {
+			if ((counter != 1 && player.getCurrentlyInRoom() )|| (humanDead && player.getCurrentlyInRoom())) {
 				if (((ComputerPlayer) player).getAccuseFlag()) {
-					response = ((ComputerPlayer) player).getSuggestion().getPerson().getName() + " in the " + ((ComputerPlayer) player).getSuggestion().getRoom().getName() + " with the " + ((ComputerPlayer) player).getSuggestion().getWeapon().getName();
+					reply = ((ComputerPlayer) player).getSuggestion().getPerson().getName() + " in the " + ((ComputerPlayer) player).getSuggestion().getRoom().getName() + " with the " + ((ComputerPlayer) player).getSuggestion().getWeapon().getName();
 					JOptionPane accusationPane = new JOptionPane();
-					accusationPane.showMessageDialog(new JFrame(), response, player.getName() + " is making an accusation ", JOptionPane.INFORMATION_MESSAGE);
+					accusationPane.showMessageDialog(new JFrame(), reply, player.getName() + " is making an accusation ", JOptionPane.INFORMATION_MESSAGE);
 					if (board.checkAccusaton(((ComputerPlayer) player).getSuggestion()) ) {
-						//Comp player wins
-						cpuWins = player.getName() + " wins!" + " Answer: " + response;
+						//computer wins
+						computerWon = player.getName() + " wins!" + " Answer: " + reply;
 
-						JOptionPane winnerPane = new JOptionPane();
-						winnerPane.showMessageDialog(new JFrame(), cpuWins, winTitle, JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane winner = new JOptionPane();
+						winner.showMessageDialog(new JFrame(), computerWon, winTitle, JOptionPane.INFORMATION_MESSAGE);
 
-						// Exit
-						JOptionPane exitPane = new JOptionPane();
-						exitPane.showMessageDialog(new JFrame(), exitMsg, exitTitle, JOptionPane.INFORMATION_MESSAGE);
+						//end game
+						JOptionPane exit = new JOptionPane();
+						exit.showMessageDialog(new JFrame(), exitMessage, exitBanner, JOptionPane.INFORMATION_MESSAGE);
 						System.exit(0);
 					}
 					else if (!board.isCorrectGuess()){
 						//player loses
 						//Player is kicked message
 						player.setIsAlive(false);
-						board.showCardsOnDeath(player);
+						board.revealDeadPlayerCards(player);
 						playerList.remove(player);
 
-						//Message
-						JOptionPane kickedPane = new JOptionPane();
-						kickedPane.showMessageDialog(new JFrame(), player.getName() + wrongAnswerMsg, wrongAnswerTitle, JOptionPane.INFORMATION_MESSAGE);
+						//remove player from game message
+						JOptionPane removedFromGame = new JOptionPane();
+						removedFromGame.showMessageDialog(new JFrame(), player.getName() + incorrectAnsMsg, incorrectAnsTitle, JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			}
 			else if (counter != 1 && !player.getCurrentlyInRoom()) {
-				gui.updateGuessGUI(null, null);
+				gui.updateGuessPannel(null, null);
 			}
 
 			//draw player targets
@@ -255,20 +257,20 @@ public class ClueGame extends JFrame {
 					
 					
 
-					// Draw suggestion box
+					//render guess window
 					if (((HumanPlayer) player).getCurrentlyInRoom()) {
-						guessDialog = new GuessDialog(player);
-						guessDialog.setModalityType(ModalityType.APPLICATION_MODAL);
-						guessDialog.setVisible(true);
+						guessWin = new GuessWindow(player);
+						guessWin.setModalityType(ModalityType.APPLICATION_MODAL);
+						guessWin.setVisible(true);
 
-						// If guess submitted, handle suggestion, update GUI
+						//update gui, handle suggestion
 						if (player.getSuggestionFlag()) {
-							Card proof = board.handleSuggestion(player, ((HumanPlayer)player).getHumanSuggestion(), playerList);
-							gui.updateGuessGUI(((HumanPlayer)player).getHumanSuggestion(), proof);
+							Card suggestionHandled = board.handleSuggestion(player, ((HumanPlayer)player).getHumanSuggestion(), playerList);
+							gui.updateGuessPannel(((HumanPlayer)player).getHumanSuggestion(), suggestionHandled);
 						}
 					}
 					else {
-						gui.updateGuessGUI(null, null);
+						gui.updateGuessPannel(null, null);
 					}
 					player.setSuggestionFlag(false);
 
@@ -299,44 +301,46 @@ public class ClueGame extends JFrame {
 	public class accusationListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (humanTurnComplete || player instanceof ComputerPlayer) {
-				JOptionPane errorPane = new JOptionPane();
-				errorPane.showMessageDialog(new JFrame(), poorlyTimedAccusation, errorMessage, JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane accusationError = new JOptionPane();
+				accusationError.showMessageDialog(new JFrame(), wrongTimeToAccuse, errorMessage, JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 			else if (!player.getCurrentlyInRoom()) {
-				JOptionPane errorPane = new JOptionPane();
-				errorPane.showMessageDialog(new JFrame(), unableToMakeAccusation, errorMessage, JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane accusationError = new JOptionPane();
+				accusationError.showMessageDialog(new JFrame(), cantAccuse, errorMessage, JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 			else {
-				JDialog accuseDialog = new GuessDialog(player);
-				accuseDialog.setModalityType(ModalityType.APPLICATION_MODAL);
-				accuseDialog.setVisible(true);
+				JDialog accusationWin = new GuessWindow(player);
+				accusationWin.setModalityType(ModalityType.APPLICATION_MODAL);
+				accusationWin.setVisible(true);
 
 				if (((HumanPlayer) player).getSuggestionFlag()) {
-					Card proof = board.handleSuggestion(player, ((HumanPlayer) player).getHumanSuggestion(), playerList);
-					gui.updateGuessGUI(((HumanPlayer) player).getHumanSuggestion(), proof);
-					if(proof == null) {
-						gameWon = true;
+					Card suggestionHandled = board.handleSuggestion(player, ((HumanPlayer) player).getHumanSuggestion(), playerList);
+					gui.updateGuessPannel(((HumanPlayer) player).getHumanSuggestion(), suggestionHandled);
+					if(suggestionHandled == null) {
+						gameWasWon = true;
 					}
 
-					if (gameWon) {
-						//game over, human wins
-						humanWins = player.getName() + " wins! Congratulations!";
-						JOptionPane winnerPane = new JOptionPane();
-						winnerPane.showMessageDialog(new JFrame(), humanWins, winTitle, JOptionPane.INFORMATION_MESSAGE);
+					if (gameWasWon) {
+						//human wins
+						humanWon = player.getName() + " wins! Congratulations!";
+						JOptionPane victoryWindow = new JOptionPane();
+						victoryWindow.showMessageDialog(new JFrame(), humanWon, winTitle, JOptionPane.INFORMATION_MESSAGE);
 						System.exit(0);
 					}
 					else {
-						//game over, human loses, comps continue
+						//if human loses computers should continue
 						player.setIsAlive(false);
+						humanDead = true;
+						board.revealDeadPlayerCards(player);
 						playerList.remove(player);
 						humanTurnComplete = true;
 						board.repaint();
 
-						//Message
-						JOptionPane kickedPane = new JOptionPane();
-						kickedPane.showMessageDialog(new JFrame(), "You" + wrongAnswerMsg, wrongAnswerTitle, JOptionPane.INFORMATION_MESSAGE);
+						//human lost message
+						JOptionPane playerRemovedWin = new JOptionPane();
+						playerRemovedWin.showMessageDialog(new JFrame(), "You" + incorrectAnsMsg, incorrectAnsTitle, JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			}
@@ -352,7 +356,3 @@ public class ClueGame extends JFrame {
 
 }
 
-//should know other players accusations
-//should know other players suggestions
-//should know cards given to disprove suggestion
-//do NOT know disproved accusation cards

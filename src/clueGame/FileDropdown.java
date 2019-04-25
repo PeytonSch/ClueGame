@@ -1,3 +1,8 @@
+/*
+ * Authors:
+ * James Hawn
+ * Peyton Scherschel
+ */
 package clueGame;
 
 import java.awt.BorderLayout;
@@ -16,7 +21,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class FileDropdown extends JMenuBar {
-	private JDialog notesDialog;
+	private JDialog notesWin;
 	private JMenu fileMenuOption;
 	private JMenuItem notes;
 	private JMenuItem exit;
@@ -58,14 +63,14 @@ public class FileDropdown extends JMenuBar {
 	public class notesDialogListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			// Show dialog
-			notesDialog.setVisible(true);
+			notesWin.setVisible(true);
 		}
 	}
 
 	private void createNotesDialog() {
 		// Initialize
-		notesDialog = new JDialog();
-		JDialog n = notesDialog;
+		notesWin = new JDialog();
+		JDialog n = notesWin;
 
 		// Set attributes
 		n.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -80,18 +85,18 @@ public class FileDropdown extends JMenuBar {
 		JPanel people = new JPanel();
 		people.setLayout(new GridLayout(3, 2));
 
-		JCheckBox redBox = new JCheckBox("Voodoo Mama JuuJuu");
-		people.add(redBox);
-		JCheckBox magentaBox = new JCheckBox("Beatrix Bourbon");
-		people.add(magentaBox);
-		JCheckBox blueBox = new JCheckBox("Naughty Nellie Nutmeg");
-		people.add(blueBox);
-		JCheckBox greenBox = new JCheckBox("Caleb Crawdad");
-		people.add(greenBox);
-		JCheckBox yellowBox = new JCheckBox("Deb U. Taunt");
-		people.add(yellowBox);
-		JCheckBox lastBox = new JCheckBox("Nathaniel Nutmeg");
-		people.add(lastBox);
+		JCheckBox box1 = new JCheckBox("Voodoo Mama JuuJuu");
+		people.add(box1);
+		JCheckBox box2 = new JCheckBox("Beatrix Bourbon");
+		people.add(box2);
+		JCheckBox box3 = new JCheckBox("Naughty Nellie Nutmeg");
+		people.add(box3);
+		JCheckBox box4 = new JCheckBox("Caleb Crawdad");
+		people.add(box4);
+		JCheckBox box5 = new JCheckBox("Deb U. Taunt");
+		people.add(box5);
+		JCheckBox box6 = new JCheckBox("Nathaniel Nutmeg");
+		people.add(box6);
 		// Title
 		people.setBorder(new TitledBorder(new EtchedBorder(), "People"));
 		checkboxes.add(people);
@@ -102,22 +107,22 @@ public class FileDropdown extends JMenuBar {
 
 		JCheckBox kitchen = new JCheckBox("Kitchen");
 		rooms.add(kitchen);
-		JCheckBox diningRoom= new JCheckBox("Art Room");
-		rooms.add(diningRoom);
-		JCheckBox planetarium = new JCheckBox("Bathroom");
-		rooms.add(planetarium);
-		JCheckBox reptile = new JCheckBox("Garage");
-		rooms.add(reptile);
-		JCheckBox hydro = new JCheckBox("Hall");
-		rooms.add(hydro);
-		JCheckBox tool = new JCheckBox("Library");
-		rooms.add(tool);
-		JCheckBox cream = new JCheckBox("Wine Cellar");
-		rooms.add(cream);
-		JCheckBox cinema = new JCheckBox("Observatory");
-		rooms.add(cinema);
-		JCheckBox balls = new JCheckBox("Sauna");
-		rooms.add(balls);
+		JCheckBox artRoom= new JCheckBox("Art Room");
+		rooms.add(artRoom);
+		JCheckBox bathroom = new JCheckBox("Bathroom");
+		rooms.add(bathroom);
+		JCheckBox garage = new JCheckBox("Garage");
+		rooms.add(garage);
+		JCheckBox hall = new JCheckBox("Hall");
+		rooms.add(hall);
+		JCheckBox lib = new JCheckBox("Library");
+		rooms.add(lib);
+		JCheckBox wineCellar = new JCheckBox("Wine Cellar");
+		rooms.add(wineCellar);
+		JCheckBox observatory = new JCheckBox("Observatory");
+		rooms.add(observatory);
+		JCheckBox sauna = new JCheckBox("Sauna");
+		rooms.add(sauna);
 		//Title
 		rooms.setBorder(new TitledBorder(new EtchedBorder(), "Rooms"));
 		checkboxes.add(rooms);
@@ -132,8 +137,8 @@ public class FileDropdown extends JMenuBar {
 		weapons.add(dumbell);
 		JCheckBox pipe = new JCheckBox("Lead Pipe");
 		weapons.add(pipe);
-		JCheckBox gun = new JCheckBox("Revolver");
-		weapons.add(gun);
+		JCheckBox revolver = new JCheckBox("Revolver");
+		weapons.add(revolver);
 		JCheckBox rope = new JCheckBox("Rope");
 		weapons.add(rope);
 		JCheckBox wrench = new JCheckBox("Wrench");
