@@ -52,17 +52,17 @@ public class HumanPlayer extends Player {
 		Card personCard = suggestion.person;
 		Card weaponCard = suggestion.weapon;
 
-		boolean doesContainsRoom = hand.contains(roomCard);
-		boolean doesContainsPerson = hand.contains(personCard);
-		boolean coesContainsWeapon = hand.contains(weaponCard);
+		boolean doesContainRoom = hand.contains(roomCard);
+		boolean doesContainPerson = hand.contains(personCard);
+		boolean doesContainWeapon = hand.contains(weaponCard);
 
 		Set<Card> newHandSet = new HashSet<Card>();
 
-		if (doesContainsRoom) newHandSet.add(roomCard);
-		if (doesContainsPerson) newHandSet.add(personCard);
-		if (coesContainsWeapon) newHandSet.add(weaponCard);
+		if (doesContainRoom) newHandSet.add(roomCard);
+		if (doesContainPerson) newHandSet.add(personCard);
+		if (doesContainWeapon) newHandSet.add(weaponCard);
 
-		if (!doesContainsRoom && !doesContainsPerson && !coesContainsWeapon) {
+		if (!doesContainRoom && !doesContainPerson && !doesContainWeapon) {
 			return null;
 		} else if (hand.contains(roomCard) || hand.contains(personCard) || hand.contains(weaponCard)) {
 			int size = newHandSet.size();

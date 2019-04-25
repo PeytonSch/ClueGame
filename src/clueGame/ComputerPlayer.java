@@ -14,14 +14,14 @@ import java.util.Set;
 public class ComputerPlayer extends Player {
 
 	private char lastRoom;
-	private BoardCell currentCell;
+	private BoardCell cellAt;
 	private Solution suggestion;
 	
 	private boolean shouldAccuse = false;
 
 	public ComputerPlayer(String name, Color color, String colorString, String type, BoardCell startCell) {
 		super(name, color, colorString, type, startCell);
-		currentCell = startCell;
+		cellAt = startCell;
 		// TODO Auto-generated constructor stub
 	}
 	//simple constructor for testing
@@ -42,7 +42,7 @@ public class ComputerPlayer extends Player {
 			if ( cell.isDoorway() && cell.getInitial() != lastRoom ) {
 				//choose room
 				lastRoom = cell.getInitial();
-				currentCell = Board.getInstance().getCellAt(getRow(), getCol());
+				cellAt = Board.getInstance().getCellAt(getRow(), getCol());
 				return cell;
 			}
 		}
@@ -53,7 +53,7 @@ public class ComputerPlayer extends Player {
 		int i = 0;
 		for ( BoardCell cell : targets ) {
 			if ( i == num ) {
-				currentCell = Board.getInstance().getCellAt(getRow(), getCol());
+				cellAt = Board.getInstance().getCellAt(getRow(), getCol());
 				return cell;
 			}
 			i++;
@@ -68,26 +68,26 @@ public class ComputerPlayer extends Player {
 	//	}
 
 	public void createSuggestion() {
-		currentCell = Board.getInstance().getCellAt(getRow(), getCol());
-		Card roomCard = Board.getInstance().getRoomWithInitial(currentCell.getInitial());
+		cellAt = Board.getInstance().getCellAt(getRow(), getCol());
+		Card roomCard = Board.getInstance().getRoomWithInitial(cellAt.getInitial());
 
 		Card weaponCard = null;
 		ArrayList<Card> allWeapons = Board.getInstance().getAllWeaponCards();
-		Set<Card> unseenWeapons = new HashSet<Card>();
+		Set<Card> setOfUnseenWeapons = new HashSet<Card>();
 
 		//add weapons to unseen list if we havn't seen them
 		for ( Card w : allWeapons ) {
 			if ( !getCardsAllreadySeen().contains(w) ) {
-				unseenWeapons.add(w);
+				setOfUnseenWeapons.add(w);
 			}
 		}
 		//System.out.println("cardsAllreadySeen: " + getCardsAllreadySeen().size());
-		int weapSize = unseenWeapons.size();
+		int weapSize = setOfUnseenWeapons.size();
 		//System.out.println("Wep size (unsean weapons):  " + weapSize);
 		int numWeapons = new Random().nextInt(weapSize);
 		//System.out.println("numWeapons:   " + numWeapons);
 		int j = 0;
-		for ( Card w : unseenWeapons ) {
+		for ( Card w : setOfUnseenWeapons ) {
 			if ( j == numWeapons ) {
 				weaponCard = w;
 				break;
@@ -127,6 +127,14 @@ public class ComputerPlayer extends Player {
 
 		//create suggestion
 		suggestion = new Solution(roomCard, playerCard, weaponCard);
+		
+		//handles if human dies
+		Board board = Board.getInstance();
+		if (board.checkAccusaton(suggestion)) {
+			//System.out.println("correct");
+		}
+		
+		//end testing
 
 	}
 
@@ -178,6 +186,11 @@ public class ComputerPlayer extends Player {
 	public Solution getSuggestion() {
 		// TODO Auto-generated method stub
 		return suggestion;
+	}
+	
+	public Card getCurrentRoomCard() {
+		Card roomCard = Board.getInstance().getRoomWithInitial(cellAt.getInitial());
+		return roomCard;
 	}
 
 

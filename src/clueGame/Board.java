@@ -22,6 +22,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import clueGame.BoardCell;
@@ -100,6 +101,7 @@ public class Board extends JPanel {
 		roomCards = new ArrayList<Card>();
 		cardDeck = new ArrayList<Card>();
 		allCards = new ArrayList<Card>();
+
 
 		//setting this file to a default for our board because some of the given tests do not specify a file
 		//and therefore do not run. We are not allowed to change the test they give us and if the graders use a 
@@ -189,7 +191,7 @@ public class Board extends JPanel {
 		Card personSolution = new Card(personCard, CardType.PERSON);
 		Card weaponSolution = new Card(weaponCard, CardType.WEAPON);
 
-		System.out.println("SOLUTION: " + roomCard + personCard + weaponCard);
+		//System.out.println("SOLUTION: " + roomCard + personCard + weaponCard);
 
 		setSolution(new Solution(roomSolution, personSolution, weaponSolution));
 		//move on to dealing deck if person, weapon and room are filled
@@ -203,6 +205,8 @@ public class Board extends JPanel {
 			for(int i =0; i < 3; i++) {
 				Card randomCard = cardDeck.get((int)(Math.random() * cardDeck.size()));
 				p.giveCard(randomCard);
+				p.addCardToListOfCardsAllreadySeen(randomCard);
+				//System.out.println(p.getName() + " given " + randomCard.getName() + " card");
 				cardDeck.remove(randomCard);
 			}
 		}
@@ -783,44 +787,44 @@ public class Board extends JPanel {
 		return null;
 	}
 
-	public Card handleSuggestion(Player suggestor, Solution suggestion, ArrayList<Player> players) {
+	public Card handleSuggestion(Player currentPlayer, Solution guess, ArrayList<Player> playerList) {
 
-		// Starting and ending location
-		int endLoc = players.indexOf(suggestor);
-		int curLoc = endLoc + 1;
+		//locations to loop through players
+		int end = playerList.indexOf(currentPlayer);
+		int start = end + 1;
 
 		// wrapping loop for players
-		while ( curLoc != endLoc ) {
-			if (curLoc >= players.size() ) {
-				curLoc = 0;
+		while ( start != end ) {
+			if (start >= playerList.size() ) {
+				start = 0;
 			}
 
 			// if player can disprove, return card
-			Player player = players.get(curLoc);
-			Card proof;
+			Player player = playerList.get(start);
+			Card returnedCard;
 			if(player instanceof ComputerPlayer) {
-				proof = ((ComputerPlayer)player).disproveSuggestion(suggestion);
+				returnedCard = ((ComputerPlayer)player).disproveSuggestion(guess);
 			}
 			else if(player instanceof HumanPlayer) {
-				proof = ((HumanPlayer)player).disproveSuggestion(suggestion);
+				returnedCard = ((HumanPlayer)player).disproveSuggestion(guess);
 			}
 			else {
 				System.out.println("ERROR PLAYER NOT HUMAN OR COMPUTER WHEN CREATING SUGGESTION");
-				proof = null;
+				returnedCard = null;
 			}
 
-			if ( proof != null ) {
-				//update all players seenHand
-				for (Player p : players) {
-					p.addCardToListOfCardsAllreadySeen(proof);
+			if ( returnedCard != null ) {
+				//add to list of cards allready seen
+				for (Player p : playerList) {
+					p.addCardToListOfCardsAllreadySeen(returnedCard);
 				}
 
-				return proof;
+				return returnedCard;
 			}
 			// else go to next player
-			curLoc++;
-		}
-		// if reach the suggestor, return null	
+			start++;
+		}		
+		// if reach the suggestor, return null
 		return null;
 	}
 
@@ -869,14 +873,14 @@ public class Board extends JPanel {
 	}
 
 
-	public void nextPlayer(Player player, int dieRoll, ArrayList<Player> players) {
+	public void nextPlayer(Player currentPlayer, int roll, ArrayList<Player> playerLust, ControlGui gui) {
 
 
 		//calc targets for player
-		calcTargets(player.getRow(), player.getCol(), dieRoll);
+		calcTargets(currentPlayer.getRow(), currentPlayer.getCol(), roll);
 
 		//draw the targets and let human decide if its a human
-		if (player instanceof HumanPlayer) {
+		if (currentPlayer instanceof HumanPlayer) {
 			isHumanPlayer = true;
 			//for debugging
 			//			BoardCell temp = player.pickLocation(targets);
@@ -888,30 +892,43 @@ public class Board extends JPanel {
 		}		
 
 		//if its a CPU player then picks location randomly 
-		else if (player instanceof ComputerPlayer) {
-			if (((ComputerPlayer) player).getAccuseFlag()) {
-				setCorrectGuess(checkAccusaton(((ComputerPlayer) player).getSuggestion()));
+		else if (currentPlayer instanceof ComputerPlayer) {
+			if (((ComputerPlayer) currentPlayer).getAccuseFlag()) {
+				setCorrectGuess(checkAccusaton(((ComputerPlayer) currentPlayer).getSuggestion()));
 				return;
 			}
+			//error checking and testing
 			if(targets.size() == 0) {
 				Board board = Board.getInstance();
 				System.out.println("TARGETS SIZE IS ZERO FOR COMPUTER PLAYER");
-				System.out.println("Player: " + player.getName());
-				System.out.println("Type: " + player.getType());
-				System.out.println("Color: " + player.getColorString());
-				System.out.println("Die Roll: " + dieRoll);
-				System.out.println("Row/Col: " + player.getRow() + " / " + player.getCol());
-				System.out.println("Current Cell: " + board.getCellAt(player.getRow(), player.getCol()).isRoom() + " " + board.getCellAt(player.getRow(), player.getCol()).isDoorway());
-				calcTargets(player.getRow(), player.getCol(), dieRoll);
+				System.out.println("Player: " + currentPlayer.getName());
+				System.out.println("Type: " + currentPlayer.getType());
+				System.out.println("Color: " + currentPlayer.getColorString());
+				System.out.println("Die Roll: " + roll);
+				System.out.println("Row/Col: " + currentPlayer.getRow() + " / " + currentPlayer.getCol());
+				System.out.println("Current Cell: " + board.getCellAt(currentPlayer.getRow(), currentPlayer.getCol()).isRoom() + " " + board.getCellAt(currentPlayer.getRow(), currentPlayer.getCol()).isDoorway());
+				calcTargets(currentPlayer.getRow(), currentPlayer.getCol(), roll);
 			}
-			player.makeMove(player.pickLocation(targets));
-			BoardCell playerLoc = getCellAt(player.getRow(), player.getCol());
+			currentPlayer.makeMove(currentPlayer.pickLocation(targets));
+			BoardCell playerLoc = getCellAt(currentPlayer.getRow(), currentPlayer.getCol());
 
 			if (playerLoc.isRoom()) {
-				((ComputerPlayer) player).createSuggestion();
-				disproven = handleSuggestion(player, ((ComputerPlayer) player).getSuggestion(), players);
-				if ( disproven == null ) {
-					((ComputerPlayer)player).setAccuseFlag();
+				((ComputerPlayer) currentPlayer).createSuggestion();
+				disproven = handleSuggestion(currentPlayer, ((ComputerPlayer) currentPlayer).getSuggestion(), playerLust);
+
+				gui.updateGuessPannel(((ComputerPlayer)currentPlayer).getSuggestion(), disproven);
+
+				//String response = ((ComputerPlayer) player).getSuggestion().getPerson().getName() + " in the " + ((ComputerPlayer) player).getSuggestion().getRoom().getName() + " with the " + ((ComputerPlayer) player).getSuggestion().getWeapon().getName();
+				//JOptionPane accusationPane = new JOptionPane();
+				//accusationPane.showMessageDialog(new JFrame(), "Suggestion: " + response, player.getName() + " is making an suggestion ", JOptionPane.INFORMATION_MESSAGE);
+				if ( disproven == null && !currentPlayer.getCardsAllreadySeen().contains(((ComputerPlayer) currentPlayer).getCurrentRoomCard()) ) {
+					((ComputerPlayer)currentPlayer).setAccuseFlag();
+					//JOptionPane responsePane = new JOptionPane();
+					//responsePane.showMessageDialog(new JFrame(), "No new clue was given","Response", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else {
+					//JOptionPane responsePane = new JOptionPane();
+					//responsePane.showMessageDialog(new JFrame(), "Clue: " + disproven.getName() ,"Response", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		}
@@ -919,7 +936,7 @@ public class Board extends JPanel {
 		//for debugging and error catching
 		else {
 			System.out.println("ERROR not computer or human player");
-			System.out.println(player.getType());
+			System.out.println(currentPlayer.getType());
 		}
 	}
 
@@ -931,12 +948,18 @@ public class Board extends JPanel {
 		this.correctGuess = correctGuess;
 	}
 
-	public void showCardsOnDeath(Player player) {
+	public void revealDeadPlayerCards(Player player) {
+		String message = player.getName() + " had the following cards: ";
 		for (Card card : player.getHand()) {
+			message += (" (" + card.getName() + ")");
 			for(Player person : players)
 				person.addCardToListOfCardsAllreadySeen(card);
 		}
+		JOptionPane showCards = new JOptionPane();
+		showCards.showMessageDialog(new JFrame(), message, "Revealed Cards", JOptionPane.INFORMATION_MESSAGE);
 	}
+	
+
 
 
 }

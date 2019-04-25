@@ -14,7 +14,7 @@ public class Solution {
 		this.person = person;
 		this.room = room;
 		this.weapon = weapon;
-		System.out.println(person.getName()+room.getName()+weapon.getName());
+		//System.out.println(person.getName()+room.getName()+weapon.getName());
 	}
 
 	public Card getPerson() {

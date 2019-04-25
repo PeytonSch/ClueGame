@@ -153,7 +153,7 @@ public class gameSetupTests {
 		ArrayList<Card> deck = board.getCards();
 
 		//deck should be empty after it is dealt
-		assertEquals(18, deck.size());
+		assertEquals(0, deck.size());
 		
 		//if any of the players do not have a hand size within 1 of what is expected then this test will not pass
 		boolean handSizeNotWithinOneCardForPlayer = false;
